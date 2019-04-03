@@ -20,29 +20,9 @@ namespace Fireworks
         public float Time { get => _time; set => _time = value; }
 
         /// <summary>
-        /// Get frame at time of scene
-        /// </summary>
-        public Bitmap GetFrame()
-        {
-            return Paint();
-        }
-
-        /// <summary>
-        /// Get the next frame after some time
-        /// </summary>
-        /// <param name="deltaTime">time that has passed</param>
-        /// <returns>Current state of scene</returns>
-        public Bitmap GetNextFrame(float deltaTime)
-        {
-            Time += deltaTime;
-
-            return Paint();
-        }
-
-        /// <summary>
         /// Default constructor, default size of 400x400
         /// </summary>
-        public Scene() : this(new SizeF(400,400))
+        public Scene() : this(new SizeF(400, 400))
         {
 
         }
@@ -53,6 +33,15 @@ namespace Fireworks
         public Scene(SizeF size)
         {
             _size = size;
+        }
+
+        /// <summary>
+        /// Get frame at time t
+        /// </summary>
+        public Bitmap GetFrame(float t)
+        {
+            Time = t;
+            return Paint();
         }
 
         /// <summary>

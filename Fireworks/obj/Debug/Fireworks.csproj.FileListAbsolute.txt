@@ -8,3 +8,13 @@ C:\Users\Administrateur\Desktop\TPI\Fireworks\Fireworks\obj\Debug\Fireworks.cspr
 C:\Users\Administrateur\Desktop\TPI\Fireworks\Fireworks\obj\Debug\Fireworks.csproj.CoreCompileInputs.cache
 C:\Users\Administrateur\Desktop\TPI\Fireworks\Fireworks\obj\Debug\Fireworks.exe
 C:\Users\Administrateur\Desktop\TPI\Fireworks\Fireworks\obj\Debug\Fireworks.pdb
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\bin\Debug\Fireworks.exe.config
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\bin\Debug\Fireworks.exe
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\bin\Debug\Fireworks.pdb
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.csprojAssemblyReference.cache
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.FormMain.resources
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.Properties.Resources.resources
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.csproj.GenerateResource.cache
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.csproj.CoreCompileInputs.cache
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.exe
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.pdb

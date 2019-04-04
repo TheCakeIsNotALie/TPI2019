@@ -115,6 +115,7 @@ namespace Fireworks
         {
             while (_animate)
             {
+                //if enough time sinc last frame draw has passed
                 if (_frameStopWatch.ElapsedMilliseconds > MS_IN_SEC / (float)nudFPS.Value)
                 {
                     //Store the elapsedMs for it not to change in calculations
@@ -133,6 +134,7 @@ namespace Fireworks
                     if (!ChangeSliderTime((int)(_scene.Time * MS_IN_SEC)))
                     {
                         _scene.Time = trbTimeline.Maximum;
+                        ChangeSliderTime((int)(_scene.Time));
                         StopAnimation();
                     }
                 }
@@ -192,6 +194,7 @@ namespace Fireworks
                 e.Handled = true;
             }
         }
+
         /// <summary>
         /// Event for when user changes the time manually
         /// </summary>
@@ -219,6 +222,27 @@ namespace Fireworks
                 //Visual feedback for user to see that something is wrong
                 tbxTime.BackColor = Color.Red;
             }
+        }
+
+        /// <summary>
+        /// Add a new particle to the scene
+        /// </summary>
+        private void btnAddParticle_Click(object sender, EventArgs e)
+        {
+            //TODO
+            //_scene.SelectedObject = new Particle();
+        }
+
+        private void btnAddFirework_Click(object sender, EventArgs e)
+        {
+            //TODO
+            //_scene.SelectedObject = new Firework();
+        }
+
+        private void btnAddPolygon_Click(object sender, EventArgs e)
+        {
+            //TODO
+            //_scene.SelectedObject = new Polygon();
         }
     }
 }

@@ -59,6 +59,14 @@ namespace Fireworks
             _zOrder = zOrder; 
         }
 
+        /// <summary>
+        /// Basic constructor for animated objects
+        /// </summary>
+        public AnimatedObject() : this(KeyFrame.BasicKeyFrames(), new SizeF(1, 1), 0)
+        {
+
+        }
+
         /// <summary>W
         /// Tests if t is in lifetime of object
         /// </summary>

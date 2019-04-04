@@ -14,10 +14,15 @@ namespace Fireworks
     {
         private SizeF _size;
         private float _time = 0;
+        private AnimatedObject _selectedObject;
         private List<AnimatedObject> _animatedObjects = new List<AnimatedObject>();
         private static readonly Random rnd = new Random();
 
         public float Time { get => _time; set => _time = value; }
+
+        public List<AnimatedObject> AnimatedObjects { get => _animatedObjects; set => _animatedObjects = value; }
+
+        public AnimatedObject SelectedObject { get => _selectedObject; set => _selectedObject = value; }
 
         /// <summary>
         /// Default constructor, default size of 400x400
@@ -36,11 +41,10 @@ namespace Fireworks
         }
 
         /// <summary>
-        /// Get frame at time t
+        /// Get frame at time of Scene
         /// </summary>
-        public Bitmap GetFrame(float t)
+        public Bitmap GetFrame()
         {
-            Time = t;
             return Paint();
         }
 
@@ -52,13 +56,14 @@ namespace Fireworks
             //Generate bitmap and graphics
             Bitmap frame = new Bitmap((int)_size.Width, (int)_size.Height);
             Graphics g = Graphics.FromImage(frame);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
             //Draw every object on frame, based on their Z-order
-            foreach (AnimatedObject o in _animatedObjects.OrderBy(x => x.ZOrder))
+            foreach (AnimatedObject o in AnimatedObjects.OrderBy(x => x.ZOrder))
             {
                 //Only draw if object is in lifetime
                 if(o.IsTimeInLifeTime(_time))
-                    o.PaintDebug(g, _time);
+                    o.Paint(g, _time);
             }
 
             return frame;
@@ -70,7 +75,7 @@ namespace Fireworks
         /// <param name="o">Object to draw on scene</param>
         public void AddAnimatedObject(AnimatedObject o)
         {
-            _animatedObjects.Add(o);
+            AnimatedObjects.Add(o);
         }
     }
 }

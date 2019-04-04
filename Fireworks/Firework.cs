@@ -39,7 +39,6 @@ namespace Fireworks
 
                 particles[i] = new Particle(particleKeyFrames, new SizeF(3,3), zOrder);
             }
-            
         }
 
         /// <summary>

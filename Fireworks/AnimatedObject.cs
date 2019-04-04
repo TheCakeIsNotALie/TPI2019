@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Fireworks
 {
     /// <summary>
-    /// Abstraact class for animated objects
+    /// Abstract class for animated objects
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public abstract class AnimatedObject
     {
         //Every points and time at which they pass it at is in the keyframes list
@@ -21,21 +23,43 @@ namespace Fireworks
         /// <summary>
         /// Order to draw the object
         /// </summary>
-        public int ZOrder { get => _zOrder; }
+        [Category("Properties")]
+        [Description("Order to draw the object in")]
+        [DisplayName("Z-Order")]
+        public int ZOrder { get => _zOrder; set => _zOrder = value;  } 
 
         /// <summary>
-        /// KeyFrames that the object will follow
+        /// KeyFrames that the object will follow over time
         /// </summary>
+        [Category("Properties")]
+        [Description("KeyFrames that the object will follow over time")]
+        [DisplayName("KeyFrames")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public List<KeyFrame> KeyFrames { get => _keyFrames; set => _keyFrames = value; }
 
+        /// <summary>
+        /// Size of rectangle around the object
+        /// </summary>
+        [Category("Properties")]
+        [Description("Size of rectangle around the object")]
+        [DisplayName("Size")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public SizeF Size { get => _size; set => _size = value; }
+
+        /// <summary>
+        /// Basic constructor for animated objects
+        /// </summary>
+        /// <param name="keyFrames">KeyFrames that the object will follow over time</param>
+        /// <param name="size">Size of rectangle around the object</param>
+        /// <param name="zOrder">Order to draw the object</param>
         public AnimatedObject(List<KeyFrame> keyFrames, SizeF size, int zOrder)
         {
             KeyFrames = keyFrames;
-            _size = size;
-            _zOrder = zOrder;
+            Size = size;
+            _zOrder = zOrder; 
         }
 
-        /// <summary>
+        /// <summary>W
         /// Tests if t is in lifetime of object
         /// </summary>
         /// <param name="t">Time t (seconds)</param>
@@ -53,7 +77,8 @@ namespace Fireworks
         {
             //First keyframe that has it's time > t
             //means that it's the next KeyFrame to go to
-            KeyFrame nextKeyFrame = KeyFrames.Where(x => x.T > t).First();
+            //If condition finds no match take last keyframe because it means object.time == t
+            KeyFrame nextKeyFrame = KeyFrames.Where(x => x.T > t).DefaultIfEmpty(KeyFrames.Last()).First();
             KeyFrame currentKeyFrame = KeyFrames[KeyFrames.IndexOf(nextKeyFrame) - 1];
 
             //Compute percentage of travel done
@@ -76,10 +101,10 @@ namespace Fireworks
         {
             //Center rectangle draw point
             PointF upperleftPoint = Position(t);
-            upperleftPoint.X -= _size.Width / 2;
-            upperleftPoint.Y -= _size.Height / 2;
+            upperleftPoint.X -= Size.Width / 2;
+            upperleftPoint.Y -= Size.Height / 2;
             
-            return new Rectangle(Point.Round(upperleftPoint), Size.Round(_size));
+            return new Rectangle(Point.Round(upperleftPoint), System.Drawing.Size.Round(Size));
         }
 
         /// <summary>
@@ -103,9 +128,8 @@ namespace Fireworks
                 g.DrawLine(Pens.Black, KeyFrames[i].Point, KeyFrames[i+1].Point);
             }
             
-            //Draw hitbox if alive
-            if (IsTimeInLifeTime(t))
-                g.DrawRectangle(Pens.Lime, HitBox(t));
+            //Draw hitbox
+            g.DrawRectangle(Pens.Lime, HitBox(t));
         }
     }
 }

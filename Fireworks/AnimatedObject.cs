@@ -43,7 +43,7 @@ namespace Fireworks
         [Category("Properties")]
         [Description("Size of rectangle around the object")]
         [DisplayName("Size")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [TypeConverter(typeof(ValueTypeTypeConverter))]
         public SizeF Size { get => _size; set => _size = value; }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Fireworks
         /// <summary>
         /// Basic constructor for animated objects
         /// </summary>
-        public AnimatedObject() : this(KeyFrame.BasicKeyFrames(), new SizeF(1, 1), 0)
+        public AnimatedObject() : this(KeyFrame.BasicKeyFrames, new SizeF(1, 1), 0)
         {
 
         }

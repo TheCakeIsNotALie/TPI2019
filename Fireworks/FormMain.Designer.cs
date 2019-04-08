@@ -33,6 +33,9 @@
             this.nudMaxTime = new System.Windows.Forms.NumericUpDown();
             this.lblTimeLine = new System.Windows.Forms.Label();
             this.grbProperties = new System.Windows.Forms.GroupBox();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.cbxObjects = new System.Windows.Forms.ComboBox();
+            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.grbToolBox = new System.Windows.Forms.GroupBox();
             this.btnAddPolygon = new System.Windows.Forms.Button();
             this.btnAddFirework = new System.Windows.Forms.Button();
@@ -46,11 +49,15 @@
             this.lblActualFPS = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.grbFPS = new System.Windows.Forms.GroupBox();
-            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.pnlScene = new Fireworks.DoubleBufferedPanel();
+            this.btnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trbTimeline)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMaxTime)).BeginInit();
             this.grbProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.grbToolBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFPS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudActualFPS)).BeginInit();
@@ -69,7 +76,7 @@
             this.trbTimeline.Location = new System.Drawing.Point(113, 35);
             this.trbTimeline.Maximum = 10000;
             this.trbTimeline.Name = "trbTimeline";
-            this.trbTimeline.Size = new System.Drawing.Size(432, 45);
+            this.trbTimeline.Size = new System.Drawing.Size(397, 45);
             this.trbTimeline.TabIndex = 1;
             this.trbTimeline.TickFrequency = 1000;
             this.trbTimeline.ValueChanged += new System.EventHandler(this.trbTime_ValueChanged);
@@ -124,13 +131,53 @@
             this.grbProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.grbProperties.Controls.Add(this.propertyGrid);
+            this.grbProperties.Controls.Add(this.splitContainer2);
             this.grbProperties.Location = new System.Drawing.Point(6, 120);
             this.grbProperties.Name = "grbProperties";
-            this.grbProperties.Size = new System.Drawing.Size(226, 229);
+            this.grbProperties.Size = new System.Drawing.Size(265, 229);
             this.grbProperties.TabIndex = 8;
             this.grbProperties.TabStop = false;
             this.grbProperties.Text = "Properties";
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer2.Location = new System.Drawing.Point(3, 16);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.btnDelete);
+            this.splitContainer2.Panel1.Controls.Add(this.cbxObjects);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.propertyGrid);
+            this.splitContainer2.Size = new System.Drawing.Size(259, 210);
+            this.splitContainer2.SplitterDistance = 25;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // cbxObjects
+            // 
+            this.cbxObjects.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbxObjects.FormattingEnabled = true;
+            this.cbxObjects.Location = new System.Drawing.Point(0, 0);
+            this.cbxObjects.Name = "cbxObjects";
+            this.cbxObjects.Size = new System.Drawing.Size(224, 21);
+            this.cbxObjects.TabIndex = 1;
+            this.cbxObjects.SelectedIndexChanged += new System.EventHandler(this.cbxItems_SelectedIndexChanged);
+            // 
+            // propertyGrid
+            // 
+            this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid.Name = "propertyGrid";
+            this.propertyGrid.Size = new System.Drawing.Size(259, 181);
+            this.propertyGrid.TabIndex = 0;
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
             // grbToolBox
             // 
@@ -141,7 +188,7 @@
             this.grbToolBox.Controls.Add(this.btnAddParticle);
             this.grbToolBox.Location = new System.Drawing.Point(6, 3);
             this.grbToolBox.Name = "grbToolBox";
-            this.grbToolBox.Size = new System.Drawing.Size(226, 111);
+            this.grbToolBox.Size = new System.Drawing.Size(265, 111);
             this.grbToolBox.TabIndex = 9;
             this.grbToolBox.TabStop = false;
             this.grbToolBox.Text = "Tool Box";
@@ -152,7 +199,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddPolygon.Location = new System.Drawing.Point(6, 78);
             this.btnAddPolygon.Name = "btnAddPolygon";
-            this.btnAddPolygon.Size = new System.Drawing.Size(214, 23);
+            this.btnAddPolygon.Size = new System.Drawing.Size(253, 23);
             this.btnAddPolygon.TabIndex = 2;
             this.btnAddPolygon.Text = "Add Polygon";
             this.btnAddPolygon.UseVisualStyleBackColor = true;
@@ -164,7 +211,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddFirework.Location = new System.Drawing.Point(6, 49);
             this.btnAddFirework.Name = "btnAddFirework";
-            this.btnAddFirework.Size = new System.Drawing.Size(214, 23);
+            this.btnAddFirework.Size = new System.Drawing.Size(253, 23);
             this.btnAddFirework.TabIndex = 1;
             this.btnAddFirework.Text = "Add Firework";
             this.btnAddFirework.UseVisualStyleBackColor = true;
@@ -176,7 +223,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddParticle.Location = new System.Drawing.Point(6, 20);
             this.btnAddParticle.Name = "btnAddParticle";
-            this.btnAddParticle.Size = new System.Drawing.Size(214, 23);
+            this.btnAddParticle.Size = new System.Drawing.Size(253, 23);
             this.btnAddParticle.TabIndex = 0;
             this.btnAddParticle.Text = "Add Particle";
             this.btnAddParticle.UseVisualStyleBackColor = true;
@@ -211,7 +258,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPlayPause.Location = new System.Drawing.Point(6, 63);
             this.btnPlayPause.Name = "btnPlayPause";
-            this.btnPlayPause.Size = new System.Drawing.Size(214, 32);
+            this.btnPlayPause.Size = new System.Drawing.Size(253, 32);
             this.btnPlayPause.TabIndex = 12;
             this.btnPlayPause.Text = "Play";
             this.btnPlayPause.UseVisualStyleBackColor = true;
@@ -232,7 +279,7 @@
             // 
             this.nudActualFPS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.nudActualFPS.DecimalPlaces = 1;
-            this.nudActualFPS.Location = new System.Drawing.Point(170, 38);
+            this.nudActualFPS.Location = new System.Drawing.Point(209, 38);
             this.nudActualFPS.Maximum = new decimal(new int[] {
             1410065408,
             2,
@@ -259,7 +306,7 @@
             this.grbTimeline.Controls.Add(this.nudMaxTime);
             this.grbTimeline.Location = new System.Drawing.Point(3, 374);
             this.grbTimeline.Name = "grbTimeline";
-            this.grbTimeline.Size = new System.Drawing.Size(551, 85);
+            this.grbTimeline.Size = new System.Drawing.Size(516, 85);
             this.grbTimeline.TabIndex = 15;
             this.grbTimeline.TabStop = false;
             this.grbTimeline.Text = "Timeline (seconds)";
@@ -277,7 +324,7 @@
             // lblActualFPS
             // 
             this.lblActualFPS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblActualFPS.Location = new System.Drawing.Point(171, 22);
+            this.lblActualFPS.Location = new System.Drawing.Point(210, 22);
             this.lblActualFPS.Name = "lblActualFPS";
             this.lblActualFPS.Size = new System.Drawing.Size(49, 13);
             this.lblActualFPS.TabIndex = 17;
@@ -302,9 +349,9 @@
             this.splitContainer1.Panel2.Controls.Add(this.grbFPS);
             this.splitContainer1.Panel2.Controls.Add(this.grbProperties);
             this.splitContainer1.Panel2.Controls.Add(this.grbToolBox);
-            this.splitContainer1.Panel2MinSize = 150;
+            this.splitContainer1.Panel2MinSize = 250;
             this.splitContainer1.Size = new System.Drawing.Size(804, 466);
-            this.splitContainer1.SplitterDistance = 561;
+            this.splitContainer1.SplitterDistance = 526;
             this.splitContainer1.TabIndex = 18;
             // 
             // grbFPS
@@ -318,18 +365,10 @@
             this.grbFPS.Controls.Add(this.nudActualFPS);
             this.grbFPS.Location = new System.Drawing.Point(6, 355);
             this.grbFPS.Name = "grbFPS";
-            this.grbFPS.Size = new System.Drawing.Size(226, 104);
+            this.grbFPS.Size = new System.Drawing.Size(265, 104);
             this.grbFPS.TabIndex = 19;
             this.grbFPS.TabStop = false;
             this.grbFPS.Text = "Frames per second";
-            // 
-            // propertyGrid
-            // 
-            this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid.Location = new System.Drawing.Point(3, 16);
-            this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(220, 210);
-            this.propertyGrid.TabIndex = 0;
             // 
             // pnlScene
             // 
@@ -338,9 +377,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlScene.Location = new System.Drawing.Point(3, 3);
             this.pnlScene.Name = "pnlScene";
-            this.pnlScene.Size = new System.Drawing.Size(551, 365);
+            this.pnlScene.Size = new System.Drawing.Size(516, 365);
             this.pnlScene.TabIndex = 0;
             this.pnlScene.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlScene_Paint);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.ForeColor = System.Drawing.Color.Red;
+            this.btnDelete.Location = new System.Drawing.Point(230, 0);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(26, 23);
+            this.btnDelete.TabIndex = 2;
+            this.btnDelete.Text = "X";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // FormMain
             // 
@@ -355,6 +406,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.trbTimeline)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMaxTime)).EndInit();
             this.grbProperties.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.grbToolBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudFPS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudActualFPS)).EndInit();
@@ -390,6 +445,9 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox grbFPS;
         private System.Windows.Forms.PropertyGrid propertyGrid;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.ComboBox cbxObjects;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
 

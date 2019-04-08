@@ -34,24 +34,39 @@ namespace Fireworks
         [DisplayName("Time")]
         public float T { get => _t; set => _t = value; }
 
+        /// <summary>
+        /// Creates a new instance of keyframe
+        /// </summary>
+        /// <param name="point">Point to be at time T</param>
+        /// <param name="t">Time to be at Point</param>
         public KeyFrame(PointF point, float t)
         {
             _point = point;
             _t = t;
         }
+
+        /// <summary>
+        /// Basic instance of keyframe
+        /// </summary>
         public KeyFrame() : this(new PointF(), 0)
         {
 
         }
 
-        public static List<KeyFrame> BasicKeyFrames()
+        /// <summary>
+        /// Basic list of keyframes { (P(0,0):t(0)) -> (P(0,0):t(1)) }
+        /// </summary>
+        public static List<KeyFrame> BasicKeyFrames
         {
-            List<KeyFrame> basics = new List<KeyFrame>();
+            get
+            {
+                List<KeyFrame> basics = new List<KeyFrame>();
 
-            basics.Add(new KeyFrame(new PointF(), 0));
-            basics.Add(new KeyFrame(new PointF(), 1));
+                basics.Add(new KeyFrame(new PointF(), 0));
+                basics.Add(new KeyFrame(new PointF(), 1));
 
-            return basics;
+                return basics;
+            }
         }
     }
 }

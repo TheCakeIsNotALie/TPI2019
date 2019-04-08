@@ -11,7 +11,7 @@ namespace Fireworks
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class Polygon : AnimatedObject
     {
-        
+        private static PointF[] basic_corners = { new PointF(5, 5), new PointF(5, -5), new PointF(-5, -5), new PointF(-5, 5) };
         private PointF[] _corners;
 
         //Stored in relative position to keyframe
@@ -20,7 +20,8 @@ namespace Fireworks
         /// </summary>
         [Category("Properties")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public PointF[] Corners { get => _corners;
+        public PointF[] Corners {
+            get => _corners;
             set {
                 Size = GetSizeFromCorners(value); //recalculate size
                 _corners = value;
@@ -36,6 +37,11 @@ namespace Fireworks
         public Polygon(List<KeyFrame> keyFrames, PointF[] corners, int zOrder) : base(keyFrames, GetSizeFromCorners(corners), zOrder)
         {
             Corners = corners;
+        }
+
+        public Polygon() : this(KeyFrame.BasicKeyFrames, basic_corners, 0)
+        {
+
         }
 
         /// <summary>

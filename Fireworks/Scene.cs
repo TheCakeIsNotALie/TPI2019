@@ -18,11 +18,44 @@ namespace Fireworks
         private List<AnimatedObject> _animatedObjects = new List<AnimatedObject>();
         private static readonly Random rnd = new Random();
 
+        // Event handler taken mostly from
+        // from : https://www.codeproject.com/Articles/9355/Creating-advanced-C-custom-events
+        /// <summary>
+        /// Event called when selected object is changed
+        /// </summary>
+        public event EventHandler SelectedObjectChanged;
+
+        public event EventHandler AnimatedObjectsChanged;
+
         public float Time { get => _time; set => _time = value; }
 
-        public List<AnimatedObject> AnimatedObjects { get => _animatedObjects; set => _animatedObjects = value; }
+        /// <summary>
+        /// List of every animated objects in the scene
+        /// </summary>
+        public List<AnimatedObject> AnimatedObjects
+        {
+            get => _animatedObjects;
+            set
+            {
+                _animatedObjects = value;
+                AnimatedObjectsChanged(this, new EventArgs());
+            }
+        }
 
-        public AnimatedObject SelectedObject { get => _selectedObject; set => _selectedObject = value; }
+        /// <summary>
+        /// The currently selected object
+        /// </summary>
+        public AnimatedObject SelectedObject
+        {
+            get => _selectedObject;
+            set
+            {
+                _selectedObject = value;
+                SelectedObjectChanged(this, new EventArgs());
+            }
+        }
+
+        public SizeF Size { get => _size; set => _size = value; }
 
         /// <summary>
         /// Default constructor, default size of 400x400
@@ -37,7 +70,7 @@ namespace Fireworks
         /// </summary>
         public Scene(SizeF size)
         {
-            _size = size;
+            Size = size;
         }
 
         /// <summary>
@@ -54,16 +87,22 @@ namespace Fireworks
         private Bitmap Paint()
         {
             //Generate bitmap and graphics
-            Bitmap frame = new Bitmap((int)_size.Width, (int)_size.Height);
+            Bitmap frame = new Bitmap((int)Size.Width, (int)Size.Height);
             Graphics g = Graphics.FromImage(frame);
             //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            //Draw every object on frame, based on their Z-order
+            //Draw every object on frame, by their Z-order
             foreach (AnimatedObject o in AnimatedObjects.OrderBy(x => x.ZOrder))
             {
                 //Only draw if object is in lifetime
-                if(o.IsTimeInLifeTime(_time))
+                if (o.IsTimeInLifeTime(_time))
                     o.Paint(g, _time);
+            }
+
+            if (SelectedObject != null && SelectedObject.IsTimeInLifeTime(_time))
+            {
+                //Draw selected object
+                SelectedObject.PaintDebug(g, _time);
             }
 
             return frame;
@@ -72,10 +111,20 @@ namespace Fireworks
         /// <summary>
         /// Add an animated object to draw on the scene
         /// </summary>
-        /// <param name="o">Object to draw on scene</param>
+        /// <param name="o">Object to add</param>
         public void AddAnimatedObject(AnimatedObject o)
         {
             AnimatedObjects.Add(o);
+            SelectedObject = o;
+        }
+
+        /// <summary>
+        /// Remove an animated object already present in scene
+        /// </summary>
+        /// <param name="o">Object to remove</param>
+        public void RemoveAnimatedObject(AnimatedObject o)
+        {
+            AnimatedObjects.Remove(o);
         }
     }
 }

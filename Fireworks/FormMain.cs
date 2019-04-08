@@ -11,18 +11,21 @@ using System.Windows.Forms;
 
 namespace Fireworks
 {
+    /// <summary>
+    /// Main view of application
+    /// </summary>
     public partial class FormMain : Form
     {
         private const float MS_IN_SEC = 1000;
         private const int DRAWING_CALL_DELAY_MS = 1;
         //StopWatch for frame verification
-        private Stopwatch _frameStopWatch;
+        private Stopwatch _frameStopWatch = new Stopwatch();
         private bool _animate = false;
         private Scene _scene;
         private Polygon po;
 
         /// <summary>
-        /// Creates new FormMain
+        /// Creates a new instance of FormMain
         /// </summary>
         public FormMain()
         {
@@ -34,24 +37,25 @@ namespace Fireworks
         /// </summary>
         private void FormMain_Load(object sender, EventArgs e)
         {
-            _frameStopWatch = new Stopwatch();
             _scene = new Scene(new Size(pnlScene.Width, pnlScene.Height));
+            _scene.SelectedObjectChanged += SelectedObjectChanged;
+            _scene.AnimatedObjectsChanged += AnimatedObjectsChanged;
 
-            //List<KeyFrame> tmpKeyFrames = new List<KeyFrame>();
-            //tmpKeyFrames.Add(new KeyFrame(new PointF(0, 0), 1));
-            //tmpKeyFrames.Add(new KeyFrame(new PointF(20, 10), 2));
-            //tmpKeyFrames.Add(new KeyFrame(new PointF(200, 50), 4));
+            List<KeyFrame> tmpKeyFrames = new List<KeyFrame>();
+            tmpKeyFrames.Add(new KeyFrame(new PointF(0, 0), 1));
+            tmpKeyFrames.Add(new KeyFrame(new PointF(20, 10), 2));
+            tmpKeyFrames.Add(new KeyFrame(new PointF(200, 50), 4));
 
-            //Particle p = new Particle(tmpKeyFrames, new Size(3, 3), 0);
-            //Firework f = new Firework(new KeyFrame(new PointF(100, 120), 3.3f), 100, 70, 10, 2);
-            //Firework f2 = new Firework(new KeyFrame(new PointF(150, 100), 3.1f), 50, 20, 10, 1);
-            //Firework f3 = new Firework(new KeyFrame(new PointF(110, 110), 3.2f), 80, 50, 10, 3);
-            //Firework f4 = new Firework(new KeyFrame(new PointF(150, 156), 4.1f), 50, 20, 10, 1);
-            //Firework f5 = new Firework(new KeyFrame(new PointF(110, 110), 7.2f), 80, 50, 10, 3);
-            //Firework f6 = new Firework(new KeyFrame(new PointF(250, 200), 5.1f), 50, 20, 10, 1);
-            //Firework f7 = new Firework(new KeyFrame(new PointF(210, 110), 1.2f), 80, 50, 10, 3);
-            //Firework f8 = new Firework(new KeyFrame(new PointF(170, 100), 2.1f), 50, 20, 10, 1);
-            //Firework f9 = new Firework(new KeyFrame(new PointF(111, 110), 9.2f), 80, 50, 10, 3);
+            Particle p = new Particle(Brushes.Red, tmpKeyFrames, new Size(3, 3), 0);
+            Firework f = new Firework(Brushes.Red, new KeyFrame(new PointF(100, 120), 3.3f), 100, 70, 10, 2);
+            Firework f2 = new Firework(Brushes.Red, new KeyFrame(new PointF(150, 100), 3.1f), 50, 20, 10, 1);
+            Firework f3 = new Firework(Brushes.Red, new KeyFrame(new PointF(110, 110), 3.2f), 80, 50, 10, 3);
+            Firework f4 = new Firework(Brushes.Red, new KeyFrame(new PointF(150, 156), 4.1f), 50, 20, 10, 1);
+            Firework f5 = new Firework(Brushes.Red, new KeyFrame(new PointF(110, 110), 7.2f), 80, 50, 10, 3);
+            Firework f6 = new Firework(Brushes.Red, new KeyFrame(new PointF(250, 200), 5.1f), 50, 20, 10, 1);
+            Firework f7 = new Firework(Brushes.Red, new KeyFrame(new PointF(210, 110), 1.2f), 80, 50, 10, 3);
+            Firework f8 = new Firework(Brushes.Red, new KeyFrame(new PointF(170, 100), 2.1f), 50, 20, 10, 1);
+            Firework f9 = new Firework(Brushes.Red, new KeyFrame(new PointF(111, 110), 9.2f), 80, 50, 10, 3);
 
             List<KeyFrame> tmpKeyFrames2 = new List<KeyFrame>();
             tmpKeyFrames2.Add(new KeyFrame(new PointF(50, 50), 1));
@@ -64,17 +68,47 @@ namespace Fireworks
 
             propertyGrid.SelectedObject = po;
 
-            //_scene.AddAnimatedObject(p);
-            //_scene.AddAnimatedObject(f);
-            //_scene.AddAnimatedObject(f2);
-            //_scene.AddAnimatedObject(f3);
-            //_scene.AddAnimatedObject(f4);
-            //_scene.AddAnimatedObject(f5);
-            //_scene.AddAnimatedObject(f6);
-            //_scene.AddAnimatedObject(f7);
-            //_scene.AddAnimatedObject(f8);
-            //_scene.AddAnimatedObject(f9);
+            _scene.AddAnimatedObject(p);
+            _scene.AddAnimatedObject(f);
+            _scene.AddAnimatedObject(f2);
+            _scene.AddAnimatedObject(f3);
+            _scene.AddAnimatedObject(f4);
+            _scene.AddAnimatedObject(f5);
+            _scene.AddAnimatedObject(f6);
+            _scene.AddAnimatedObject(f7);
+            _scene.AddAnimatedObject(f8);
+            _scene.AddAnimatedObject(f9);
             _scene.AddAnimatedObject(po);
+            
+            //Link combobox with list of objects
+            cbxObjects.DataSource = _scene.AnimatedObjects;
+        }
+
+        private void AnimatedObjectsChanged(object sender, EventArgs e)
+        {
+            UpdateCbxItems();
+        }
+
+        /// <summary>
+        /// Whenever the selected object in scene is changed change the selected object in view
+        /// </summary>
+        public void SelectedObjectChanged(object sender, EventArgs e)
+        {
+            //Update selected item
+            cbxObjects.SelectedItem = _scene.SelectedObject;
+            //update properties grid
+            propertyGrid.SelectedObject = _scene.SelectedObject;
+            //redraw frame
+            pnlScene.Invalidate();
+        }
+
+        /// <summary>
+        /// Updates items in combobox
+        /// </summary>
+        private void UpdateCbxItems()
+        {
+            cbxObjects.DataSource = null;
+            cbxObjects.DataSource = _scene.AnimatedObjects;
         }
 
         /// <summary>
@@ -93,6 +127,7 @@ namespace Fireworks
         {
             tbxTime.Text = Convert.ToString(trbTimeline.Value / MS_IN_SEC);
             pnlScene.Invalidate();
+
             //Change time when moving slider by hand
             if (!_animate)
             {
@@ -133,6 +168,7 @@ namespace Fireworks
                     //Update slider value
                     if (!ChangeSliderTime((int)(_scene.Time * MS_IN_SEC)))
                     {
+                        //if it fails that means we are out of timeline bounds so we stop the animation and max out time
                         _scene.Time = trbTimeline.Maximum;
                         ChangeSliderTime((int)(_scene.Time));
                         StopAnimation();
@@ -148,6 +184,9 @@ namespace Fireworks
             _frameStopWatch.Reset();
         }
 
+        /// <summary>
+        /// Starts playing the animation
+        /// </summary>
         private void StartAnimation()
         {
             btnPlayPause.Text = "Pause";
@@ -155,6 +194,9 @@ namespace Fireworks
             FrameUpdateCall();
         }
 
+        /// <summary>
+        /// Stops the animation from playing
+        /// </summary>
         private void StopAnimation()
         {
             btnPlayPause.Text = "Play";
@@ -229,20 +271,56 @@ namespace Fireworks
         /// </summary>
         private void btnAddParticle_Click(object sender, EventArgs e)
         {
-            //TODO
-            //_scene.SelectedObject = new Particle();
+            _scene.AddAnimatedObject(new Particle());
         }
 
+        /// <summary>
+        /// Add a new firework to the scene
+        /// </summary>
         private void btnAddFirework_Click(object sender, EventArgs e)
         {
-            //TODO
-            //_scene.SelectedObject = new Firework();
+            _scene.AddAnimatedObject(new Firework());
         }
 
+        /// <summary>
+        /// Add a new polygon to the scene
+        /// </summary>
         private void btnAddPolygon_Click(object sender, EventArgs e)
         {
-            //TODO
-            //_scene.SelectedObject = new Polygon();
+            _scene.AddAnimatedObject(new Polygon());
+        }
+
+        /// <summary>
+        /// User changed selected object
+        /// </summary>
+        private void cbxItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //change selected object
+            _scene.SelectedObject = cbxObjects.SelectedItem as AnimatedObject;
+        }
+
+        /// <summary>
+        /// User changed value of selected object
+        /// </summary>
+        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            pnlScene.Invalidate();
+        }
+
+        /// <summary>
+        /// User clicked on delete
+        /// </summary>
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("Are you sure you want to delete that object ?",
+                "Confirm delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                _scene.RemoveAnimatedObject(_scene.SelectedObject);
+                _scene.SelectedObject = null;
+            }
         }
     }
 }

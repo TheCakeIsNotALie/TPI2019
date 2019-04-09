@@ -95,8 +95,8 @@ namespace Fireworks
         /// <param name="nbParticles">Number of particles the firework will generate</param>
         /// <param name="zOrder">The drawing order of the firework</param>
         /// <param name="ttl">Time to live (seconds from first keyframe)</param>
-        public Firework(Brush brush, KeyFrame startingKF, float radius, int nbParticles, int zOrder, float ttl) :
-            base(CreateKeyFrameList(startingKF, ttl), new SizeF(radius, radius), zOrder)
+        public Firework(string name, Brush brush, KeyFrame startingKF, float radius, int nbParticles, int zOrder, float ttl) :
+            base(name, CreateKeyFrameList(startingKF, ttl), new SizeF(radius, radius), zOrder)
         {
             _brush = brush;
             _radius = radius;
@@ -108,7 +108,7 @@ namespace Fireworks
         /// <summary>
         /// Basic instance of firework
         /// </summary>
-        public Firework() : this(Brushes.Black, new KeyFrame(), 10, 10, 0, 1)
+        public Firework() : this("Firework", Brushes.Black, new KeyFrame(), 10, 10, 0, 1)
         {
 
         }
@@ -123,8 +123,8 @@ namespace Fireworks
 
             for (int i = 0; i < NbParticles; i++)
             {
-                List<KeyFrame> particleKeyFrames = new List<KeyFrame>();
-                particleKeyFrames.Add(KeyFrames[0]);
+                List<IKeyFrame> particleKeyFrames = new List<IKeyFrame>();
+                particleKeyFrames.Add((KeyFrame)KeyFrames[0]);
 
                 //Get end point of particle that's on the fireworks outer radius
                 PointF pointOnCircle = KeyFrames[0].Point;
@@ -133,7 +133,7 @@ namespace Fireworks
 
                 particleKeyFrames.Add(new KeyFrame(pointOnCircle, KeyFrames[0].T + TTL));
 
-                particles[i] = new Particle(Brush, particleKeyFrames, new SizeF(3, 3), ZOrder);
+                particles[i] = new Particle(Name + "-p" + i, Brush, particleKeyFrames, new SizeF(3, 3), ZOrder);
             }
         }
 
@@ -168,9 +168,9 @@ namespace Fireworks
         /// </summary>
         /// <param name="firstKeyFrame"></param>
         /// <param name="ttl"></param>
-        private static List<KeyFrame> CreateKeyFrameList(KeyFrame firstKeyFrame, float ttl)
+        private static IList<IKeyFrame> CreateKeyFrameList(KeyFrame firstKeyFrame, float ttl)
         {
-            List<KeyFrame> result = new List<KeyFrame>();
+            List<IKeyFrame> result = new List<IKeyFrame>();
 
             result.Add(firstKeyFrame);
             result.Add(new KeyFrame(firstKeyFrame.Point, firstKeyFrame.T + ttl));

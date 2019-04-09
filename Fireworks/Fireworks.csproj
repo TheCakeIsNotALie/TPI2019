@@ -58,12 +58,49 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="IKeyFrame.cs" />
     <Compile Include="KeyFrame.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="Polygon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene.cs" />
+    <Compile Include="TimeBeam\Events\SelectionChangedEventsArgs.cs" />
+    <Compile Include="TimeBeam\Helper\BoundsHelper.cs" />
+    <Compile Include="TimeBeam\Helper\ColorHelper.cs" />
+    <Compile Include="TimeBeam\Helper\Extensions.cs" />
+    <Compile Include="TimeBeam\Helper\RectangleHelper.cs" />
+    <Compile Include="TimeBeam\Helper\SelectionHelper.cs" />
+    <Compile Include="TimeBeam\Helper\SurrogateHelper.cs" />
+    <Compile Include="TimeBeam\ITimelineTrack.cs" />
+    <Compile Include="TimeBeam\ITimelineTrackBase.cs" />
+    <Compile Include="TimeBeam\Scrollbar\AbstractScrollbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeBeam\Scrollbar\AbstractScrollbar.Designer.cs">
+      <DependentUpon>AbstractScrollbar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeBeam\Scrollbar\HorizontalScrollbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeBeam\Scrollbar\HorizontalScrollbar.Designer.cs">
+      <DependentUpon>HorizontalScrollbar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeBeam\Scrollbar\VerticalScrollbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeBeam\Scrollbar\VerticalScrollbar.Designer.cs">
+      <DependentUpon>VerticalScrollbar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeBeam\Surrogates\KeyFrameSurrogate.cs" />
+    <Compile Include="TimeBeam\Surrogates\TrackSurrogate.cs" />
+    <Compile Include="TimeBeam\Timeline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeBeam\Timeline.Designer.cs">
+      <DependentUpon>Timeline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeBeam\Timing\IClock.cs" />
     <Compile Include="ValueTypeTypeConverter.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -77,6 +114,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TimeBeam\Scrollbar\AbstractScrollbar.resx">
+      <DependentUpon>AbstractScrollbar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeBeam\Scrollbar\HorizontalScrollbar.resx">
+      <DependentUpon>HorizontalScrollbar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeBeam\Scrollbar\VerticalScrollbar.resx">
+      <DependentUpon>VerticalScrollbar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeBeam\Timeline.resx">
+      <DependentUpon>Timeline.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -89,6 +138,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TimeBeam\TimeBeam.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

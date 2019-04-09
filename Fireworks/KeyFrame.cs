@@ -12,7 +12,7 @@ namespace Fireworks
     /// Stores a position and a time at which an object needs to be on this point
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class KeyFrame
+    public class KeyFrame : IKeyFrame
     {
         private PointF _point;
         private float _t;
@@ -56,17 +56,22 @@ namespace Fireworks
         /// <summary>
         /// Basic list of keyframes { (P(0,0):t(0)) -> (P(0,0):t(1)) }
         /// </summary>
-        public static List<KeyFrame> BasicKeyFrames
+        public static IList<IKeyFrame> BasicKeyFrames
         {
             get
             {
-                List<KeyFrame> basics = new List<KeyFrame>();
+                List<IKeyFrame> basics = new List<IKeyFrame>();
 
                 basics.Add(new KeyFrame(new PointF(), 0));
                 basics.Add(new KeyFrame(new PointF(), 1));
 
                 return basics;
             }
+        }
+
+        public object Clone()
+        {
+            return new KeyFrame(new PointF(Point.X, Point.Y), T);
         }
     }
 }

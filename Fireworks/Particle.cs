@@ -26,8 +26,8 @@ namespace Fireworks
         /// <param name="path">Path of keyframes the particle will follow</param>
         /// <param name="size">Size of particle</param>
         /// <param name="zOrder">Drawing order on scene</param>
-        public Particle(Brush brush, List<KeyFrame> path, SizeF size, int zOrder) : 
-            base(path, size, zOrder)
+        public Particle(string name, Brush brush, IList<IKeyFrame> path, SizeF size, int zOrder) : 
+            base(name, path, size, zOrder)
         {
             Brush = brush;
         }
@@ -35,7 +35,7 @@ namespace Fireworks
         /// <summary>
         /// Basic instance of particle
         /// </summary>
-        public Particle() : this(Brushes.Black, KeyFrame.BasicKeyFrames, new SizeF(), 0)
+        public Particle() : this("Particle", Brushes.Black, KeyFrame.BasicKeyFrames, new SizeF(), 0)
         {
         }
 

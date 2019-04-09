@@ -18,3 +18,7 @@ C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.csproj
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.csproj.CoreCompileInputs.cache
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.exe
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.pdb
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\TimeBeam.AbstractScrollbar.resources
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\TimeBeam.Scrollbar.HorizontalScrollbar.resources
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\TimeBeam.Scrollbar.VerticalScrollbar.resources
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\TimeBeam.Timeline.resources

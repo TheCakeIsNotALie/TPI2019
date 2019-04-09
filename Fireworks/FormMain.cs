@@ -41,30 +41,30 @@ namespace Fireworks
             _scene.SelectedObjectChanged += SelectedObjectChanged;
             _scene.AnimatedObjectsChanged += AnimatedObjectsChanged;
 
-            List<KeyFrame> tmpKeyFrames = new List<KeyFrame>();
+            List<IKeyFrame> tmpKeyFrames = new List<IKeyFrame>();
             tmpKeyFrames.Add(new KeyFrame(new PointF(0, 0), 1));
             tmpKeyFrames.Add(new KeyFrame(new PointF(20, 10), 2));
             tmpKeyFrames.Add(new KeyFrame(new PointF(200, 50), 4));
 
-            Particle p = new Particle(Brushes.Red, tmpKeyFrames, new Size(3, 3), 0);
-            Firework f = new Firework(Brushes.Red, new KeyFrame(new PointF(100, 120), 3.3f), 100, 70, 10, 2);
-            Firework f2 = new Firework(Brushes.Red, new KeyFrame(new PointF(150, 100), 3.1f), 50, 20, 10, 1);
-            Firework f3 = new Firework(Brushes.Red, new KeyFrame(new PointF(110, 110), 3.2f), 80, 50, 10, 3);
-            Firework f4 = new Firework(Brushes.Red, new KeyFrame(new PointF(150, 156), 4.1f), 50, 20, 10, 1);
-            Firework f5 = new Firework(Brushes.Red, new KeyFrame(new PointF(110, 110), 7.2f), 80, 50, 10, 3);
-            Firework f6 = new Firework(Brushes.Red, new KeyFrame(new PointF(250, 200), 5.1f), 50, 20, 10, 1);
-            Firework f7 = new Firework(Brushes.Red, new KeyFrame(new PointF(210, 110), 1.2f), 80, 50, 10, 3);
-            Firework f8 = new Firework(Brushes.Red, new KeyFrame(new PointF(170, 100), 2.1f), 50, 20, 10, 1);
-            Firework f9 = new Firework(Brushes.Red, new KeyFrame(new PointF(111, 110), 9.2f), 80, 50, 10, 3);
+            Particle p = new Particle("Particle1", Brushes.Red, tmpKeyFrames, new Size(3, 3), 0);
+            Firework f = new Firework("Firwork1", Brushes.Red, new KeyFrame(new PointF(100, 120), 3.3f), 100, 70, 10, 2);
+            Firework f2 = new Firework("Firwork2", Brushes.Red, new KeyFrame(new PointF(150, 100), 3.1f), 50, 20, 10, 1);
+            Firework f3 = new Firework("Firwork3", Brushes.Red, new KeyFrame(new PointF(110, 110), 3.2f), 80, 50, 10, 3);
+            Firework f4 = new Firework("Firwork4", Brushes.Red, new KeyFrame(new PointF(150, 156), 4.1f), 50, 20, 10, 1);
+            Firework f5 = new Firework("Firwork5", Brushes.Red, new KeyFrame(new PointF(110, 110), 7.2f), 80, 50, 10, 3);
+            Firework f6 = new Firework("Firwork6", Brushes.Red, new KeyFrame(new PointF(250, 200), 5.1f), 50, 20, 10, 1);
+            Firework f7 = new Firework("Firwork7", Brushes.Red, new KeyFrame(new PointF(210, 110), 1.2f), 80, 50, 10, 3);
+            Firework f8 = new Firework("Firwork8", Brushes.Red, new KeyFrame(new PointF(170, 100), 2.1f), 50, 20, 10, 1);
+            Firework f9 = new Firework("Firwork9", Brushes.Red, new KeyFrame(new PointF(111, 110), 9.2f), 80, 50, 10, 3);
 
-            List<KeyFrame> tmpKeyFrames2 = new List<KeyFrame>();
+            List<IKeyFrame> tmpKeyFrames2 = new List<IKeyFrame>();
             tmpKeyFrames2.Add(new KeyFrame(new PointF(50, 50), 1));
             tmpKeyFrames2.Add(new KeyFrame(new PointF(100, 100), 2));
             tmpKeyFrames2.Add(new KeyFrame(new PointF(200, 20), 4));
 
             PointF[] polygonCorners = { new PointF(5, 5), new PointF(-5, 5), new PointF(-5, -5), new PointF(12, -5), new PointF(12, 12) };
 
-            po = new Polygon(tmpKeyFrames2, polygonCorners, 50);
+            po = new Polygon("Polygon1", tmpKeyFrames2, polygonCorners, 50);
 
             propertyGrid.SelectedObject = po;
 
@@ -82,6 +82,8 @@ namespace Fireworks
             
             //Link combobox with list of objects
             cbxObjects.DataSource = _scene.AnimatedObjects;
+
+            timeline.AddTrack(po);
         }
 
         private void AnimatedObjectsChanged(object sender, EventArgs e)

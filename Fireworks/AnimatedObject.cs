@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.ComponentModel;
+using TimeBeam;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,12 +13,13 @@ namespace Fireworks
     /// Abstract class for animated objects
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public abstract class AnimatedObject
+    public abstract class AnimatedObject : ITimelineTrack
     {
         //Every points and time at which they pass it at is in the keyframes list
         //Keyframes have to be in order
         private List<KeyFrame> _keyFrames;
         private SizeF _size;
+        private string _name;
         private int _zOrder;
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace Fireworks
         [Description("KeyFrames that the object will follow over time")]
         [DisplayName("KeyFrames")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public List<KeyFrame> KeyFrames { get => _keyFrames; set => _keyFrames = value; }
+        public List<KeyFrame> Keyframes { get => _keyFrames; set => _keyFrames = value; }
 
         /// <summary>
         /// Size of rectangle around the object
@@ -45,6 +47,9 @@ namespace Fireworks
         [DisplayName("Size")]
         [TypeConverter(typeof(ValueTypeTypeConverter))]
         public SizeF Size { get => _size; set => _size = value; }
+        public string Name { get => _name; set => _name = value; }
+
+        public IList<IKeyFrame> KeyFrames { get => _keyFrames.ToList<IKeyFrame>(); set => _keyFrames =  value.Cast<KeyFrame>().ToList(); }
 
         /// <summary>
         /// Basic constructor for animated objects
@@ -52,19 +57,12 @@ namespace Fireworks
         /// <param name="keyFrames">KeyFrames that the object will follow over time</param>
         /// <param name="size">Size of rectangle around the object</param>
         /// <param name="zOrder">Order to draw the object</param>
-        public AnimatedObject(List<KeyFrame> keyFrames, SizeF size, int zOrder)
+        public AnimatedObject(string name, IList<IKeyFrame> keyFrames, SizeF size, int zOrder)
         {
             KeyFrames = keyFrames;
             Size = size;
-            _zOrder = zOrder; 
-        }
-
-        /// <summary>
-        /// Basic constructor for animated objects
-        /// </summary>
-        public AnimatedObject() : this(KeyFrame.BasicKeyFrames, new SizeF(1, 1), 0)
-        {
-
+            Name = name;
+            ZOrder = zOrder; 
         }
 
         /// <summary>W
@@ -86,8 +84,8 @@ namespace Fireworks
             //First keyframe that has it's time > t
             //means that it's the next KeyFrame to go to
             //If condition finds no match take last keyframe because it means object.time == t
-            KeyFrame nextKeyFrame = KeyFrames.Where(x => x.T > t).DefaultIfEmpty(KeyFrames.Last()).First();
-            KeyFrame currentKeyFrame = KeyFrames[KeyFrames.IndexOf(nextKeyFrame) - 1];
+            KeyFrame nextKeyFrame = (KeyFrame)KeyFrames.Where(x => x.T > t).DefaultIfEmpty(KeyFrames.Last()).First();
+            KeyFrame currentKeyFrame = (KeyFrame)KeyFrames[KeyFrames.IndexOf(nextKeyFrame) - 1];
 
             //Compute percentage of travel done
             float percentageDone = (t-currentKeyFrame.T) / (nextKeyFrame.T-currentKeyFrame.T);

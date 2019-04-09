@@ -34,12 +34,12 @@ namespace Fireworks
         /// <param name="keyFrames">Keyframes that the polygon will follow over time</param>
         /// <param name="corners">Corners of polygon relative to keyframe</param>
         /// <param name="zOrder">Order to draw the polygon</param>
-        public Polygon(List<KeyFrame> keyFrames, PointF[] corners, int zOrder) : base(keyFrames, GetSizeFromCorners(corners), zOrder)
+        public Polygon(string name, IList<IKeyFrame> keyFrames, PointF[] corners, int zOrder) : base(name, keyFrames, GetSizeFromCorners(corners), zOrder)
         {
             Corners = corners;
         }
 
-        public Polygon() : this(KeyFrame.BasicKeyFrames, basic_corners, 0)
+        public Polygon() : this("Polygon", KeyFrame.BasicKeyFrames, basic_corners, 0)
         {
 
         }

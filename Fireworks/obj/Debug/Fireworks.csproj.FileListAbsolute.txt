@@ -11,7 +11,6 @@ C:\Users\Administrateur\Desktop\TPI\Fireworks\Fireworks\obj\Debug\Fireworks.pdb
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\bin\Debug\Fireworks.exe.config
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\bin\Debug\Fireworks.exe
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\bin\Debug\Fireworks.pdb
-C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.csprojAssemblyReference.cache
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.FormMain.resources
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.Properties.Resources.resources
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.csproj.GenerateResource.cache
@@ -22,3 +21,18 @@ C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\TimeBeam.Abstrac
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\TimeBeam.Scrollbar.HorizontalScrollbar.resources
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\TimeBeam.Scrollbar.VerticalScrollbar.resources
 C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\TimeBeam.Timeline.resources
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\bin\Debug\Fireworks.exe.config
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\bin\Debug\Fireworks.exe
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\bin\Debug\Fireworks.pdb
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\Fireworks.csprojAssemblyReference.cache
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\Fireworks.FormMain.resources
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\Fireworks.Properties.Resources.resources
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\TimeBeam.AbstractScrollbar.resources
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\TimeBeam.Scrollbar.HorizontalScrollbar.resources
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\TimeBeam.Scrollbar.VerticalScrollbar.resources
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\TimeBeam.Timeline.resources
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\Fireworks.csproj.GenerateResource.cache
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\Fireworks.csproj.CoreCompileInputs.cache
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\Fireworks.exe
+C:\Users\Yannis\Desktop\TPI2019\Fireworks\obj\Debug\Fireworks.pdb
+C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\obj\Debug\Fireworks.csprojAssemblyReference.cache

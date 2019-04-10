@@ -45,21 +45,56 @@ namespace TimeBeam.Helper
             return trackExtent;
         }
 
+        /// <summary>
+        ///   Calculate the bounding rectangle for a KeyFrame in screen-space.
+        /// </summary>
+        /// <param name="track">
+        ///   The track which the keyframe is a part of
+        /// </param>
+        /// <param name="kf">
+        ///   The keyframe in question
+        /// </param>
+        /// <param name="timeline">The timeline the track lives on.</param>
+        /// <returns>The bounding rectangle for the given keyframe.</returns>
         internal static RectangleF GetKeyFrameExtents(ITimelineTrack track, IKeyFrame kf, Timeline timeline)
         {
+            Rectangle trackAreaBounds = timeline.GetTrackAreaBounds();
             int trackIndex = timeline.TrackIndexForTrack(track);
 
-            RectangleF kfRectangle = new RectangleF(kf.T, 0, 0, 0);
-            kfRectangle = RectangleToTrackExtents(kfRectangle, timeline, trackIndex);
-            kfRectangle.Y += timeline.TrackBorderSize * 2;
-            kfRectangle.Height -= timeline.TrackBorderSize * 4;
+            RectangleF kfRectangle = new RectangleF();
 
-            float width = 10;
-
-            kfRectangle.Width = width;
-            kfRectangle.X -= width / 2;
+            kfRectangle.X = trackAreaBounds.X + (kf.T * timeline.RenderingScale.X) + timeline.RenderingScale.X - timeline.KeyFrameWidth / 2 + timeline.RenderingOffset.X;
+            kfRectangle.Width = timeline.KeyFrameWidth;
+            kfRectangle.Height = (timeline.TrackHeight) * timeline.RenderingScale.Y;
+            kfRectangle.Y = trackAreaBounds.Y + ((kfRectangle.Height + timeline.TrackSpacing) * trackIndex) + timeline.RenderingOffset.Y;
 
             return kfRectangle;
+        }
+
+        /// <summary>
+        ///   Calculate the bounding rectangle for the lifetime of a track in screen-space.
+        /// </summary>
+        /// <param name="track">
+        ///   The track which the keyframe is a part of
+        /// </param>
+        /// <param name="timeline">The timeline the track lives on.</param>
+        /// <returns>The bounding rectangle for the given keyframe.</returns>
+        internal static RectangleF GetTrackLifetimeExtents(ITimelineTrack track, Timeline timeline)
+        {
+            Rectangle trackAreaBounds = timeline.GetTrackAreaBounds();
+            int trackIndex = timeline.TrackIndexForTrack(track);
+
+            RectangleF firstKFExtent = GetKeyFrameExtents(track, track.KeyFrames.First(), timeline);
+            RectangleF lastKFExtent = GetKeyFrameExtents(track, track.KeyFrames.Last(), timeline);
+
+            RectangleF lifetime = new RectangleF();
+
+            lifetime.X = firstKFExtent.X;
+            lifetime.Width = lastKFExtent.X + lastKFExtent.Width - firstKFExtent.X;
+            lifetime.Height = firstKFExtent.Height;
+            lifetime.Y = firstKFExtent.Y;
+
+            return lifetime;
         }
 
         /// <summary>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.trbTimeline = new System.Windows.Forms.TrackBar();
             this.lblMaxTime = new System.Windows.Forms.Label();
             this.nudMaxTime = new System.Windows.Forms.NumericUpDown();
@@ -391,14 +392,17 @@
             this.timeline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.timeline.BackgroundColor = System.Drawing.Color.Black;
             this.timeline.GridAlpha = 40;
-            this.timeline.Location = new System.Drawing.Point(3, 341);
+            this.timeline.KeyFrameBorderWidth = 2;
+            this.timeline.KeyFrameWidth = 4;
+            this.timeline.Location = new System.Drawing.Point(3, 340);
             this.timeline.Name = "timeline";
+            this.timeline.RenderingScale = ((System.Drawing.PointF)(resources.GetObject("timeline.RenderingScale")));
             this.timeline.Size = new System.Drawing.Size(686, 165);
             this.timeline.TabIndex = 0;
             this.timeline.TimeSeconds = 0F;
-            this.timeline.TrackBorderSize = 2;
             this.timeline.TrackHeight = 20;
             this.timeline.TrackSpacing = 1;
+            this.timeline.ZoomBalast = 750F;
             // 
             // pnlScene
             // 

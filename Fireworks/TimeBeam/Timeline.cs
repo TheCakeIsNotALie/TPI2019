@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using TimeBeam.Events;
 using TimeBeam.Helper;
 using TimeBeam.Surrogates;
-using TimeBeam.Timing;
 using Fireworks;
 
 namespace TimeBeam
@@ -21,33 +20,36 @@ namespace TimeBeam
     public partial class Timeline : UserControl
     {
         /// <summary>
-        ///   How far does the user have to move the mouse (while holding down the left mouse button) until dragging operations kick in?
-        ///   Technically, this defines the length of the movement vector.
+        /// Backing field for <see cref="TimeSeconds"/>
         /// </summary>
-        private const float DraggingThreshold = 3f;
+        private float _timeSeconds;
+
+        /// <summary>
+        /// Current timeline time
+        /// </summary>
+        public float TimeSeconds { get => _timeSeconds; set => _timeSeconds = value; }
+
+        /// <summary>
+        ///   The tracks currently placed on the timeline.
+        /// </summary>
+        private readonly List<ITimelineTrack> _tracks = new List<ITimelineTrack>();
 
         #region Events
-        /// <summary>
-        ///   Invoked when the selection of track elements changed.
-        ///   Inspect <see cref="SelectedTracks"/> to see the current selection.
-        /// </summary>
-        public EventHandler<SelectionChangedEventArgs> SelectionChanged;
 
+        public delegate void SelectionModifiedHandler(object sender, SelectionModifiedEventArgs eventArgs);
         /// <summary>
-        ///   Invoke the <see cref="SelectionChanged" /> event.
+        /// Event called when user modified the selected keyframes
         /// </summary>
-        /// <param name="eventArgs">The arguments to pass with the event.</param>
-        private void InvokeSelectionChanged(SelectionChangedEventArgs eventArgs = null)
-        {
-            if (null != SelectionChanged)
-            {
-                SelectionChanged.Invoke(this, eventArgs ?? SelectionChangedEventArgs.Empty);
-            }
-        }
+        public event SelectionModifiedHandler SelectionModified;
+
         #endregion
 
+        #region Layout Variables
+        /// <summary>
+        ///   Backing field for <see cref="TrackHeight" />.
+        /// </summary>
+        private int _trackHeight = 20;
 
-        #region Layout
         /// <summary>
         ///   How high a single track should be.
         /// </summary>
@@ -60,9 +62,25 @@ namespace TimeBeam
         }
 
         /// <summary>
-        ///   Backing field for <see cref="TrackHeight" />.
+        /// Backing field for <see cref="KeyFrameWidth"/>
         /// </summary>
-        private int _trackHeight = 20;
+        private int _keyFrameWidth = 1;
+
+        /// <summary>
+        /// Width of a keyframe
+        /// </summary>
+        [Description("How wide a keyframe should be.")]
+        [Category("Layout")]
+        public int KeyFrameWidth
+        {
+            get { return _keyFrameWidth; }
+            set { _keyFrameWidth = value; }
+        }
+
+        /// <summary>
+        ///   Backing field for <see cref="KeyFrameBorderWidth" />.
+        /// </summary>
+        private int _keyFrameBorderWidth = 1;
 
         /// <summary>
         ///   How wide/high the border on a track item should be.
@@ -70,16 +88,16 @@ namespace TimeBeam
         /// </summary>
         [Description("How wide/high the border on a track item should be.")]
         [Category("Layout")]
-        public int TrackBorderSize
+        public int KeyFrameBorderWidth
         {
-            get { return _trackBorderSize; }
-            set { _trackBorderSize = value; }
+            get { return _keyFrameBorderWidth; }
+            set { _keyFrameBorderWidth = value; }
         }
 
         /// <summary>
-        ///   Backing field for <see cref="TrackBorderSize" />.
+        ///   Backing field for <see cref="TrackSpacing" />.
         /// </summary>
-        private int _trackBorderSize = 2;
+        private int _trackSpacing = 1;
 
         /// <summary>
         ///   How much space should be left between every track.
@@ -93,9 +111,9 @@ namespace TimeBeam
         }
 
         /// <summary>
-        ///   Backing field for <see cref="TrackSpacing" />.
+        ///   Backing field for <see cref="TrackLabelWidth" />.
         /// </summary>
-        private int _trackSpacing = 1;
+        private int _trackLabelWidth = 100;
 
         /// <summary>
         ///   The width of the label section before the tracks.
@@ -109,11 +127,6 @@ namespace TimeBeam
         }
 
         /// <summary>
-        ///   Backing field for <see cref="TrackLabelWidth" />.
-        /// </summary>
-        private int _trackLabelWidth = 100;
-
-        /// <summary>
         ///   The font to use to draw the track labels.
         /// </summary>
         private Font _labelFont = DefaultFont;
@@ -124,7 +137,12 @@ namespace TimeBeam
         private SizeF _playheadExtents = new SizeF(5, 16);
         #endregion
 
-        #region Drawing
+        #region Drawing Variables
+        /// <summary>
+        ///   Backing field for <see cref="BackgroundColor" />.
+        /// </summary>
+        private Color _backgroundColor = Color.Black;
+
         /// <summary>
         ///   The background color of the timeline.
         /// </summary>
@@ -137,9 +155,9 @@ namespace TimeBeam
         }
 
         /// <summary>
-        ///   Backing field for <see cref="BackgroundColor" />.
+        ///   When the timeline is scrolled (panned) around, this offset represents the panned distance.
         /// </summary>
-        private Color _backgroundColor = Color.Black;
+        private PointF _renderingOffset = PointF.Empty;
 
         internal PointF RenderingOffset
         {
@@ -147,20 +165,27 @@ namespace TimeBeam
         }
 
         /// <summary>
-        ///   When the timeline is scrolled (panned) around, this offset represents the panned distance.
+        /// Backing field of <see cref="RenderingScale"/>.
         /// </summary>
-        private PointF _renderingOffset = PointF.Empty;
-
-        internal PointF RenderingScale
-        {
-            get { return _renderingScale; }
-        }
+        private PointF _renderingScale = new PointF(1, 1);
 
         /// <summary>
         ///   The scale at which to render the timeline.
         ///   This enables us to "zoom" the timeline in and out.
         /// </summary>
-        private PointF _renderingScale = new PointF(1, 1);
+        [Description("The background color of the timeline.")]
+        [Category("Drawing")]
+        [TypeConverter(typeof(ValueTypeTypeConverter))]
+        public PointF RenderingScale
+        {
+            get { return _renderingScale; }
+            set { _renderingScale = value; }
+        }
+
+        /// <summary>
+        ///   Backing field for <see cref="GridAlpha" />.
+        /// </summary>
+        private int _gridAlpha = 40;
 
         /// <summary>
         ///   The transparency of the background grid.
@@ -172,54 +197,32 @@ namespace TimeBeam
             get { return _gridAlpha; }
             set { _gridAlpha = value; }
         }
-
-        /// <summary>
-        ///   Backing field for <see cref="GridAlpha" />.
-        /// </summary>
-        private int _gridAlpha = 40;
         #endregion
 
-        #region Time
-
-        private float _time;
-
+        #region Interaction Variables
         /// <summary>
-        /// Current timeline time
+        ///   How far does the user have to move the mouse (while holding down the left mouse button) until dragging operations kick in?
+        ///   Technically, this defines the length of the movement vector.
         /// </summary>
-        public float TimeSeconds { get => _time; set => _time = value; }
+        private const float DraggingThreshold = 3f;
 
-        #endregion
-
-        #region Tracks and KeyFrames
-
-        private readonly List<IKeyFrame> _selectedKeyFrames = new List<IKeyFrame>();
-        private List<IKeyFrame> _keyframeSurrogates = new List<IKeyFrame>();
-
-        /// <summary>
-        ///   The tracks currently placed on the timeline.
-        /// </summary>
-        private readonly List<ITimelineTrack> _tracks = new List<ITimelineTrack>();
-
-        /// <summary>
-        ///   The currently selected tracks.
-        /// </summary>
-        private readonly List<ITimelineTrack> _selectedTracks = new List<ITimelineTrack>();
-
-        /// <summary>
-        ///   Which tracks are currently selected?
-        /// </summary>
-        public IEnumerable<ITimelineTrack> SelectedTracks { get { return _selectedTracks; } }
-        #endregion
-
-        #region Interaction
         /// <summary>
         ///   What mode is the timeline currently in?
         /// </summary>
         public BehaviorMode CurrentMode { get; private set; }
 
         /// <summary>
-        ///   The list of surrogates (stand-ins) for timeline tracks.
-        ///   These surrogates are used as temporary placeholders during certain operations.
+        /// Currently selected keyframes
+        /// </summary>
+        private readonly List<IKeyFrame> _selectedKeyFrames = new List<IKeyFrame>();
+
+        /// <summary>
+        /// Copies of the keyframes currently being changed
+        /// </summary>
+        private List<IKeyFrame> _keyframeSurrogates = new List<IKeyFrame>();
+
+        /// <summary>
+        /// Copies of the tracks currently having keyframes moved in them
         /// </summary>
         private List<ITimelineTrack> _trackSurrogates = new List<ITimelineTrack>();
 
@@ -238,6 +241,16 @@ namespace TimeBeam
         ///   Remembering this allows us to dynamically apply a delta during the panning operation.
         /// </summary>
         private PointF _renderingOffsetBeforePan = PointF.Empty;
+
+        /// <summary>
+        /// Backing field of <see cref="ZoomBalast"/>
+        /// </summary>
+        private float _zoomBalast = 750f;
+
+        /// <summary>
+        /// Slow down the zoom speed by dividing the scroll delta by the balast
+        /// </summary>
+        public float ZoomBalast { get => _zoomBalast; set => _zoomBalast = value; }
         #endregion
 
         #region Enums
@@ -347,7 +360,7 @@ namespace TimeBeam
         /// <summary>
         ///   Check if a track is located at the given position.
         /// </summary>
-        /// <param name="test">The point to test for.</param>
+        /// <param name="test">The point to test for</param>
         /// <returns>
         ///   The <see cref="ITimelineTrack" /> if there is one under the given point; <see langword="null" /> otherwise.
         /// </returns>
@@ -367,13 +380,35 @@ namespace TimeBeam
             return null;
         }
 
-        private KeyFrame KeyFrameHitTest(PointF test)
+        /// <summary>
+        ///   Retrieve the index of a given track.
+        ///   If the track is a surrogate, returns the index of the track it's a substitute for.
+        /// </summary>
+        /// <param name="track">The track for which to retrieve the index.</param>
+        /// <returns>The index of the track or the index the track is a substitute for.</returns>
+        internal int TrackIndexForTrack(ITimelineTrack track)
         {
+            ITimelineTrack trackToLookFor = track;
+            if (track is TrackSurrogate)
+            {
+                trackToLookFor = ((TrackSurrogate)track).SubstituteFor;
+            }
+            return _tracks.FindIndex(t => t == trackToLookFor);
+        }
+
+        /// <summary>
+        /// Check if a keyframe is located at the given position
+        /// </summary>
+        /// <param name="test">The point to test for</param>
+        /// <returns>The <see cref="KeyFrame" /> if there is one under the given point; <see langword="null" /> otherwise.</returns>
+        private IKeyFrame KeyFrameHitTest(PointF test)
+        {
+            //Go through every keyframes in every tracks
             foreach (ITimelineTrack track in _tracks)
             {
-                foreach (KeyFrame kf in track.KeyFrames)
+                foreach (IKeyFrame kf in track.KeyFrames)
                 {
-                    // The extent of the track, including the border
+                    // The extent of the keyframe on screen
                     RectangleF kfExtent = BoundsHelper.GetKeyFrameExtents(track, kf, this);
 
                     if (kfExtent.Contains(test))
@@ -384,6 +419,33 @@ namespace TimeBeam
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Get track index that keyframe is owned by
+        /// </summary>
+        /// <param name="kf">Keyframe to search</param>
+        /// <returns>-1 if not found or index of track if found</returns>
+        private int TrackIndexForKeyFrame(IKeyFrame kf)
+        {
+            //Search the real keyframe
+            IKeyFrame toSearch = kf;
+            if (kf is KeyFrameSurrogate)
+            {
+                toSearch = ((KeyFrameSurrogate)kf).SubstituteFor;
+            }
+
+            //find which track owns keyframe
+            foreach (ITimelineTrack track in _tracks)
+            {
+                if (track.KeyFrames.Contains(toSearch))
+                {
+                    return TrackIndexForTrack(track);
+                }
+            }
+
+            //keyframe not found
+            return -1;
         }
 
         /// <summary>
@@ -462,17 +524,87 @@ namespace TimeBeam
         }
 
         /// <summary>
-        ///   Set the clock to a position that relates to a given position on the playhead area.
+        ///   Set the time to a value that relates to a given position on the playhead area.
         ///   Current rendering offset and scale will be taken into account.
         /// </summary>
         /// <param name="location">The location on the playhead area.</param>
-        private void SetClockFromMousePosition(PointF location)
+        private void SetTimeFromMousePosition(PointF location)
+        {
+            // Calculate a clock value for the current X coordinate.
+            _timeSeconds = TimeAtScreenPosition(location.X);
+        }
+
+        /// <summary>
+        /// Time at x position on screen
+        /// Current rendering offset and scale will be taken into account.
+        /// </summary>
+        /// <param name="x">X coordinate on screen</param>
+        /// <returns>Time at the given x coordinates</returns>
+        private float TimeAtScreenPosition(float x)
         {
             Rectangle trackAreaBounds = GetTrackAreaBounds();
             // Calculate a clock value for the current X coordinate.
-            float clockValue = (location.X - _renderingOffset.X - trackAreaBounds.X) * (1 / _renderingScale.X) * 1000f;
-            _time = clockValue;
+            return (x - _renderingOffset.X - trackAreaBounds.X) * (1 / _renderingScale.X);
         }
+
+        /// <summary>
+        /// Returns the acceptable deltaX based on the list of keyframes that are not being moved
+        /// (k2 cannot go past k3 and cannot go before k1)
+        /// </summary>
+        /// <param name="deltaX">Wanted deltaX</param>
+        /// <returns>Acceptable deltaX (maximum or normal value depending of initial deltaX)</returns>
+        private float AcceptableMovingDelta(float deltaX)
+        {
+            //define maximum positive and negative deltas
+            float maxAllowedPositiveDelta = float.PositiveInfinity;
+            float maxAllowedNegativeDelta = float.NegativeInfinity;
+
+            //get the temporary tracks
+            foreach (TrackSurrogate track in _trackSurrogates)
+            {
+                //Get their references keyframes
+                foreach (KeyFrame kf in track.KeyFrames.Select(x => ((KeyFrameSurrogate)x).SubstituteFor).Intersect(_selectedKeyFrames))
+                {
+                    //for the real keyframes
+                    int indexKF = track.SubstituteFor.KeyFrames.IndexOf(kf);
+                    float tempNegative;
+                    float tempPositive;
+
+                    //if not ending keyframe
+                    if (indexKF != track.SubstituteFor.KeyFrames.Count - 1)
+                    {
+                        //calculate next max positive movement
+                        tempPositive = track.SubstituteFor.KeyFrames[indexKF + 1].T - kf.T;
+                        //store it if it is less than previous max
+                        if (maxAllowedPositiveDelta > tempPositive)
+                            maxAllowedPositiveDelta = tempPositive;
+                    }
+
+                    //if not starting keyframe
+                    if(indexKF != 0)
+                    {
+                        //calculate next max negative movement
+                        tempNegative = track.SubstituteFor.KeyFrames[indexKF - 1].T - kf.T;
+                        //store it if it is less than previous max
+                        if (maxAllowedNegativeDelta < tempNegative)
+                            maxAllowedNegativeDelta = tempNegative;
+                    }
+                }
+            }
+            if(deltaX < maxAllowedNegativeDelta)
+            {
+                return maxAllowedNegativeDelta;
+            }
+            else if (deltaX > maxAllowedPositiveDelta)
+            {
+                return maxAllowedPositiveDelta;
+            }
+            else
+            {
+                return deltaX;
+            }
+        }
+
         #endregion
 
         #region Drawing Methods
@@ -486,8 +618,8 @@ namespace TimeBeam
             graphics.Clear(BackgroundColor);
 
             DrawBackground(graphics);
-            DrawTracks(_tracks, graphics);
-            DrawTracks(_trackSurrogates, graphics);
+            DrawTracksKeyFrames(_tracks, graphics);
+            DrawTracksKeyFrames(_trackSurrogates, graphics);
 
             // Draw labels after the tracks to draw over elements that are partially moved out of the viewing area
             DrawTrackLabels(graphics);
@@ -503,7 +635,6 @@ namespace TimeBeam
         /// </summary>
         private void DrawBackground(Graphics graphics)
         {
-
             Rectangle trackAreaBounds = GetTrackAreaBounds();
 
             // Draw horizontal grid.
@@ -547,7 +678,7 @@ namespace TimeBeam
                     DashStyle = DashStyle.Dot
                 })
                 {
-                    for (float x = minorTickOffset; x < Width; x += minorTickDistance)
+                    for (float x = minorTickOffset + minorTickDistance; x < Width; x += minorTickDistance)
                     {
                         graphics.DrawLine(minorGridPen, trackAreaBounds.X + x, trackAreaBounds.Y, trackAreaBounds.X + x, trackAreaBounds.Height);
                     }
@@ -558,6 +689,12 @@ namespace TimeBeam
             // The one that is only tickOffset pixels away it behind the track labels.
             int minutePenColor = (int)(255 * Math.Min(255, GridAlpha * 2) / 255f);
             Pen brightPen = new Pen(Color.FromArgb(minutePenColor, minutePenColor, minutePenColor));
+
+            //Format for time labels
+            StringFormat sf = new StringFormat();
+            sf.LineAlignment = StringAlignment.Center;
+            sf.Alignment = StringAlignment.Center;
+
             for (int x = tickOffset + tickDistance; x < Width; x += columnWidth)
             {
                 // Every 60 ticks, we put a brighter, thicker line.
@@ -571,6 +708,11 @@ namespace TimeBeam
                     penToUse = gridPen;
                 }
 
+                //Draw time above the grid
+                float time = TimeAtScreenPosition(x + trackAreaBounds.X);
+                float emsize = EmHeightForLabel(time.ToString("0.##"), _playheadExtents.Height);
+
+                graphics.DrawString(time.ToString("0.##"), new Font(DefaultFont.FontFamily, emsize), new SolidBrush(penToUse.Color), new PointF(trackAreaBounds.X + x, _playheadExtents.Height / 2), sf);
                 graphics.DrawLine(penToUse, trackAreaBounds.X + x, trackAreaBounds.Y, trackAreaBounds.X + x, trackAreaBounds.Height);
             }
 
@@ -579,70 +721,60 @@ namespace TimeBeam
         }
 
         /// <summary>
-        ///   Draw a list of tracks onto the timeline.
+        /// Draw the Keyframes of the tracks
         /// </summary>
-        /// <param name="tracks">The tracks to draw.</param>
-        private void DrawTracks(IEnumerable<ITimelineTrack> tracks, Graphics graphics)
+        /// <param name="tracks">Tracks of which to draw the keyframes of</param>
+        /// <param name="graphics">Graphics to draw onto</param>
+        private void DrawTracksKeyFrames(IEnumerable<ITimelineTrack> tracks, Graphics graphics)
         {
-
-            Rectangle trackAreaBounds = GetTrackAreaBounds();
-
             // Generate colors for the tracks.
             List<Color> colors = ColorHelper.GetRandomColors(_tracks.Count);
 
+            Rectangle trackAreaBounds = GetTrackAreaBounds();
+
             foreach (ITimelineTrack track in tracks)
             {
-                // The extent of the track, including the border
-                RectangleF trackExtent = BoundsHelper.GetTrackExtents(track, this);
+
+                //lifetime rectangle for coloring the liftime of the object
+                int trackIndex = TrackIndexForTrack(track);
+                RectangleF lifetime = BoundsHelper.GetTrackLifetimeExtents(track, this);
+
+                //Draw in transparency if the track to draw is a temporary one
+                byte transparency = (track is TrackSurrogate) ? (byte)(byte.MaxValue / 2) : byte.MaxValue;
+
+                Brush kfBrush = new SolidBrush(Color.FromArgb(transparency, colors[trackIndex].R / 2, colors[trackIndex].G / 2, colors[trackIndex].B / 2));
+                Brush lifetimeBrush = new SolidBrush(Color.FromArgb(transparency, colors[trackIndex]));
 
                 // Don't draw track elements that aren't within the target area.
-                if (!trackAreaBounds.IntersectsWith(trackExtent.ToRectangle()))
+                if (!trackAreaBounds.IntersectsWith(lifetime.ToRectangle()))
                 {
                     continue;
                 }
 
-                // The index of this track (or the one it's a substitute for).
-                int trackIndex = TrackIndexForTrack(track);
+                //Draw lifetime
+                graphics.FillRectangle(lifetimeBrush, lifetime);
 
-                // Determine colors for this track
-                Color trackColor = ColorHelper.AdjustColor(colors[trackIndex], 0, -0.1, -0.2);
-                Color borderColor = Color.FromArgb(128, Color.Black);
-
-                if (_selectedTracks.Contains(track))
+                //Draw every keyframe of track
+                foreach (IKeyFrame kf in track.KeyFrames)
                 {
-                    borderColor = Color.WhiteSmoke;
-                }
+                    //rectangle to draw keyframes
+                    RectangleF kfRectangle = BoundsHelper.GetKeyFrameExtents(track, kf, this);
+                    //change color to be darker and a bit transparent
 
-                // Draw the main track area.
-                if (track is TrackSurrogate)
-                {
-                    // Draw surrogates with a transparent brush.
-                    graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, trackColor)), trackExtent);
+                    graphics.FillRectangle(kfBrush, kfRectangle);
 
-                    foreach (KeyFrame kf in track.KeyFrames)
+                    //if kf is selected draw border
+                    if (_selectedKeyFrames.Contains(kf))
                     {
-                        RectangleF kfExtent = BoundsHelper.GetKeyFrameExtents(track, kf, this);
-                        graphics.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.White)), kfExtent);
+                        //Take in account border size when drawing
+                        kfRectangle.X += KeyFrameBorderWidth / 2;
+                        kfRectangle.Y += KeyFrameBorderWidth / 2;
+                        kfRectangle.Width -= KeyFrameBorderWidth / 2;
+                        kfRectangle.Height -= KeyFrameBorderWidth / 2;
+
+                        graphics.DrawRectangle(new Pen(Color.WhiteSmoke, KeyFrameBorderWidth), kfRectangle.ToRectangle());
                     }
                 }
-                else
-                {
-                    graphics.FillRectangle(new SolidBrush(trackColor), trackExtent);
-
-                    foreach (KeyFrame kf in track.KeyFrames)
-                    {
-                        RectangleF kfExtent = BoundsHelper.GetKeyFrameExtents(track, kf, this);
-                        graphics.FillEllipse(new SolidBrush(Color.White), kfExtent);
-                    }
-                }
-
-                // Compensate for border size
-                trackExtent.X += TrackBorderSize / 2f;
-                trackExtent.Y += TrackBorderSize / 2f;
-                trackExtent.Height -= TrackBorderSize;
-                trackExtent.Width -= TrackBorderSize;
-
-                graphics.DrawRectangle(new Pen(borderColor, TrackBorderSize), trackExtent.X, trackExtent.Y, trackExtent.Width, trackExtent.Height);
             }
         }
 
@@ -671,9 +803,9 @@ namespace TimeBeam
             Rectangle trackAreaBounds = GetTrackAreaBounds();
 
             // Draw a background for the playhead. This also overdraws elements that drew into the playhead area.
-            graphics.FillRectangle(Brushes.Black, 0, 0, Width, _playheadExtents.Height);
+            //graphics.FillRectangle(Brushes.Black, 0, 0, Width, _playheadExtents.Height);
 
-            float playheadOffset = (float)(trackAreaBounds.X + (_time * 0.001f) * _renderingScale.X) + _renderingOffset.X;
+            float playheadOffset = (float)(trackAreaBounds.X + _timeSeconds * _renderingScale.X) + _renderingOffset.X;
             // Don't draw when not in view.
             if (playheadOffset < trackAreaBounds.X || playheadOffset > trackAreaBounds.X + trackAreaBounds.Width)
             {
@@ -684,22 +816,6 @@ namespace TimeBeam
             graphics.DrawLine(Pens.SpringGreen, playheadOffset, trackAreaBounds.Y, playheadOffset, trackAreaBounds.Height);
 
             graphics.FillRectangle(Brushes.SpringGreen, playheadOffset - _playheadExtents.Width / 2, 0, _playheadExtents.Width, _playheadExtents.Height);
-        }
-
-        /// <summary>
-        ///   Retrieve the index of a given track.
-        ///   If the track is a surrogate, returns the index of the track it's a substitute for.
-        /// </summary>
-        /// <param name="track">The track for which to retrieve the index.</param>
-        /// <returns>The index of the track or the index the track is a substitute for.</returns>
-        internal int TrackIndexForTrack(ITimelineTrack track)
-        {
-            ITimelineTrack trackToLookFor = track;
-            if (track is TrackSurrogate)
-            {
-                trackToLookFor = ((TrackSurrogate)track).SubstituteFor;
-            }
-            return _tracks.FindIndex(t => t == trackToLookFor);
         }
         #endregion
 
@@ -738,16 +854,17 @@ namespace TimeBeam
                     Cursor = Cursors.SizeWE;
 
                     // Calculate the movement delta.
-                    PointF delta = PointF.Subtract(location, new SizeF(_dragOrigin));
+                    float deltaX = TimeAtScreenPosition(location.X) - TimeAtScreenPosition(_dragOrigin.X);
+                    deltaX = AcceptableMovingDelta(deltaX);
 
-                    // Apply the delta to all selected tracks
+                    // Apply the delta to all temporary keyframes
                     foreach (KeyFrameSurrogate selectedKF in _keyframeSurrogates)
                     {
                         // Calculate the proposed new start for the track depending on the given delta.
-                        float newPos = Math.Max(0, selectedKF.SubstituteFor.T + (delta.X * (1 / _renderingScale.X)));
-                        
+                        float newPos = Math.Max(0, selectedKF.SubstituteFor.T + deltaX);
+
                         // Snap to next full value
-                        if (!IsKeyDown(Keys.Alt))
+                        if (IsKeyDown(Keys.Alt))
                         {
                             newPos = (float)Math.Round(newPos);
                         }
@@ -757,7 +874,6 @@ namespace TimeBeam
 
                     // Force a redraw.
                     Invalidate();
-
                 }
                 else if (CurrentMode == BehaviorMode.RequestMovingSelection)
                 {
@@ -769,20 +885,34 @@ namespace TimeBeam
                     // Check if the user has moved the mouse far enough to trigger the dragging operation.
                     if (Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y) > DraggingThreshold)
                     {
-                        // Start the requested dragging operation.
-                        if (CurrentMode == BehaviorMode.RequestMovingSelection)
+                        CurrentMode = BehaviorMode.MovingSelection;
+
+                        // Create and store surrogates for selected keyframes and tracks affected.
+                        foreach (IKeyFrame kf in _selectedKeyFrames)
                         {
-                            CurrentMode = BehaviorMode.MovingSelection;
+                            _trackSurrogates.Add(new TrackSurrogate(_tracks[TrackIndexForKeyFrame(kf)]));
                         }
 
-                        // Create and store surrogates for selected timeline tracks.
-                        _keyframeSurrogates = SurrogateHelper.GetSurrogates(_selectedKeyFrames);
-                    }
+                        // Remove duplicates in list
+                        _trackSurrogates = _trackSurrogates.Distinct().ToList();
 
+                        //have to do a second pass to reference only the selected keyframes's surrogates in the list
+                        foreach (IKeyFrame kf in _selectedKeyFrames)
+                        {
+                            foreach (ITimelineTrack track in _trackSurrogates)
+                            {
+                                IKeyFrame kfToList = track.KeyFrames.Where(x => ((KeyFrameSurrogate)x).SubstituteFor == kf).FirstOrDefault();
+                                if (kfToList != null)
+                                {
+                                    _keyframeSurrogates.Add(kfToList);
+                                }
+                            }
+                        }
+                    }
                 }
                 else if (CurrentMode == BehaviorMode.TimeScrub)
                 {
-                    SetClockFromMousePosition(location);
+                    SetTimeFromMousePosition(location);
                     Invalidate();
                 }
 
@@ -806,28 +936,15 @@ namespace TimeBeam
             else
             {
                 // No mouse button is being pressed
+                // and a keyframe is focused
                 if (null != focusedKeyFrame)
                 {
-                    RectangleF kfExtents = BoundsHelper.GetKeyFrameExtents(focusedTrack, focusedKeyFrame, this);
-                    RectangleHelper.Edge isPointOnEdge = RectangleHelper.IsPointOnEdge(kfExtents, location, 3f, RectangleHelper.EdgeTest.Horizontal);
-
-                    // Select the appropriate cursor for the cursor position (Only west and east edges are valid).
-                    switch (isPointOnEdge)
-                    {
-                        case RectangleHelper.Edge.Right:
-                        case RectangleHelper.Edge.Left:
-                            Cursor = Cursors.SizeWE;
-                            break;
-                        case RectangleHelper.Edge.None:
-                            Cursor = Cursors.Arrow;
-                            break;
-                        default:
-                            Cursor = Cursors.Arrow;
-                            break;
-                    }
+                    //display to user keyframe is moveable
+                    Cursor = Cursors.SizeWE;
                 }
                 else
                 {
+                    //reset cursor
                     Cursor = Cursors.Arrow;
                 }
             }
@@ -846,33 +963,28 @@ namespace TimeBeam
 
             if ((e.Button & MouseButtons.Left) != 0)
             {
-                // Check if there is a track at the current mouse position.
-                KeyFrame focusedKeyFrame = KeyFrameHitTest(location);
+                // Check if there is a keyframe at the current mouse position.
+                IKeyFrame focusedKeyFrame = KeyFrameHitTest(location);
 
                 if (null != focusedKeyFrame)
                 {
-                    // Was this track already selected?
+                    // Was this keyframe already selected?
                     if (!_selectedKeyFrames.Contains(focusedKeyFrame))
                     {
-                        // Tell the track that it was selected.
-                        InvokeSelectionChanged(new SelectionChangedEventArgs(focusedKeyFrame.Yield(), null));
                         // Clear the selection, unless the user is picking
                         if (!IsKeyDown(Keys.Control))
                         {
-                            InvokeSelectionChanged(new SelectionChangedEventArgs(null, _selectedKeyFrames));
                             _selectedKeyFrames.Clear();
                         }
 
-                        // Add track to selection
+                        // Add keyframe to selection
                         _selectedKeyFrames.Add(focusedKeyFrame);
-
-                        // If the track was already selected and Ctrl is down
-                        // then the user is picking and we want to remove the track from the selection
                     }
+                    // If the keyframe was already selected and Ctrl is down
+                    // then the user is picking and we want to remove the keyframe from the selection
                     else if (IsKeyDown(Keys.Control))
                     {
                         _selectedKeyFrames.Remove(focusedKeyFrame);
-                        InvokeSelectionChanged(new SelectionChangedEventArgs(null, focusedKeyFrame.Yield()));
                     }
 
                     // Store the current mouse position. It'll be used later to calculate the movement delta.
@@ -883,7 +995,17 @@ namespace TimeBeam
                 else if (location.Y < _playheadExtents.Height)
                 {
                     CurrentMode = BehaviorMode.TimeScrub;
-                    SetClockFromMousePosition(location);
+                    SetTimeFromMousePosition(location);
+                }
+                else
+                {
+                    // Clear the selection, unless the user is picking
+                    if (!IsKeyDown(Keys.Control))
+                    {
+                        _selectedKeyFrames.Clear();
+                    }
+
+                    CurrentMode = BehaviorMode.Selecting;
                 }
             }
             else if ((e.Button & MouseButtons.Middle) != 0)
@@ -922,12 +1044,10 @@ namespace TimeBeam
                             if (_selectedKeyFrames.Contains(kf))
                             {
                                 _selectedKeyFrames.Remove(kf);
-                                InvokeSelectionChanged(new SelectionChangedEventArgs(null, kf.Yield()));
                             }
                             else
                             {
                                 _selectedKeyFrames.Add(kf);
-                                InvokeSelectionChanged(new SelectionChangedEventArgs(kf.Yield(), null));
                             }
                         }
 
@@ -935,11 +1055,16 @@ namespace TimeBeam
                 }
                 else if (CurrentMode == BehaviorMode.MovingSelection)
                 {
+                    List<IKeyFrame> modifiedKeyFrames = new List<IKeyFrame>();
                     // The moving operation ended, apply the values of the surrogates to the originals
                     foreach (KeyFrameSurrogate surrogate in _keyframeSurrogates)
                     {
                         surrogate.CopyTo(surrogate.SubstituteFor);
+                        modifiedKeyFrames.Add(surrogate.SubstituteFor);
                     }
+                    SelectionModified(this, new SelectionModifiedEventArgs(modifiedKeyFrames));
+
+                    _trackSurrogates.Clear();
                     _keyframeSurrogates.Clear();
 
                     RecalculateScrollbarBounds();
@@ -959,39 +1084,6 @@ namespace TimeBeam
 
             Invalidate();
         }
-
-
-
-
-        /// <summary>
-        ///   Invoked when a key is released.
-        /// </summary>
-        /// <param name="e"></param>
-        //protected override void OnKeyUp(KeyEventArgs e)
-        //{
-        //    base.OnKeyUp(e);
-
-        //    if (e.KeyCode == Keys.A && IsKeyDown(Keys.Control))
-        //    {
-        //        // Ctrl+A - Select all
-        //        InvokeSelectionChanged(new SelectionChangedEventArgs(null, _selectedTracks));
-        //        _selectedTracks.Clear();
-        //        foreach (ITimelineTrack track in _tracks.SelectMany(t => t.TrackElements))
-        //        {
-        //            _selectedTracks.Add(track);
-        //        }
-        //        InvokeSelectionChanged(new SelectionChangedEventArgs(_selectedTracks, null));
-        //        Invalidate();
-
-        //    }
-        //    else if (e.KeyCode == Keys.D && IsKeyDown(Keys.Control))
-        //    {
-        //        // Ctrl+D - Deselect all
-        //        InvokeSelectionChanged(new SelectionChangedEventArgs(null, _selectedTracks));
-        //        _selectedTracks.Clear();
-        //        Invalidate();
-        //    }
-        //}
         #endregion
 
         #region Scrolling
@@ -1028,15 +1120,15 @@ namespace TimeBeam
             if (IsKeyDown(Keys.Alt))
             {
                 // If Alt is down, we're zooming.
-                float amount = e.Delta / 1200f;
+                float amount = e.Delta / ZoomBalast;
                 Rectangle trackAreaBounds = GetTrackAreaBounds();
 
                 if (IsKeyDown(Keys.Control))
                 {
                     // If Ctrl is down as well, we're zooming horizontally.
                     _renderingScale.X += amount;
-                    // Don't zoom below 1%
-                    _renderingScale.X = Math.Max(0.01f, _renderingScale.X);
+                    // Don't zoom below 10%
+                    _renderingScale.X = Math.Max(0.1f, _renderingScale.X);
 
                     // We now also need to move the rendering offset so that the center of focus stays at the mouse cursor.
                     _renderingOffset.X -= trackAreaBounds.Width * ((e.Location.X - trackAreaBounds.X) / (float)trackAreaBounds.Width) * amount;
@@ -1050,8 +1142,8 @@ namespace TimeBeam
                 {
                     // If Ctrl isn't  down, we're zooming vertically.
                     _renderingScale.Y += amount;
-                    // Don't zoom below 1%
-                    _renderingScale.Y = Math.Max(0.01f, _renderingScale.Y);
+                    // Don't zoom below 10%
+                    _renderingScale.Y = Math.Max(0.1f, _renderingScale.Y);
 
                     // We now also need to move the rendering offset so that the center of focus stays at the mouse cursor.
                     _renderingOffset.Y -= trackAreaBounds.Height * ((e.Location.Y - trackAreaBounds.Y) / (float)trackAreaBounds.Height) * amount;

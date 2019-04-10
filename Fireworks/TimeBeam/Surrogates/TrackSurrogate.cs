@@ -28,7 +28,14 @@ namespace TimeBeam.Surrogates
         public TrackSurrogate(ITimelineTrack substituteFor)
         {
             SubstituteFor = substituteFor;
-            KeyFrames = Extensions.Clone<IKeyFrame>(substituteFor.KeyFrames);
+
+            //create surrogates of the keyframes that the original track has
+            KeyFrames = new List<IKeyFrame>();
+            foreach (IKeyFrame kf in substituteFor.KeyFrames)
+            {
+                KeyFrames.Add(new KeyFrameSurrogate(kf));
+            }
+
             Name = substituteFor.Name;
         }
 

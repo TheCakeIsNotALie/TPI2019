@@ -41,6 +41,8 @@ namespace Fireworks
             _scene.SelectedObjectChanged += SelectedObjectChanged;
             _scene.AnimatedObjectsChanged += AnimatedObjectsChanged;
 
+            timeline.SelectionModified += Timeline_SelectionModified;
+
             List<IKeyFrame> tmpKeyFrames = new List<IKeyFrame>();
             tmpKeyFrames.Add(new KeyFrame(new PointF(0, 0), 1));
             tmpKeyFrames.Add(new KeyFrame(new PointF(20, 10), 2));
@@ -84,6 +86,13 @@ namespace Fireworks
             cbxObjects.DataSource = _scene.AnimatedObjects;
 
             timeline.AddTrack(po);
+            timeline.AddTrack(p);
+            timeline.AddTrack(f);
+        }
+
+        private void Timeline_SelectionModified(object sender, TimeBeam.Events.SelectionModifiedEventArgs eventArgs)
+        {
+            pnlScene.Invalidate();
         }
 
         private void AnimatedObjectsChanged(object sender, EventArgs e)

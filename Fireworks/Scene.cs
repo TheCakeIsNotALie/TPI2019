@@ -25,6 +25,9 @@ namespace Fireworks
         /// </summary>
         public event EventHandler SelectedObjectChanged;
 
+        /// <summary>
+        /// Event called when list AnimatedObjects has changed
+        /// </summary>
         public event EventHandler AnimatedObjectsChanged;
 
         public float Time { get => _time; set => _time = value; }

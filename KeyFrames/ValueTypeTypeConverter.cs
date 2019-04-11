@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fireworks
+namespace KeyFrames
 {
     /// <summary>
     /// Special type of converter to allow correct changes of struct-like objects variables in a PropertyGrid

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CFF5F283-271E-4580-BB6D-C0C820E3BF8F}</ProjectGuid>
+    <ProjectGuid>{774AB0B1-EC0E-4307-AB10-0F8C2D4B19A8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Fireworks</RootNamespace>
     <AssemblyName>Fireworks</AssemblyName>
@@ -35,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,47 +57,11 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="IKeyFrame.cs" />
-    <Compile Include="KeyFrame.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="Polygon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene.cs" />
-    <Compile Include="TimeBeam\Events\SelectionModifiedEventsArgs.cs" />
-    <Compile Include="TimeBeam\Events\SelectionChangedEventsArgs.cs" />
-    <Compile Include="TimeBeam\Helper\BoundsHelper.cs" />
-    <Compile Include="TimeBeam\Helper\ColorHelper.cs" />
-    <Compile Include="TimeBeam\Helper\Extensions.cs" />
-    <Compile Include="TimeBeam\Helper\SurrogateHelper.cs" />
-    <Compile Include="TimeBeam\ITimelineTrack.cs" />
-    <Compile Include="TimeBeam\ITimelineTrackBase.cs" />
-    <Compile Include="TimeBeam\Scrollbar\AbstractScrollbar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeBeam\Scrollbar\AbstractScrollbar.Designer.cs">
-      <DependentUpon>AbstractScrollbar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeBeam\Scrollbar\HorizontalScrollbar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeBeam\Scrollbar\HorizontalScrollbar.Designer.cs">
-      <DependentUpon>HorizontalScrollbar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeBeam\Scrollbar\VerticalScrollbar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeBeam\Scrollbar\VerticalScrollbar.Designer.cs">
-      <DependentUpon>VerticalScrollbar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeBeam\Surrogates\KeyFrameSurrogate.cs" />
-    <Compile Include="TimeBeam\Surrogates\TrackSurrogate.cs" />
-    <Compile Include="TimeBeam\Timeline.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeBeam\Timeline.Designer.cs">
-      <DependentUpon>Timeline.cs</DependentUpon>
-    </Compile>
     <Compile Include="ValueTypeTypeConverter.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -112,18 +75,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="TimeBeam\Scrollbar\AbstractScrollbar.resx">
-      <DependentUpon>AbstractScrollbar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TimeBeam\Scrollbar\HorizontalScrollbar.resx">
-      <DependentUpon>HorizontalScrollbar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TimeBeam\Scrollbar\VerticalScrollbar.resx">
-      <DependentUpon>VerticalScrollbar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TimeBeam\Timeline.resx">
-      <DependentUpon>Timeline.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -138,7 +89,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TimeBeam\TimeBeam.csproj" />
+    <ProjectReference Include="..\KeyFrames\KeyFrames.csproj">
+      <Project>{1a1c4a51-4c20-4940-84c6-c458083b2de6}</Project>
+      <Name>KeyFrames</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

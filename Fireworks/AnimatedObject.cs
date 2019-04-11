@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.ComponentModel;
-using TimeBeam;
-using System.Text;
-using System.Threading.Tasks;
+using KeyFrames;
+using Timeline;
 
 namespace Fireworks
 {

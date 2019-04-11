@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TimeBeam;
+using Timeline;
 
 namespace Fireworks
 {
@@ -23,7 +23,6 @@ namespace Fireworks
         private Stopwatch _frameStopWatch = new Stopwatch();
         private bool _animate = false;
         private Scene _scene;
-        private Polygon po;
 
         /// <summary>
         /// Creates a new instance of FormMain
@@ -44,6 +43,8 @@ namespace Fireworks
 
             timeline.SelectionModified += Timeline_SelectionModified;
             timeline.TimeChangedFromInput += Timeline_TimeChangedFromInput;
+            timeline.SelectionDeleted += Timeline_SelectionDeleted;
+            timeline.TrackSelected += Timeline_TrackSelected;
 
             //List<IKeyFrame> tmpKeyFrames = new List<IKeyFrame>();
             //tmpKeyFrames.Add(new KeyFrame(new PointF(0, 0), 1));
@@ -84,8 +85,23 @@ namespace Fireworks
             //_scene.AddAnimatedObject(f9);
             //_scene.AddAnimatedObject(po);
 
-            UpdateCbxItems();
             UpdateTimeLineItems();
+        }
+
+        /// <summary>
+        /// User clicked on track label
+        /// </summary>
+        private void Timeline_TrackSelected(object sender, Timeline.Events.TrackSelectionEventsArgs eventsArgs)
+        {
+            _scene.SelectedObject = eventsArgs.SelectedTrack as AnimatedObject;
+        }
+
+        /// <summary>
+        /// User deleted the selection
+        /// </summary>
+        private void Timeline_SelectionDeleted(object sender, Timeline.Events.SelectionDeletedEventArgs eventArgs)
+        {
+            pnlScene.Invalidate();
         }
 
         /// <summary>
@@ -100,7 +116,7 @@ namespace Fireworks
         /// <summary>
         /// Selection of keyframes changed
         /// </summary>
-        private void Timeline_SelectionModified(object sender, TimeBeam.Events.SelectionModifiedEventArgs eventArgs)
+        private void Timeline_SelectionModified(object sender, Timeline.Events.SelectionModifiedEventArgs eventArgs)
         {
             foreach (AnimatedObject o in eventArgs.ModifiedTracks)
             {
@@ -114,7 +130,6 @@ namespace Fireworks
         /// </summary>
         private void AnimatedObjectsChanged(object sender, EventArgs e)
         {
-            UpdateCbxItems();
             UpdateTimeLineItems();
         }
 
@@ -123,21 +138,11 @@ namespace Fireworks
         /// </summary>
         public void SelectedObjectChanged(object sender, EventArgs e)
         {
-            //Update selected item
-            cbxObjects.SelectedItem = _scene.SelectedObject;
+            UpdateTimeLineItems();
             //update properties grid
             propertyGrid.SelectedObject = _scene.SelectedObject;
             //redraw frame
             pnlScene.Invalidate();
-        }
-
-        /// <summary>
-        /// Updates items in combobox
-        /// </summary>
-        private void UpdateCbxItems()
-        {
-            cbxObjects.DataSource = null;
-            cbxObjects.DataSource = _scene.AnimatedObjects;
         }
         
         /// <summary>
@@ -146,6 +151,7 @@ namespace Fireworks
         private void UpdateTimeLineItems()
         {
             timeline.Tracks = _scene.AnimatedObjects.Cast<ITimelineTrack>().ToList();
+            timeline.Invalidate();
         }
 
         /// <summary>
@@ -248,15 +254,6 @@ namespace Fireworks
         private void btnAddPolygon_Click(object sender, EventArgs e)
         {
             _scene.AddAnimatedObject(new Polygon());
-        }
-
-        /// <summary>
-        /// User changed selected object
-        /// </summary>
-        private void cbxItems_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //change selected object
-            _scene.SelectedObject = cbxObjects.SelectedItem as AnimatedObject;
         }
 
         /// <summary>

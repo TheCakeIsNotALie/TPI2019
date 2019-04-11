@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Fireworks.Properties
+namespace Properties
 {
 
 

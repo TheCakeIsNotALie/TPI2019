@@ -12,9 +12,6 @@ namespace Fireworks
     /// </summary>
     class DoubleBufferedPanel : Panel
     {
-        /// <summary>
-        /// Basic constructor
-        /// </summary>
         public DoubleBufferedPanel()
         {
             this.DoubleBuffered = true;

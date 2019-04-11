@@ -93,6 +93,10 @@
       <Project>{1a1c4a51-4c20-4940-84c6-c458083b2de6}</Project>
       <Name>KeyFrames</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Timeline\Timeline.csproj">
+      <Project>{398c82fb-45ae-4ec9-bbbe-897e130b5828}</Project>
+      <Name>Timeline</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

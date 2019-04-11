@@ -50,7 +50,8 @@ namespace Fireworks
         /// Implement ITimeLineTrack from keyframe list
         /// </summary>
         [Browsable(false)]
-        public IList<IKeyFrame> KeyFrames { get => _keyFrames.ToList<IKeyFrame>(); set => _keyFrames =  value.Cast<KeyFrame>().ToList(); }
+        public IList<IKeyFrame> KeyFrames { get => _keyFrames.ToList<IKeyFrame>();
+            set => _keyFrames =  value.Cast<KeyFrame>().ToList(); }
 
         /// <summary>
         /// Basic constructor for animated objects

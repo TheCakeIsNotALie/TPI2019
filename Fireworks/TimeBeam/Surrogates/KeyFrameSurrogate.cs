@@ -70,5 +70,13 @@ namespace TimeBeam.Surrogates
 
             return tmp;
         }
+
+        /// <summary>
+        /// Cast to KeyFrame
+        /// </summary>
+        public static explicit operator KeyFrame(KeyFrameSurrogate surrogate)
+        {
+            return new KeyFrame(surrogate.Point, surrogate.T);
+        }
     }
 }

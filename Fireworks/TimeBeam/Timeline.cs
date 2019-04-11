@@ -24,6 +24,8 @@ namespace TimeBeam
         /// </summary>
         private const float MIN_TIME = 0;
 
+        private const float MIN_TIME_BETWEEN_KEYFRAMES = 0.2f;
+
         /// <summary>
         /// Backing field for <see cref="TimeSeconds"/>
         /// </summary>
@@ -317,19 +319,14 @@ namespace TimeBeam
             MovingSelection,
 
             /// <summary>
-            ///   The user is resizing the selected tracks.
-            /// </summary>
-            ResizingSelection,
-
-            /// <summary>
             ///   The user is almost moving selected items.
             /// </summary>
             RequestMovingSelection,
 
             /// <summary>
-            ///   The user is almost resizing the selected tracks.
+            /// The user is adding a new keyframe
             /// </summary>
-            RequestResizingSelection,
+            AddingNewKeyFrame,
 
             /// <summary>
             ///   The user is scrubbing the playhead.
@@ -370,7 +367,7 @@ namespace TimeBeam
             {
                 maxTime = 1;
             }
-            ScrollbarH.Max = (int)(maxTime *_renderingScale.X);
+            ScrollbarH.Max = (int)(maxTime * _renderingScale.X);
             ScrollbarV.Refresh();
             ScrollbarH.Refresh();
         }
@@ -604,6 +601,7 @@ namespace TimeBeam
                 //Get their references keyframes
                 foreach (KeyFrame kf in track.KeyFrames.Select(x => ((KeyFrameSurrogate)x).SubstituteFor).Intersect(_selectedKeyFrames))
                 {
+                    
                     //for the real keyframes
                     int indexKF = track.SubstituteFor.KeyFrames.IndexOf(kf);
                     float tempNegative;
@@ -612,21 +610,29 @@ namespace TimeBeam
                     //if not ending keyframe
                     if (indexKF != track.SubstituteFor.KeyFrames.Count - 1)
                     {
-                        //calculate next max positive movement
-                        tempPositive = track.SubstituteFor.KeyFrames[indexKF + 1].T - kf.T;
-                        //store it if it is less than previous max
-                        if (maxAllowedPositiveDelta > tempPositive)
-                            maxAllowedPositiveDelta = tempPositive;
+                        //Do not check for keyframes that are also in selection
+                        if (!_selectedKeyFrames.Contains(track.SubstituteFor.KeyFrames[indexKF + 1]))
+                        {
+                            //calculate next max positive movement
+                            tempPositive = track.SubstituteFor.KeyFrames[indexKF + 1].T - kf.T - MIN_TIME_BETWEEN_KEYFRAMES;
+                            //store it if it is less than previous max
+                            if (maxAllowedPositiveDelta > tempPositive)
+                                maxAllowedPositiveDelta = tempPositive;
+                        }
                     }
 
                     //if not starting keyframe
                     if (indexKF != 0)
                     {
-                        //calculate next max negative movement
-                        tempNegative = track.SubstituteFor.KeyFrames[indexKF - 1].T - kf.T;
-                        //store it if it is less than previous max
-                        if (maxAllowedNegativeDelta < tempNegative)
-                            maxAllowedNegativeDelta = tempNegative;
+                        //Do not check for keyframes that are also in selection
+                        if (!_selectedKeyFrames.Contains(track.SubstituteFor.KeyFrames[indexKF - 1]))
+                        {
+                            //calculate next max negative movement
+                            tempNegative = track.SubstituteFor.KeyFrames[indexKF - 1].T - kf.T + MIN_TIME_BETWEEN_KEYFRAMES;
+                            //store it if it is less than previous max
+                            if (maxAllowedNegativeDelta < tempNegative)
+                                maxAllowedNegativeDelta = tempNegative;
+                        }
                     }
                 }
             }
@@ -751,10 +757,10 @@ namespace TimeBeam
                 }
 
                 //Draw time above the grid
-                float time = TimeAtScreenPosition(x + trackAreaBounds.X);
-                float emsize = EmHeightForLabel(time.ToString("0.##"), _playheadExtents.Height);
+                int time = (int)Math.Round(TimeAtScreenPosition(x + trackAreaBounds.X));
+                float emsize = EmHeightForLabel(time.ToString(), _playheadExtents.Height);
 
-                graphics.DrawString(time.ToString("0.##"), new Font(DefaultFont.FontFamily, emsize), new SolidBrush(penToUse.Color), new PointF(trackAreaBounds.X + x, _playheadExtents.Height / 2), sf);
+                graphics.DrawString(time.ToString(), new Font(DefaultFont.FontFamily, emsize), new SolidBrush(penToUse.Color), new PointF(trackAreaBounds.X + x, _playheadExtents.Height / 2), sf);
                 graphics.DrawLine(penToUse, trackAreaBounds.X + x, trackAreaBounds.Y, trackAreaBounds.X + x, trackAreaBounds.Height);
             }
 
@@ -901,10 +907,10 @@ namespace TimeBeam
                     deltaX = AcceptableMovingDelta(deltaX);
 
                     // Apply the delta to all temporary keyframes
-                    foreach (KeyFrameSurrogate selectedKF in _keyframeSurrogates)
+                    foreach (KeyFrameSurrogate surrogateKF in _keyframeSurrogates)
                     {
                         // Calculate the proposed new start for the track depending on the given delta.
-                        float newPos = Math.Max(0, selectedKF.SubstituteFor.T + deltaX);
+                        float newPos = Math.Max(0, surrogateKF.SubstituteFor.T + deltaX);
 
                         // Snap to next full value
                         if (IsKeyDown(Keys.Alt))
@@ -912,7 +918,7 @@ namespace TimeBeam
                             newPos = (float)Math.Round(newPos);
                         }
 
-                        selectedKF.T = newPos;
+                        surrogateKF.T = newPos;
                     }
 
                     // Force a redraw.
@@ -1051,6 +1057,40 @@ namespace TimeBeam
                     CurrentMode = BehaviorMode.Selecting;
                 }
             }
+            else if ((e.Button & MouseButtons.Right) != 0)
+            {
+                // Check if there is a keyframe at the current mouse position.
+                IKeyFrame focusedKeyFrame = KeyFrameHitTest(location);
+                int trackIndex;
+
+                //if there is a keyframe under the cursor
+                if(focusedKeyFrame != null)
+                {
+                    //Change X and Y value of keyframe
+                }
+                else if ((trackIndex = TrackIndexAtPoint(location)) != -1)
+                {
+                    //Add KeyFrame at position
+                    KeyFrame newKeyFrame = new KeyFrame();
+                    newKeyFrame.T = TimeAtScreenPosition(location.X);
+
+                    //search for position in list
+                    int i = 0;
+                    //i < Keyframes.Count to stop searching if at end of list
+                    while(i < _tracks[trackIndex].KeyFrames.Count &&
+                        _tracks[trackIndex].KeyFrames[i].T < newKeyFrame.T)
+                    {
+                        i++;
+                    }
+
+                    //Add Keyframe at position
+                    IList<IKeyFrame> tmpList = _tracks[trackIndex].KeyFrames;
+                    tmpList.Insert(i, newKeyFrame);
+                    _tracks[trackIndex].KeyFrames = tmpList;
+
+                    RecalculateScrollbarBounds();
+                }
+            }
             else if ((e.Button & MouseButtons.Middle) != 0)
             {
                 _panOrigin = location;
@@ -1118,7 +1158,6 @@ namespace TimeBeam
                 Cursor = Cursors.Arrow;
                 // Reset mode.
                 CurrentMode = BehaviorMode.Idle;
-
             }
             else if ((e.Button & MouseButtons.Middle) != 0)
             {

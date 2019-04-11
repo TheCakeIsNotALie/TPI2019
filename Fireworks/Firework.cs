@@ -14,7 +14,6 @@ namespace Fireworks
         Brush _brush;
         float _radius;
         int _nbParticles;
-        float _ttl;
 
         private Particle[] particles;
 
@@ -71,22 +70,6 @@ namespace Fireworks
         }
 
         /// <summary>
-        /// Time that the firework will live
-        /// </summary>
-        [Category("Properties")]
-        [Description("Time until death")]
-        [DisplayName("Time To Live")]
-        public float TTL
-        {
-            get => _ttl; set
-            {
-                _ttl = value;
-                //Recreate particles
-                GenerateParticles();
-            }
-        }
-
-        /// <summary>
         /// Creates a new instance of Firework
         /// </summary>
         /// <param name="brush">Brush to draw the fireworks particles with</param>
@@ -95,20 +78,19 @@ namespace Fireworks
         /// <param name="nbParticles">Number of particles the firework will generate</param>
         /// <param name="zOrder">The drawing order of the firework</param>
         /// <param name="ttl">Time to live (seconds from first keyframe)</param>
-        public Firework(string name, Brush brush, KeyFrame startingKF, float radius, int nbParticles, int zOrder, float ttl) :
-            base(name, CreateKeyFrameList(startingKF, ttl), new SizeF(radius, radius), zOrder)
+        public Firework(string name, Brush brush, IList<IKeyFrame> keyFrames, float radius, int nbParticles, int zOrder) :
+            base(name, keyFrames, new SizeF(radius, radius), zOrder)
         {
             _brush = brush;
             _radius = radius;
             _nbParticles = nbParticles;
-            _ttl = ttl;
             GenerateParticles();
         }
 
         /// <summary>
         /// Basic instance of firework
         /// </summary>
-        public Firework() : this("Firework", Brushes.Black, new KeyFrame(), 10, 10, 0, 1)
+        public Firework() : this("Firework", Brushes.Black, KeyFrame.BasicKeyFrames, 10, 10, 0)
         {
 
         }
@@ -121,17 +103,32 @@ namespace Fireworks
             //Create particles
             particles = new Particle[NbParticles];
 
+            float maxTime = KeyFrames.Last().T;
+
             for (int i = 0; i < NbParticles; i++)
             {
                 List<IKeyFrame> particleKeyFrames = new List<IKeyFrame>();
                 particleKeyFrames.Add((KeyFrame)KeyFrames[0]);
 
                 //Get end point of particle that's on the fireworks outer radius
-                PointF pointOnCircle = KeyFrames[0].Point;
-                pointOnCircle.X += (float)(Radius * Math.Cos(i * (360f / NbParticles) * Math.PI / 180));
-                pointOnCircle.Y += (float)(Radius * Math.Sin(i * (360f / NbParticles) * Math.PI / 180));
+                PointF relativePosOnCircle = new PointF();
+                relativePosOnCircle.X = (float)(Radius * Math.Cos(i * (360f / NbParticles) * Math.PI / 180));
+                relativePosOnCircle.Y = (float)(Radius * Math.Sin(i * (360f / NbParticles) * Math.PI / 180));
 
-                particleKeyFrames.Add(new KeyFrame(pointOnCircle, KeyFrames[0].T + TTL));
+                //Calculate the different points based on keyframes of firework
+                for (int j = 1; j < KeyFrames.Count; j++)
+                {
+                    PointF tmpPoint = new PointF();
+
+                    //Compute percentage of travel done at keyframe
+                    float percentageDone = (Keyframes[j].T - KeyFrames[j-1].T) / (maxTime- KeyFrames[j - 1].T);
+
+                    //Add the travel done of the point on circle to keyframe point
+                    tmpPoint.X = relativePosOnCircle.X * percentageDone + Keyframes[j].Point.X;
+                    tmpPoint.Y = relativePosOnCircle.Y * percentageDone + Keyframes[j].Point.Y;
+
+                    particleKeyFrames.Add(new KeyFrame(tmpPoint, KeyFrames[j].T));
+                }
 
                 particles[i] = new Particle(Name + "-p" + i, Brush, particleKeyFrames, new SizeF(3, 3), ZOrder);
             }
@@ -161,6 +158,14 @@ namespace Fireworks
             {
                 p.PaintDebug(g, t);
             }
+        }
+
+        /// <summary>
+        /// Force update and regenerate particles
+        /// </summary>
+        public override void Update()
+        {
+            GenerateParticles();
         }
 
         /// <summary>

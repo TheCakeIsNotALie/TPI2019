@@ -20,6 +20,11 @@ namespace TimeBeam
     public partial class Timeline : UserControl
     {
         /// <summary>
+        /// Defines the minimum allowed time
+        /// </summary>
+        private const float MIN_TIME = 0;
+
+        /// <summary>
         /// Backing field for <see cref="TimeSeconds"/>
         /// </summary>
         private float _timeSeconds;
@@ -27,20 +32,56 @@ namespace TimeBeam
         /// <summary>
         /// Current timeline time
         /// </summary>
-        public float TimeSeconds { get => _timeSeconds; set => _timeSeconds = value; }
+        public float TimeSeconds
+        {
+            get => _timeSeconds;
+            set
+            {
+                if (value > MinTime)
+                    _timeSeconds = value;
+                else
+                    _timeSeconds = MinTime;
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Min time allowed
+        /// </summary>
+        public float MinTime
+        {
+            get => MIN_TIME;
+        }
 
         /// <summary>
         ///   The tracks currently placed on the timeline.
         /// </summary>
-        private readonly List<ITimelineTrack> _tracks = new List<ITimelineTrack>();
+        private List<ITimelineTrack> _tracks = new List<ITimelineTrack>();
+
+        public List<ITimelineTrack> Tracks
+        {
+            get => _tracks;
+            set
+            {
+                _tracks = value;
+                RecalculateScrollbarBounds();
+                Invalidate();
+            }
+        }
 
         #region Events
 
         public delegate void SelectionModifiedHandler(object sender, SelectionModifiedEventArgs eventArgs);
+
         /// <summary>
         /// Event called when user modified the selected keyframes
         /// </summary>
         public event SelectionModifiedHandler SelectionModified;
+
+        /// <summary>
+        /// Event called when user has changed
+        /// </summary>
+        public event EventHandler TimeChangedFromInput;
 
         #endregion
 
@@ -313,17 +354,6 @@ namespace TimeBeam
         }
         #endregion
 
-        /// <summary>
-        ///   Add a track to the timeline.
-        /// </summary>
-        /// <param name="track">The track to add.</param>
-        public void AddTrack(ITimelineTrack track)
-        {
-            _tracks.Add(track);
-            RecalculateScrollbarBounds();
-            Invalidate();
-        }
-
         #region Helpers
         /// <summary>
         ///   Recalculates appropriate values for scrollbar bounds.
@@ -331,7 +361,16 @@ namespace TimeBeam
         private void RecalculateScrollbarBounds()
         {
             ScrollbarV.Max = (int)((_tracks.Count * (TrackHeight + TrackSpacing)) * _renderingScale.Y);
-            ScrollbarH.Max = (int)(_tracks.Max(t => t.KeyFrames.Last().T * _renderingScale.X));
+            float maxTime;
+            try
+            {
+                maxTime = _tracks.Max(t => t.KeyFrames.Last().T);
+            }
+            catch (Exception e)
+            {
+                maxTime = 1;
+            }
+            ScrollbarH.Max = (int)(maxTime *_renderingScale.X);
             ScrollbarV.Refresh();
             ScrollbarH.Refresh();
         }
@@ -530,8 +569,8 @@ namespace TimeBeam
         /// <param name="location">The location on the playhead area.</param>
         private void SetTimeFromMousePosition(PointF location)
         {
-            // Calculate a clock value for the current X coordinate.
-            _timeSeconds = TimeAtScreenPosition(location.X);
+            TimeSeconds = TimeAtScreenPosition(location.X);
+            TimeChangedFromInput(this, new EventArgs());
         }
 
         /// <summary>
@@ -581,7 +620,7 @@ namespace TimeBeam
                     }
 
                     //if not starting keyframe
-                    if(indexKF != 0)
+                    if (indexKF != 0)
                     {
                         //calculate next max negative movement
                         tempNegative = track.SubstituteFor.KeyFrames[indexKF - 1].T - kf.T;
@@ -591,7 +630,7 @@ namespace TimeBeam
                     }
                 }
             }
-            if(deltaX < maxAllowedNegativeDelta)
+            if (deltaX < maxAllowedNegativeDelta)
             {
                 return maxAllowedNegativeDelta;
             }
@@ -641,14 +680,17 @@ namespace TimeBeam
             // Grid is white so just take the alpha as the white value.
             Pen gridPen = new Pen(Color.FromArgb(GridAlpha, GridAlpha, GridAlpha));
             // Calculate the Y position of the first line.
-            int firstLineY = (int)(TrackHeight * _renderingScale.Y + trackAreaBounds.Y + _renderingOffset.Y);
+            int firstLineY = (int)(TrackHeight * _renderingScale.Y);
             // Calculate the distance between each following line.
             int actualRowHeight = (int)((TrackHeight) * _renderingScale.Y + TrackSpacing);
             actualRowHeight = Math.Max(1, actualRowHeight);
+
+            int firstLineYOffset = (int)(_renderingOffset.Y % firstLineY);
+
             // Draw the actual lines.
-            for (int y = firstLineY; y < Height; y += actualRowHeight)
+            for (int y = firstLineY + firstLineYOffset; y < Height; y += actualRowHeight)
             {
-                graphics.DrawLine(gridPen, trackAreaBounds.X, y, trackAreaBounds.Width, y);
+                graphics.DrawLine(gridPen, trackAreaBounds.X, trackAreaBounds.Y + y, trackAreaBounds.Width, trackAreaBounds.Y + y);
             }
 
             // The distance between the minor ticks.
@@ -746,7 +788,7 @@ namespace TimeBeam
                 Brush lifetimeBrush = new SolidBrush(Color.FromArgb(transparency, colors[trackIndex]));
 
                 // Don't draw track elements that aren't within the target area.
-                if (!trackAreaBounds.IntersectsWith(lifetime.ToRectangle()))
+                if (!lifetime.IntersectsWith(trackAreaBounds))
                 {
                     continue;
                 }
@@ -783,6 +825,8 @@ namespace TimeBeam
         /// </summary>
         private void DrawTrackLabels(Graphics graphics)
         {
+            RectangleF trackAreaBounds = GetTrackAreaBounds();
+
             foreach (ITimelineTrack track in _tracks)
             {
                 // We just need the height and Y-offset, so we get the extents of the first track
@@ -823,7 +867,6 @@ namespace TimeBeam
         /// <summary>
         ///   Invoked when the control is repainted
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -1056,13 +1099,14 @@ namespace TimeBeam
                 else if (CurrentMode == BehaviorMode.MovingSelection)
                 {
                     List<IKeyFrame> modifiedKeyFrames = new List<IKeyFrame>();
+                    List<ITimelineTrack> modifiedTracks = _trackSurrogates.Select(x => ((TrackSurrogate)x).SubstituteFor).ToList();
                     // The moving operation ended, apply the values of the surrogates to the originals
                     foreach (KeyFrameSurrogate surrogate in _keyframeSurrogates)
                     {
                         surrogate.CopyTo(surrogate.SubstituteFor);
                         modifiedKeyFrames.Add(surrogate.SubstituteFor);
                     }
-                    SelectionModified(this, new SelectionModifiedEventArgs(modifiedKeyFrames));
+                    SelectionModified(this, new SelectionModifiedEventArgs(modifiedTracks, modifiedKeyFrames));
 
                     _trackSurrogates.Clear();
                     _keyframeSurrogates.Clear();

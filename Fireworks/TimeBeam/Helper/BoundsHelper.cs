@@ -63,7 +63,7 @@ namespace TimeBeam.Helper
 
             RectangleF kfRectangle = new RectangleF();
 
-            kfRectangle.X = trackAreaBounds.X + (kf.T * timeline.RenderingScale.X) + timeline.RenderingScale.X - timeline.KeyFrameWidth / 2 + timeline.RenderingOffset.X;
+            kfRectangle.X = trackAreaBounds.X + (kf.T * timeline.RenderingScale.X) - timeline.KeyFrameWidth / 2 + timeline.RenderingOffset.X;
             kfRectangle.Width = timeline.KeyFrameWidth;
             kfRectangle.Height = (timeline.TrackHeight) * timeline.RenderingScale.Y;
             kfRectangle.Y = trackAreaBounds.Y + ((kfRectangle.Height + timeline.TrackSpacing) * trackIndex) + timeline.RenderingOffset.Y;

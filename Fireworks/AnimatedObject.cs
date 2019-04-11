@@ -28,15 +28,12 @@ namespace Fireworks
         [Category("Properties")]
         [Description("Order to draw the object in")]
         [DisplayName("Z-Order")]
-        public int ZOrder { get => _zOrder; set => _zOrder = value;  } 
+        public int ZOrder { get => _zOrder; set => _zOrder = value;  }
 
         /// <summary>
         /// KeyFrames that the object will follow over time
         /// </summary>
-        [Category("Properties")]
-        [Description("KeyFrames that the object will follow over time")]
-        [DisplayName("KeyFrames")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [Browsable(false)]
         public List<KeyFrame> Keyframes { get => _keyFrames; set => _keyFrames = value; }
 
         /// <summary>
@@ -49,6 +46,10 @@ namespace Fireworks
         public SizeF Size { get => _size; set => _size = value; }
         public string Name { get => _name; set => _name = value; }
 
+        /// <summary>
+        /// Implement ITimeLineTrack from keyframe list
+        /// </summary>
+        [Browsable(false)]
         public IList<IKeyFrame> KeyFrames { get => _keyFrames.ToList<IKeyFrame>(); set => _keyFrames =  value.Cast<KeyFrame>().ToList(); }
 
         /// <summary>
@@ -136,6 +137,15 @@ namespace Fireworks
             
             //Draw hitbox
             g.DrawRectangle(Pens.Lime, HitBox(t));
+        }
+
+        /// <summary>
+        /// Update an animated object
+        /// </summary>
+        public virtual void Update()
+        {
+            //Normally do nothing
+            return;
         }
     }
 }

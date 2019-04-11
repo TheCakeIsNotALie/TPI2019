@@ -35,7 +35,7 @@ namespace Fireworks
         /// <summary>
         /// Basic instance of particle
         /// </summary>
-        public Particle() : this("Particle", Brushes.Black, KeyFrame.BasicKeyFrames, new SizeF(), 0)
+        public Particle() : this("Particle", Brushes.Black, KeyFrame.BasicKeyFrames, new SizeF(1,1), 0)
         {
         }
 

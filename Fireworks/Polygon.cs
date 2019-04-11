@@ -70,6 +70,14 @@ namespace Fireworks
             return absolutePosCorners;
         }
 
+        public override void PaintDebug(Graphics g, float t)
+        {
+            PointF[] corners = GetAbsolutePosCorners(Position(t));
+            PointF topLeftCorner = new PointF(corners.Min(x => x.X), corners.Min(x => x.Y));
+
+            g.DrawRectangle(Pens.Lime, new Rectangle(Point.Round(topLeftCorner), Size.ToSize()));
+        }
+
         /// <summary>
         /// Get the size of object based on points separation
         /// </summary>

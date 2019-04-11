@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TimeBeam;
 
 namespace Fireworks
 {
@@ -42,62 +43,79 @@ namespace Fireworks
             _scene.AnimatedObjectsChanged += AnimatedObjectsChanged;
 
             timeline.SelectionModified += Timeline_SelectionModified;
+            timeline.TimeChangedFromInput += Timeline_TimeChangedFromInput;
 
-            List<IKeyFrame> tmpKeyFrames = new List<IKeyFrame>();
-            tmpKeyFrames.Add(new KeyFrame(new PointF(0, 0), 1));
-            tmpKeyFrames.Add(new KeyFrame(new PointF(20, 10), 2));
-            tmpKeyFrames.Add(new KeyFrame(new PointF(200, 50), 4));
+            //List<IKeyFrame> tmpKeyFrames = new List<IKeyFrame>();
+            //tmpKeyFrames.Add(new KeyFrame(new PointF(0, 0), 1));
+            //tmpKeyFrames.Add(new KeyFrame(new PointF(20, 10), 2));
+            //tmpKeyFrames.Add(new KeyFrame(new PointF(200, 50), 4));
 
-            Particle p = new Particle("Particle1", Brushes.Red, tmpKeyFrames, new Size(3, 3), 0);
-            Firework f = new Firework("Firwork1", Brushes.Red, new KeyFrame(new PointF(100, 120), 3.3f), 100, 70, 10, 2);
-            Firework f2 = new Firework("Firwork2", Brushes.Red, new KeyFrame(new PointF(150, 100), 3.1f), 50, 20, 10, 1);
-            Firework f3 = new Firework("Firwork3", Brushes.Red, new KeyFrame(new PointF(110, 110), 3.2f), 80, 50, 10, 3);
-            Firework f4 = new Firework("Firwork4", Brushes.Red, new KeyFrame(new PointF(150, 156), 4.1f), 50, 20, 10, 1);
-            Firework f5 = new Firework("Firwork5", Brushes.Red, new KeyFrame(new PointF(110, 110), 7.2f), 80, 50, 10, 3);
-            Firework f6 = new Firework("Firwork6", Brushes.Red, new KeyFrame(new PointF(250, 200), 5.1f), 50, 20, 10, 1);
-            Firework f7 = new Firework("Firwork7", Brushes.Red, new KeyFrame(new PointF(210, 110), 1.2f), 80, 50, 10, 3);
-            Firework f8 = new Firework("Firwork8", Brushes.Red, new KeyFrame(new PointF(170, 100), 2.1f), 50, 20, 10, 1);
-            Firework f9 = new Firework("Firwork9", Brushes.Red, new KeyFrame(new PointF(111, 110), 9.2f), 80, 50, 10, 3);
+            //Particle p = new Particle("Particle1", Brushes.Red, tmpKeyFrames, new Size(3, 3), 0);
+            //Firework f = new Firework("Firework1", Brushes.Red, new KeyFrame(new PointF(100, 120), 3.3f), 100, 70, 10, 2);
+            //Firework f2 = new Firework("Firework2", Brushes.Red, new KeyFrame(new PointF(150, 100), 3.1f), 50, 20, 10, 1);
+            //Firework f3 = new Firework("Firework3", Brushes.Red, new KeyFrame(new PointF(110, 110), 3.2f), 80, 50, 10, 3);
+            //Firework f4 = new Firework("Firework4", Brushes.Red, new KeyFrame(new PointF(150, 156), 4.1f), 50, 20, 10, 1);
+            //Firework f5 = new Firework("Firework5", Brushes.Red, new KeyFrame(new PointF(110, 110), 7.2f), 80, 50, 10, 3);
+            //Firework f6 = new Firework("Firework6", Brushes.Red, new KeyFrame(new PointF(250, 200), 5.1f), 50, 20, 10, 1);
+            //Firework f7 = new Firework("Firework7", Brushes.Red, new KeyFrame(new PointF(210, 110), 1.2f), 80, 50, 10, 3);
+            //Firework f8 = new Firework("Firework8", Brushes.Red, new KeyFrame(new PointF(170, 100), 2.1f), 50, 20, 10, 1);
+            //Firework f9 = new Firework("Firework9", Brushes.Red, new KeyFrame(new PointF(111, 110), 9.2f), 80, 50, 10, 3);
 
-            List<IKeyFrame> tmpKeyFrames2 = new List<IKeyFrame>();
-            tmpKeyFrames2.Add(new KeyFrame(new PointF(50, 50), 1));
-            tmpKeyFrames2.Add(new KeyFrame(new PointF(100, 100), 2));
-            tmpKeyFrames2.Add(new KeyFrame(new PointF(200, 20), 4));
+            //List<IKeyFrame> tmpKeyFrames2 = new List<IKeyFrame>();
+            //tmpKeyFrames2.Add(new KeyFrame(new PointF(50, 50), 1));
+            //tmpKeyFrames2.Add(new KeyFrame(new PointF(100, 100), 2));
+            //tmpKeyFrames2.Add(new KeyFrame(new PointF(200, 20), 4));
 
-            PointF[] polygonCorners = { new PointF(5, 5), new PointF(-5, 5), new PointF(-5, -5), new PointF(12, -5), new PointF(12, 12) };
+            //PointF[] polygonCorners = { new PointF(5, 5), new PointF(-5, 5), new PointF(-5, -5), new PointF(12, -5), new PointF(12, 12) };
 
-            po = new Polygon("Polygon1", tmpKeyFrames2, polygonCorners, 50);
+            //po = new Polygon("Polygon1", tmpKeyFrames2, polygonCorners, 50);
 
-            propertyGrid.SelectedObject = po;
+            //propertyGrid.SelectedObject = po;
 
-            _scene.AddAnimatedObject(p);
-            _scene.AddAnimatedObject(f);
-            _scene.AddAnimatedObject(f2);
-            _scene.AddAnimatedObject(f3);
-            _scene.AddAnimatedObject(f4);
-            _scene.AddAnimatedObject(f5);
-            _scene.AddAnimatedObject(f6);
-            _scene.AddAnimatedObject(f7);
-            _scene.AddAnimatedObject(f8);
-            _scene.AddAnimatedObject(f9);
-            _scene.AddAnimatedObject(po);
-            
-            //Link combobox with list of objects
-            cbxObjects.DataSource = _scene.AnimatedObjects;
+            //_scene.AddAnimatedObject(p);
+            //_scene.AddAnimatedObject(f);
+            //_scene.AddAnimatedObject(f2);
+            //_scene.AddAnimatedObject(f3);
+            //_scene.AddAnimatedObject(f4);
+            //_scene.AddAnimatedObject(f5);
+            //_scene.AddAnimatedObject(f6);
+            //_scene.AddAnimatedObject(f7);
+            //_scene.AddAnimatedObject(f8);
+            //_scene.AddAnimatedObject(f9);
+            //_scene.AddAnimatedObject(po);
 
-            timeline.AddTrack(po);
-            timeline.AddTrack(p);
-            timeline.AddTrack(f);
+            UpdateCbxItems();
+            UpdateTimeLineItems();
         }
 
-        private void Timeline_SelectionModified(object sender, TimeBeam.Events.SelectionModifiedEventArgs eventArgs)
+        /// <summary>
+        /// User changed time
+        /// </summary>
+        private void Timeline_TimeChangedFromInput(object sender, EventArgs e)
         {
+            _scene.Time = timeline.TimeSeconds;
             pnlScene.Invalidate();
         }
 
+        /// <summary>
+        /// Selection of keyframes changed
+        /// </summary>
+        private void Timeline_SelectionModified(object sender, TimeBeam.Events.SelectionModifiedEventArgs eventArgs)
+        {
+            foreach (AnimatedObject o in eventArgs.ModifiedTracks)
+            {
+                o.Update();
+            }
+            pnlScene.Invalidate();
+        }
+
+        /// <summary>
+        /// List of objects changed
+        /// </summary>
         private void AnimatedObjectsChanged(object sender, EventArgs e)
         {
             UpdateCbxItems();
+            UpdateTimeLineItems();
         }
 
         /// <summary>
@@ -121,29 +139,13 @@ namespace Fireworks
             cbxObjects.DataSource = null;
             cbxObjects.DataSource = _scene.AnimatedObjects;
         }
-
+        
         /// <summary>
-        /// Event for when user changes max time 
+        /// Updates items in timeline
         /// </summary>
-        private void SliderParameterChanged(object sender, EventArgs e)
+        private void UpdateTimeLineItems()
         {
-            //Change the maximum value of trackbar
-            trbTimeline.Maximum = (int)nudMaxTime.Value * (int)MS_IN_SEC; //seconds to ms
-        }
-
-        /// <summary>
-        /// When the slider value changes
-        /// </summary>
-        private void trbTime_ValueChanged(object sender, EventArgs e)
-        {
-            tbxTime.Text = Convert.ToString(trbTimeline.Value / MS_IN_SEC);
-            pnlScene.Invalidate();
-
-            //Change time when moving slider by hand
-            if (!_animate)
-            {
-                _scene.Time = trbTimeline.Value / MS_IN_SEC;
-            }
+            timeline.Tracks = _scene.AnimatedObjects.Cast<ITimelineTrack>().ToList();
         }
 
         /// <summary>
@@ -176,14 +178,15 @@ namespace Fireworks
                     //Calculate real fps value
                     nudActualFPS.Value = (decimal)(MS_IN_SEC / elapsedMs);
 
-                    //Update slider value
-                    if (!ChangeSliderTime((int)(_scene.Time * MS_IN_SEC)))
+                    //Check if max time has been passed
+                    if (_scene.Time > _scene.MaxTime)
                     {
-                        //if it fails that means we are out of timeline bounds so we stop the animation and max out time
-                        _scene.Time = trbTimeline.Maximum;
-                        ChangeSliderTime((int)(_scene.Time));
+                        //max out time
+                        _scene.Time = _scene.MaxTime;
                         StopAnimation();
                     }
+                    //Change view
+                    timeline.TimeSeconds = _scene.Time;
                 }
                 else if (!_frameStopWatch.IsRunning)
                 {
@@ -214,22 +217,6 @@ namespace Fireworks
             _animate = false;
         }
 
-        /// <summary>
-        /// Go to time in timeline
-        /// </summary>
-        /// <param name="time">Absolute time in ms</param>
-        /// <returns>If the time was changed correctly</returns>
-        private bool ChangeSliderTime(int time)
-        {
-            //Error catching and animation stopping
-            if (!(time > trbTimeline.Maximum || time < trbTimeline.Minimum))
-            {
-                trbTimeline.Value = time;
-                return true;
-            }
-            return false;
-        }
-
         private void btnPlayPause_Click(object sender, EventArgs e)
         {
             //Toggle state
@@ -237,44 +224,6 @@ namespace Fireworks
                 StopAnimation();
             else
                 StartAnimation();
-        }
-
-        private void tbxTime_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //Accept only numbers, comma or backspace in textbox
-            if (!(Char.IsDigit(e.KeyChar) || e.KeyChar == ',' || e.KeyChar == '\b'))
-            {
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// Event for when user changes the time manually
-        /// </summary>
-        private void tbxTime_TextChanged(object sender, EventArgs e)
-        {
-            //Change value of slider based on textbox value
-            try
-            {
-                int newSliderValue = (int)(Convert.ToSingle(tbxTime.Text) * MS_IN_SEC);
-
-                //Change time of slider
-                if (ChangeSliderTime(newSliderValue))
-                {
-                    //clear visual feedback
-                    tbxTime.BackColor = SystemColors.Window;
-                }
-                else //if changing time fails fails
-                {
-                    //Visual feedback for user to see that something is wrong
-                    tbxTime.BackColor = Color.Red;
-                }
-            }
-            catch (Exception ex) //Catch exception of Convert
-            {
-                //Visual feedback for user to see that something is wrong
-                tbxTime.BackColor = Color.Red;
-            }
         }
 
         /// <summary>
@@ -315,6 +264,7 @@ namespace Fireworks
         /// </summary>
         private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
+            ((AnimatedObject)propertyGrid.SelectedObject).Update();
             pnlScene.Invalidate();
         }
 

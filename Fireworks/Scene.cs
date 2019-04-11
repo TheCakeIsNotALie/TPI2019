@@ -32,6 +32,21 @@ namespace Fireworks
 
         public float Time { get => _time; set => _time = value; }
 
+        public float MaxTime
+        {
+            get
+            {
+                try
+                {
+                    return AnimatedObjects.SelectMany(x => x.Keyframes).Max(x => x.T);
+                } 
+                catch (Exception e)
+                {
+                    return 0;
+                }
+            }
+        }
+
         /// <summary>
         /// List of every animated objects in the scene
         /// </summary>
@@ -119,6 +134,7 @@ namespace Fireworks
         {
             AnimatedObjects.Add(o);
             SelectedObject = o;
+            AnimatedObjectsChanged(this, new EventArgs());
         }
 
         /// <summary>
@@ -128,6 +144,16 @@ namespace Fireworks
         public void RemoveAnimatedObject(AnimatedObject o)
         {
             AnimatedObjects.Remove(o);
+            AnimatedObjectsChanged(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// ForceRefresh of an animated object
+        /// </summary>
+        /// <param name="o">Object to refresh</param>
+        public void ForceAnimatedObjectUpdate(AnimatedObject o)
+        {
+            o.Update();
         }
     }
 }

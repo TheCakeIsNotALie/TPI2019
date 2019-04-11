@@ -12,15 +12,21 @@ namespace TimeBeam.Events
         /// <summary>
         ///   The keyframes that were changed
         /// </summary>
-        public IEnumerable<IKeyFrame> Modified { get; private set; }
+        public IEnumerable<IKeyFrame> ModifiedKeyFrames { get; private set; }
+
+        /// <summary>
+        ///   The Tracks that had keyframes modified
+        /// </summary>
+        public IEnumerable<ITimelineTrack> ModifiedTracks { get; private set; }
 
         /// <summary>
         ///   Construct a new SelectionModifiedEventArgs instance.
         /// </summary>
         /// <param name="modified">The Keyframes that were changed</param>
-        public SelectionModifiedEventArgs(IEnumerable<IKeyFrame> modified)
+        public SelectionModifiedEventArgs(IEnumerable<ITimelineTrack> modifiedTracks, IEnumerable<IKeyFrame> modifiedKeyFrames)
         {
-            Modified = modified;
+            ModifiedKeyFrames = modifiedKeyFrames;
+            ModifiedTracks = modifiedTracks;
         }
 
         /// <summary>
@@ -28,7 +34,7 @@ namespace TimeBeam.Events
         /// </summary>
         public new static SelectionModifiedEventArgs Empty
         {
-            get { return new SelectionModifiedEventArgs(null); }
+            get { return new SelectionModifiedEventArgs(null, null); }
         }
     }
 }

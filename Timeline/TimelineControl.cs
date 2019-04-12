@@ -60,12 +60,21 @@ namespace Timeline
         /// </summary>
         private List<ITimelineTrack> _tracks = new List<ITimelineTrack>();
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Browsable(false)]
         /// <summary>
-        ///   The tracks currently placed on the timeline.
+        /// Get the tracks that timeline has
         /// </summary>
-        public List<ITimelineTrack> Tracks { get => _tracks; set => _tracks = value; }
+        public List<ITimelineTrack> GetTracks() {
+            return _tracks;
+        }
+
+        /// <summary>
+        /// Set the current tracks of timeline
+        /// </summary>
+        /// <param name="tracks">List of tracks to assign to timeline</param>
+        public void SetTracks(List<ITimelineTrack> tracks)
+        {
+            _tracks = tracks;
+        }
         #region Events
 
         public delegate void SelectionModifiedHandler(object sender, SelectionModifiedEventArgs eventArgs);

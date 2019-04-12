@@ -10,25 +10,24 @@ namespace Fireworks
     [TypeConverter(typeof(ExpandableObjectConverter))]
     class Firework : AnimatedObject
     {
-        Brush _brush;
-        float _radius;
-        int _nbParticles;
-
-        private Particle[] particles;
+        private SolidBrush _brush;
+        private float _radius;
+        private int _nbParticles;
+        private Particle[] _particles;
 
         /// <summary>
         /// Brush that will draw every particles
         /// </summary>
         [Category("Visuals")]
-        [Description("Brush that will draw every particles")]
-        [DisplayName("Brush")]
+        [Description("Color that will be used for every particles")]
+        [DisplayName("Color")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public Brush Brush
+        public Color Color
         {
-            get => _brush;
+            get => _brush.Color;
             set
             {
-                _brush = value;
+                _brush = new SolidBrush(value);
                 //Recreate particles
                 GenerateParticles();
             }
@@ -77,10 +76,10 @@ namespace Fireworks
         /// <param name="nbParticles">Number of particles the firework will generate</param>
         /// <param name="zOrder">The drawing order of the firework</param>
         /// <param name="ttl">Time to live (seconds from first keyframe)</param>
-        public Firework(string name, Brush brush, IList<IKeyFrame> keyFrames, float radius, int nbParticles, int zOrder) :
+        public Firework(string name, Color color, IList<IKeyFrame> keyFrames, float radius, int nbParticles, int zOrder) :
             base(name, keyFrames, new SizeF(radius, radius), zOrder)
         {
-            _brush = brush;
+            Color = color;
             _radius = radius;
             _nbParticles = nbParticles;
             GenerateParticles();
@@ -89,7 +88,7 @@ namespace Fireworks
         /// <summary>
         /// Basic instance of firework
         /// </summary>
-        public Firework() : this("Firework", Brushes.Black, KeyFrame.BasicKeyFrames, 10, 10, 0)
+        public Firework() : this("Firework", Color.Black, KeyFrame.BasicKeyFrames, 10, 10, 0)
         {
 
         }
@@ -100,7 +99,7 @@ namespace Fireworks
         private void GenerateParticles()
         {
             //Create particles
-            particles = new Particle[NbParticles];
+            _particles = new Particle[NbParticles];
 
             float maxTime = KeyFrames.Last().T;
 
@@ -129,7 +128,8 @@ namespace Fireworks
                     particleKeyFrames.Add(new KeyFrame(tmpPoint, KeyFrames[j].T));
                 }
 
-                particles[i] = new Particle(Name + "-p" + i, Brush, particleKeyFrames, new SizeF(3, 3), ZOrder);
+                //create and store new particle
+                _particles[i] = new Particle(Name + "-p" + i, _brush, particleKeyFrames, new SizeF(3, 3), ZOrder);
             }
         }
 
@@ -140,7 +140,7 @@ namespace Fireworks
         /// <param name="t">Time t (seconds)</param>
         public override void Paint(Graphics g, float t)
         {
-            foreach (Particle p in particles)
+            foreach (Particle p in _particles)
             {
                 p.Paint(g, t);
             }
@@ -153,7 +153,7 @@ namespace Fireworks
         /// <param name="t"></param>
         public override void PaintDebug(Graphics g, float t)
         {
-            foreach (Particle p in particles)
+            foreach (Particle p in _particles)
             {
                 p.PaintDebug(g, t);
             }
@@ -165,21 +165,6 @@ namespace Fireworks
         public override void Update()
         {
             GenerateParticles();
-        }
-
-        /// <summary>
-        /// Crea
-        /// </summary>
-        /// <param name="firstKeyFrame"></param>
-        /// <param name="ttl"></param>
-        private static IList<IKeyFrame> CreateKeyFrameList(KeyFrame firstKeyFrame, float ttl)
-        {
-            List<IKeyFrame> result = new List<IKeyFrame>();
-
-            result.Add(firstKeyFrame);
-            result.Add(new KeyFrame(firstKeyFrame.Point, firstKeyFrame.T + ttl));
-
-            return result;
         }
     }
 }

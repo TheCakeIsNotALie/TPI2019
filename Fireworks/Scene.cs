@@ -14,6 +14,7 @@ namespace Fireworks
     {
         private SizeF _size;
         private float _time = 0;
+        private bool _paintDebugSelectedObject;
         private AnimatedObject _selectedObject;
         private List<AnimatedObject> _animatedObjects = new List<AnimatedObject>();
         private static readonly Random rnd = new Random();
@@ -30,8 +31,14 @@ namespace Fireworks
         /// </summary>
         public event EventHandler AnimatedObjectsChanged;
 
+        /// <summary>
+        /// Current time of scene
+        /// </summary>
         public float Time { get => _time; set => _time = value; }
 
+        /// <summary>
+        /// Maximum time between all of the animated objects
+        /// </summary>
         public float MaxTime
         {
             get
@@ -73,7 +80,15 @@ namespace Fireworks
             }
         }
 
+        /// <summary>
+        /// Size of drawn image
+        /// </summary>
         public SizeF Size { get => _size; set => _size = value; }
+
+        /// <summary>
+        /// Defines if scene will draw the selected object in debug mode
+        /// </summary>
+        public bool PaintDebugSelectedObject { get => _paintDebugSelectedObject; set => _paintDebugSelectedObject = value; }
 
         /// <summary>
         /// Default constructor, default size of 400x400
@@ -117,7 +132,7 @@ namespace Fireworks
                     o.Paint(g, _time);
             }
 
-            if (SelectedObject != null && SelectedObject.IsTimeInLifeTime(_time))
+            if (SelectedObject != null && SelectedObject.IsTimeInLifeTime(_time) && PaintDebugSelectedObject)
             {
                 //Draw selected object
                 SelectedObject.PaintDebug(g, _time);

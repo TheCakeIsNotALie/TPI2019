@@ -17,11 +17,29 @@ namespace Fireworks
     /// </summary>
     public partial class FormMain : Form
     {
+        /// <summary>
+        /// Amount of milliseconds in a second
+        /// </summary>
         private const float MS_IN_SEC = 1000;
+
+        /// <summary>
+        /// Delay for async draw call
+        /// </summary>
         private const int DRAWING_CALL_DELAY_MS = 1;
-        //StopWatch for frame verification
+
+        /// <summary>
+        /// StopWatch for frame verification
+        /// </summary>
         private Stopwatch _frameStopWatch = new Stopwatch();
+
+        /// <summary>
+        /// Flag letting the program know if we want to animate the scene
+        /// </summary>
         private bool _animate = false;
+
+        /// <summary>
+        /// Scene containing the animated objects inserted by user
+        /// </summary>
         private Scene _scene;
 
         /// <summary>
@@ -37,53 +55,16 @@ namespace Fireworks
         /// </summary>
         private void FormMain_Load(object sender, EventArgs e)
         {
+            //
             _scene = new Scene(new Size(pnlScene.Width, pnlScene.Height));
             _scene.SelectedObjectChanged += SelectedObjectChanged;
             _scene.AnimatedObjectsChanged += AnimatedObjectsChanged;
 
+            //Add event listener for timeline events
             timeline.SelectionModified += Timeline_SelectionModified;
             timeline.TimeChangedFromInput += Timeline_TimeChangedFromInput;
             timeline.SelectionDeleted += Timeline_SelectionDeleted;
             timeline.TrackSelected += Timeline_TrackSelected;
-
-            //List<IKeyFrame> tmpKeyFrames = new List<IKeyFrame>();
-            //tmpKeyFrames.Add(new KeyFrame(new PointF(0, 0), 1));
-            //tmpKeyFrames.Add(new KeyFrame(new PointF(20, 10), 2));
-            //tmpKeyFrames.Add(new KeyFrame(new PointF(200, 50), 4));
-
-            //Particle p = new Particle("Particle1", Brushes.Red, tmpKeyFrames, new Size(3, 3), 0);
-            //Firework f = new Firework("Firework1", Brushes.Red, new KeyFrame(new PointF(100, 120), 3.3f), 100, 70, 10, 2);
-            //Firework f2 = new Firework("Firework2", Brushes.Red, new KeyFrame(new PointF(150, 100), 3.1f), 50, 20, 10, 1);
-            //Firework f3 = new Firework("Firework3", Brushes.Red, new KeyFrame(new PointF(110, 110), 3.2f), 80, 50, 10, 3);
-            //Firework f4 = new Firework("Firework4", Brushes.Red, new KeyFrame(new PointF(150, 156), 4.1f), 50, 20, 10, 1);
-            //Firework f5 = new Firework("Firework5", Brushes.Red, new KeyFrame(new PointF(110, 110), 7.2f), 80, 50, 10, 3);
-            //Firework f6 = new Firework("Firework6", Brushes.Red, new KeyFrame(new PointF(250, 200), 5.1f), 50, 20, 10, 1);
-            //Firework f7 = new Firework("Firework7", Brushes.Red, new KeyFrame(new PointF(210, 110), 1.2f), 80, 50, 10, 3);
-            //Firework f8 = new Firework("Firework8", Brushes.Red, new KeyFrame(new PointF(170, 100), 2.1f), 50, 20, 10, 1);
-            //Firework f9 = new Firework("Firework9", Brushes.Red, new KeyFrame(new PointF(111, 110), 9.2f), 80, 50, 10, 3);
-
-            //List<IKeyFrame> tmpKeyFrames2 = new List<IKeyFrame>();
-            //tmpKeyFrames2.Add(new KeyFrame(new PointF(50, 50), 1));
-            //tmpKeyFrames2.Add(new KeyFrame(new PointF(100, 100), 2));
-            //tmpKeyFrames2.Add(new KeyFrame(new PointF(200, 20), 4));
-
-            //PointF[] polygonCorners = { new PointF(5, 5), new PointF(-5, 5), new PointF(-5, -5), new PointF(12, -5), new PointF(12, 12) };
-
-            //po = new Polygon("Polygon1", tmpKeyFrames2, polygonCorners, 50);
-
-            //propertyGrid.SelectedObject = po;
-
-            //_scene.AddAnimatedObject(p);
-            //_scene.AddAnimatedObject(f);
-            //_scene.AddAnimatedObject(f2);
-            //_scene.AddAnimatedObject(f3);
-            //_scene.AddAnimatedObject(f4);
-            //_scene.AddAnimatedObject(f5);
-            //_scene.AddAnimatedObject(f6);
-            //_scene.AddAnimatedObject(f7);
-            //_scene.AddAnimatedObject(f8);
-            //_scene.AddAnimatedObject(f9);
-            //_scene.AddAnimatedObject(po);
 
             UpdateTimeLineItems();
         }
@@ -120,7 +101,7 @@ namespace Fireworks
         {
             foreach (AnimatedObject o in eventArgs.ModifiedTracks)
             {
-                o.Update();
+                _scene.ForceAnimatedObjectUpdate(o);
             }
             pnlScene.Invalidate();
         }
@@ -150,8 +131,16 @@ namespace Fireworks
         /// </summary>
         private void UpdateTimeLineItems()
         {
-            timeline.Tracks = _scene.AnimatedObjects.Cast<ITimelineTrack>().ToList();
+            timeline.SetTracks(_scene.AnimatedObjects.Cast<ITimelineTrack>().ToList());
             timeline.Invalidate();
+        }
+
+        /// <summary>
+        /// Updates the scene size
+        /// </summary>
+        private void UpdateSceneSize()
+        {
+            _scene.Size = pnlScene.Size;
         }
 
         /// <summary>
@@ -261,7 +250,7 @@ namespace Fireworks
         /// </summary>
         private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            ((AnimatedObject)propertyGrid.SelectedObject).Update();
+            _scene.ForceAnimatedObjectUpdate(_scene.SelectedObject);
             pnlScene.Invalidate();
         }
 
@@ -279,6 +268,25 @@ namespace Fireworks
                 _scene.RemoveAnimatedObject(_scene.SelectedObject);
                 _scene.SelectedObject = null;
             }
+        }
+
+        /// <summary>
+        /// Show selected object checkbox has changed
+        /// </summary>
+        private void cbxShowSelectedObject_CheckedChanged(object sender, EventArgs e)
+        {
+            //Change the way we want to draw object
+            _scene.PaintDebugSelectedObject = cbxShowSelectedObject.Checked;
+            //Redraw scene
+            pnlScene.Invalidate();
+        }
+
+        /// <summary>
+        /// Whenever the panel is resized
+        /// </summary>
+        private void pnlScene_Resize(object sender, EventArgs e)
+        {
+            UpdateSceneSize();
         }
     }
 }

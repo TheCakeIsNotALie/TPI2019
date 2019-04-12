@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Fireworks.AnimatedObject">
+    <Position X="9.75" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAIQAAAAEAgAAgBAQAAAQEAAACAAAAAAAAAEIICAA=</HashCode>
+      <FileName>AnimatedObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Fireworks.DoubleBufferedPanel">
+    <Position X="0.75" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DoubleBufferedPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fireworks.Firework">
+    <Position X="14.25" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CCQJAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAgAIICAA=</HashCode>
+      <FileName>Firework.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fireworks.FormMain">
+    <Position X="4.5" Y="0.75" Width="3" />
+    <Members>
+      <Method Name="Dispose" Hidden="true" />
+      <Field Name="DRAWING_CALL_DELAY_MS" Hidden="true" />
+      <Field Name="grbFPS" Hidden="true" />
+      <Field Name="grbProperties" Hidden="true" />
+      <Field Name="grbTimeline" Hidden="true" />
+      <Field Name="grbToolBox" Hidden="true" />
+      <Method Name="InitializeComponent" Hidden="true" />
+      <Field Name="MS_IN_SEC" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAqAABAwKAgogAAiECEFCoCCACAAYoEAAIGIACAARQ=</HashCode>
+      <FileName>FormMain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fireworks.Particle">
+    <Position X="12.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Particle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fireworks.Polygon">
+    <Position X="12.25" Y="0.75" Width="2" />
+    <Members>
+      <Field Name="basic_corners" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAIAAgAAAEAAAAAAAAAAAAAAAAAICAg=</HashCode>
+      <FileName>Polygon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fireworks.Scene">
+    <Position X="8" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAEEAAAgQAggAAAAAAAAAIAEYAAAAAAAAgAiEIIAQA=</HashCode>
+      <FileName>Scene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KeyFrames.KeyFrame">
+    <Position X="9.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Timeline.TimelineControl">
+    <Position X="2.5" Y="0.75" Width="2" />
+    <NestedTypes>
+      <Delegate Name="Timeline.TimelineControl.SelectionModifiedHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="Timeline.TimelineControl.SelectionDeletedHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="Timeline.TimelineControl.TrackSelectionHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Enum Name="Timeline.TimelineControl.BehaviorMode" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="KeyFrames.IKeyFrame">
+    <Position X="8.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Timeline.ITimelineTrack">
+    <Position X="0.75" Y="2" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

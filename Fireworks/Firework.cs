@@ -68,14 +68,14 @@ namespace Fireworks
         }
 
         /// <summary>
-        /// Creates a new instance of Firework
+        /// Creates a new instance of Firework, the firework is composed ov a number of particles
         /// </summary>
-        /// <param name="brush">Brush to draw the fireworks particles with</param>
-        /// <param name="startingKF">KeyFrame where the firework will start</param>
+        /// <param name="name">Name of the Firework</param>
+        /// <param name="color">Color that will be used to draw the fireworks particles</param>
+        /// <param name="keyFrames">KeyFrames that every particles of the firework will follow</param>
         /// <param name="radius">Radius of the firework</param>
         /// <param name="nbParticles">Number of particles the firework will generate</param>
         /// <param name="zOrder">The drawing order of the firework</param>
-        /// <param name="ttl">Time to live (seconds from first keyframe)</param>
         public Firework(string name, Color color, IList<IKeyFrame> keyFrames, float radius, int nbParticles, int zOrder) :
             base(name, keyFrames, new SizeF(radius, radius), zOrder)
         {

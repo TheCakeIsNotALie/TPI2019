@@ -15,14 +15,15 @@ namespace Timeline.Events
         public IEnumerable<IKeyFrame> ModifiedKeyFrames { get; private set; }
 
         /// <summary>
-        ///   The Tracks that had keyframes modified
+        /// The Tracks that had keyframes modified
         /// </summary>
         public IEnumerable<ITimelineTrack> ModifiedTracks { get; private set; }
 
         /// <summary>
-        ///   Construct a new SelectionModifiedEventArgs instance.
+        /// Construct a new SelectionModifiedEventArgs instance.
         /// </summary>
-        /// <param name="modified">The Keyframes that were changed</param>
+        /// <param name="modifiedTracks">The Tracks that had keyframes modified</param>
+        /// <param name="modifiedKeyFrames">The keyframes that were modified</param>
         public SelectionModifiedEventArgs(IEnumerable<ITimelineTrack> modifiedTracks, IEnumerable<IKeyFrame> modifiedKeyFrames)
         {
             ModifiedKeyFrames = modifiedKeyFrames;

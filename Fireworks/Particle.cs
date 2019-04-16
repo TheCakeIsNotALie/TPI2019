@@ -29,6 +29,8 @@ namespace Fireworks
         /// <summary>
         /// Create a new instance of Particle
         /// </summary>
+        /// <param name="name">Name of the particle</param>
+        /// <param name="color">Color that will be used to draw the particle</param>
         /// <param name="path">Path of keyframes the particle will follow</param>
         /// <param name="size">Size of particle</param>
         /// <param name="zOrder">Drawing order on scene</param>

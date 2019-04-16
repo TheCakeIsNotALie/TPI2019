@@ -55,6 +55,7 @@ namespace Fireworks
         /// <summary>
         /// Basic constructor for animated objects
         /// </summary>
+        /// <param name="name">Name of the animated object</param>
         /// <param name="keyFrames">KeyFrames that the object will follow over time</param>
         /// <param name="size">Size of rectangle around the object</param>
         /// <param name="zOrder">Order to draw the object</param>

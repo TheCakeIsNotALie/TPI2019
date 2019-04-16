@@ -50,6 +50,8 @@ namespace Fireworks
         /// <summary>
         /// Creates a new instance of polygon
         /// </summary>
+        /// <param name="name">Name of the polygon</param>
+        /// <param name="color">Color that will be used to draw the polygon</param>
         /// <param name="keyFrames">Keyframes that the polygon will follow over time</param>
         /// <param name="corners">Corners of polygon relative to keyframe</param>
         /// <param name="zOrder">Order to draw the polygon</param>

@@ -55,7 +55,7 @@ namespace Fireworks
         /// </summary>
         private void FormMain_Load(object sender, EventArgs e)
         {
-            //
+            //Create controller
             _scene = new Scene(new Size(pnlScene.Width, pnlScene.Height));
             _scene.SelectedObjectChanged += SelectedObjectChanged;
             _scene.AnimatedObjectsChanged += AnimatedObjectsChanged;
@@ -99,6 +99,7 @@ namespace Fireworks
         /// </summary>
         private void Timeline_SelectionModified(object sender, Timeline.Events.SelectionModifiedEventArgs eventArgs)
         {
+            //foreach modified objects
             foreach (AnimatedObject o in eventArgs.ModifiedTracks)
             {
                 _scene.ForceAnimatedObjectUpdate(o);
@@ -119,6 +120,7 @@ namespace Fireworks
         /// </summary>
         public void SelectedObjectChanged(object sender, EventArgs e)
         {
+            //Update the timeline
             UpdateTimeLineItems();
             //update properties grid
             propertyGrid.SelectedObject = _scene.SelectedObject;
@@ -144,9 +146,9 @@ namespace Fireworks
         }
 
         /// <summary>
-        /// Drawing of the frame at time of scene
+        /// Draw the frame at time of scene
         /// </summary>
-        private void pnlScene_Paint(object sender, PaintEventArgs e)
+        private void PnlScene_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(_scene.GetFrame(), new Point(0, 0));
         }
@@ -156,15 +158,17 @@ namespace Fireworks
         /// </summary>
         private async Task FrameUpdateCall()
         {
+            //while the view wants to animate the scene
             while (_animate)
             {
-                //if enough time sinc last frame draw has passed
+                //if enough time since last frame draw has passed
                 if (_frameStopWatch.ElapsedMilliseconds > MS_IN_SEC / (float)nudFPS.Value)
                 {
-                    //Store the elapsedMs for it not to change in calculations
+                    //Store the elapsedMs for it not to change between calculations
                     int elapsedMs = (int)_frameStopWatch.ElapsedMilliseconds;
 
                     _scene.Time += elapsedMs / MS_IN_SEC;
+
                     //restart timer now to take in account drawing time in next frame draw
                     _frameStopWatch.Restart();
 
@@ -212,7 +216,7 @@ namespace Fireworks
             _animate = false;
         }
 
-        private void btnPlayPause_Click(object sender, EventArgs e)
+        private void BtnPlayPause_Click(object sender, EventArgs e)
         {
             //Toggle state
             if (_animate)
@@ -224,7 +228,7 @@ namespace Fireworks
         /// <summary>
         /// Add a new particle to the scene
         /// </summary>
-        private void btnAddParticle_Click(object sender, EventArgs e)
+        private void BtnAddParticle_Click(object sender, EventArgs e)
         {
             _scene.AddAnimatedObject(new Particle());
         }
@@ -232,7 +236,7 @@ namespace Fireworks
         /// <summary>
         /// Add a new firework to the scene
         /// </summary>
-        private void btnAddFirework_Click(object sender, EventArgs e)
+        private void BtnAddFirework_Click(object sender, EventArgs e)
         {
             _scene.AddAnimatedObject(new Firework());
         }
@@ -240,7 +244,7 @@ namespace Fireworks
         /// <summary>
         /// Add a new polygon to the scene
         /// </summary>
-        private void btnAddPolygon_Click(object sender, EventArgs e)
+        private void BtnAddPolygon_Click(object sender, EventArgs e)
         {
             _scene.AddAnimatedObject(new Polygon());
         }
@@ -248,8 +252,9 @@ namespace Fireworks
         /// <summary>
         /// User changed value of selected object
         /// </summary>
-        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void PropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
+            //Since settings were changed update view
             _scene.ForceAnimatedObjectUpdate(_scene.SelectedObject);
             pnlScene.Invalidate();
         }
@@ -257,14 +262,16 @@ namespace Fireworks
         /// <summary>
         /// User clicked on delete
         /// </summary>
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
+            //Confirm deletion of selected object
             if(MessageBox.Show("Are you sure you want to delete that object ?",
                 "Confirm delete",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Error,
                 MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
+                //Remove selected object
                 _scene.RemoveAnimatedObject(_scene.SelectedObject);
                 _scene.SelectedObject = null;
             }
@@ -273,7 +280,7 @@ namespace Fireworks
         /// <summary>
         /// Show selected object checkbox has changed
         /// </summary>
-        private void cbxShowSelectedObject_CheckedChanged(object sender, EventArgs e)
+        private void CbxShowSelectedObject_CheckedChanged(object sender, EventArgs e)
         {
             //Change the way we want to draw object
             _scene.PaintDebugSelectedObject = cbxShowSelectedObject.Checked;
@@ -284,7 +291,7 @@ namespace Fireworks
         /// <summary>
         /// Whenever the panel is resized
         /// </summary>
-        private void pnlScene_Resize(object sender, EventArgs e)
+        private void PnlScene_Resize(object sender, EventArgs e)
         {
             UpdateSceneSize();
         }

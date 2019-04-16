@@ -8,14 +8,23 @@ namespace Fireworks
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class Particle : AnimatedObject
     {
-        private Brush _brush;
+        private SolidBrush _brush;
 
         /// <summary>
-        /// Brush used to draw particle
+        /// Color that will be used for drawing this particle
         /// </summary>
         [Category("Visuals")]
+        [Description("Color that will be used for drawing this particle")]
+        [DisplayName("Color")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public Brush Brush { get => _brush; set => _brush = value; }
+        public Color Color
+        {
+            get => _brush.Color;
+            set
+            {
+                _brush = new SolidBrush(value);
+            }
+        }
 
         /// <summary>
         /// Create a new instance of Particle
@@ -23,17 +32,18 @@ namespace Fireworks
         /// <param name="path">Path of keyframes the particle will follow</param>
         /// <param name="size">Size of particle</param>
         /// <param name="zOrder">Drawing order on scene</param>
-        public Particle(string name, Brush brush, IList<IKeyFrame> path, SizeF size, int zOrder) : 
+        public Particle(string name, Color color, IList<IKeyFrame> path, SizeF size, int zOrder) : 
             base(name, path, size, zOrder)
         {
-            Brush = brush;
+            Color = color;
         }
 
         /// <summary>
         /// Basic instance of particle
         /// </summary>
-        public Particle() : this("Particle", Brushes.Black, KeyFrame.BasicKeyFrames, new SizeF(1,1), 0)
+        public Particle() : this("Particle", Color.Black, KeyFrame.BasicKeyFrames, new SizeF(1,1), 0)
         {
+
         }
 
         /// <summary>
@@ -43,7 +53,7 @@ namespace Fireworks
         /// <param name="t">Time t (seconds)</param>
         public override void Paint(Graphics g, float t)
         {
-            g.FillEllipse(Brush, HitBox(t));
+            g.FillEllipse(_brush, HitBox(t));
         }
     }
 }

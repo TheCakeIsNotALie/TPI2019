@@ -12,14 +12,32 @@ namespace Fireworks
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class Polygon : AnimatedObject
     {
-        private static PointF[] basic_corners = { new PointF(5, 5), new PointF(5, -5), new PointF(-5, -5), new PointF(-5, 5) };
+        private static PointF[] corners_square = { new PointF(5, 5), new PointF(5, -5), new PointF(-5, -5), new PointF(-5, 5) };
         private PointF[] _corners;
+        private SolidBrush _brush;
 
-        //Stored in relative position to keyframe
+        /// <summary>
+        /// Color that will be used to draw the polygon
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Color that will be used to draw the polygon")]
+        [DisplayName("Color")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public Color Color
+        {
+            get => _brush.Color;
+            set
+            {
+                _brush = new SolidBrush(value);
+            }
+        }
+        
         /// <summary>
         /// Position of corners relative to keyframe
         /// </summary>
         [Category("Properties")]
+        [Description("Corners of the polygon relative to center position")]
+        [DisplayName("Corners")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public PointF[] Corners {
             get => _corners;
@@ -35,12 +53,13 @@ namespace Fireworks
         /// <param name="keyFrames">Keyframes that the polygon will follow over time</param>
         /// <param name="corners">Corners of polygon relative to keyframe</param>
         /// <param name="zOrder">Order to draw the polygon</param>
-        public Polygon(string name, IList<IKeyFrame> keyFrames, PointF[] corners, int zOrder) : base(name, keyFrames, GetSizeFromCorners(corners), zOrder)
+        public Polygon(string name, IList<IKeyFrame> keyFrames, PointF[] corners, Color color, int zOrder) : base(name, keyFrames, GetSizeFromCorners(corners), zOrder)
         {
+            Color = color;
             Corners = corners;
         }
 
-        public Polygon() : this("Polygon", KeyFrame.BasicKeyFrames, basic_corners, 0)
+        public Polygon() : this("Polygon", KeyFrame.BasicKeyFrames, corners_square, Color.Black, 0)
         {
 
         }
@@ -52,7 +71,7 @@ namespace Fireworks
         /// <param name="t">Time (seconds)</param>
         public override void Paint(Graphics g, float t)
         {
-            g.FillPolygon(Brushes.Black, GetAbsolutePosCorners(Position(t)));
+            g.FillPolygon(_brush, GetAbsolutePosCorners(Position(t)));
         }
 
         /// <summary>
@@ -71,6 +90,11 @@ namespace Fireworks
             return absolutePosCorners;
         }
 
+        /// <summary>
+        /// Draws rectangle size of the polygon from top left corner of it
+        /// </summary>
+        /// <param name="g">Graphics to draw on</param>
+        /// <param name="t">Time (seconds)</param>
         public override void PaintDebug(Graphics g, float t)
         {
             PointF[] corners = GetAbsolutePosCorners(Position(t));

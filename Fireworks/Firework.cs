@@ -16,7 +16,7 @@ namespace Fireworks
         private Particle[] _particles;
 
         /// <summary>
-        /// Brush that will draw every particles
+        /// Color that will be used to draw every particles
         /// </summary>
         [Category("Visuals")]
         [Description("Color that will be used for every particles")]
@@ -105,13 +105,18 @@ namespace Fireworks
 
             for (int i = 0; i < NbParticles; i++)
             {
-                List<IKeyFrame> particleKeyFrames = new List<IKeyFrame>();
-                particleKeyFrames.Add((KeyFrame)KeyFrames[0]);
+                //initialize list with first keyframe being the start
+                List<IKeyFrame> particleKeyFrames = new List<IKeyFrame>
+                {
+                    (KeyFrame)KeyFrames[0]
+                };
 
                 //Get end point of particle that's on the fireworks outer radius
-                PointF relativePosOnCircle = new PointF();
-                relativePosOnCircle.X = (float)(Radius * Math.Cos(i * (360f / NbParticles) * Math.PI / 180));
-                relativePosOnCircle.Y = (float)(Radius * Math.Sin(i * (360f / NbParticles) * Math.PI / 180));
+                PointF relativePosOnCircle = new PointF
+                {
+                    X = (float)(Radius * Math.Cos(i * (360f / NbParticles) * Math.PI / 180)),
+                    Y = (float)(Radius * Math.Sin(i * (360f / NbParticles) * Math.PI / 180))
+                };
 
                 //Calculate the different points based on keyframes of firework
                 for (int j = 1; j < KeyFrames.Count; j++)
@@ -129,7 +134,7 @@ namespace Fireworks
                 }
 
                 //create and store new particle
-                _particles[i] = new Particle(Name + "-p" + i, _brush, particleKeyFrames, new SizeF(3, 3), ZOrder);
+                _particles[i] = new Particle(Name + "-p" + i, _brush.Color, particleKeyFrames, new SizeF(3, 3), ZOrder);
             }
         }
 

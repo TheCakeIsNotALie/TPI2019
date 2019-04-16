@@ -102,7 +102,7 @@ namespace Timeline
             this.btnDeleteKeyFrame.TabIndex = 4;
             this.btnDeleteKeyFrame.Text = "X";
             this.btnDeleteKeyFrame.UseVisualStyleBackColor = true;
-            this.btnDeleteKeyFrame.Click += new System.EventHandler(this.btnDeleteKeyFrame_Click);
+            this.btnDeleteKeyFrame.Click += new System.EventHandler(this.BtnDeleteKeyFrame_Click);
             // 
             // tbxChangePosY
             // 
@@ -110,7 +110,7 @@ namespace Timeline
             this.tbxChangePosY.Name = "tbxChangePosY";
             this.tbxChangePosY.Size = new System.Drawing.Size(66, 20);
             this.tbxChangePosY.TabIndex = 3;
-            this.tbxChangePosY.TextChanged += new System.EventHandler(this.tbxChangePosY_TextChanged);
+            this.tbxChangePosY.TextChanged += new System.EventHandler(this.TbxChangePosY_TextChanged);
             this.tbxChangePosY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TbxPosition_KeyPress);
             // 
             // tbxChangePosX
@@ -119,7 +119,7 @@ namespace Timeline
             this.tbxChangePosX.Name = "tbxChangePosX";
             this.tbxChangePosX.Size = new System.Drawing.Size(66, 20);
             this.tbxChangePosX.TabIndex = 2;
-            this.tbxChangePosX.TextChanged += new System.EventHandler(this.tbxChangePosX_TextChanged);
+            this.tbxChangePosX.TextChanged += new System.EventHandler(this.TbxChangePosX_TextChanged);
             this.tbxChangePosX.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TbxPosition_KeyPress);
             // 
             // lblChangePosY

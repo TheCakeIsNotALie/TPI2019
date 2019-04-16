@@ -84,7 +84,7 @@
             this.cbxShowSelectedObject.TabIndex = 3;
             this.cbxShowSelectedObject.Text = "Paint debug for selected object";
             this.cbxShowSelectedObject.UseVisualStyleBackColor = true;
-            this.cbxShowSelectedObject.CheckedChanged += new System.EventHandler(this.cbxShowSelectedObject_CheckedChanged);
+            this.cbxShowSelectedObject.CheckedChanged += new System.EventHandler(this.CbxShowSelectedObject_CheckedChanged);
             // 
             // btnDeleteObject
             // 
@@ -96,7 +96,7 @@
             this.btnDeleteObject.TabIndex = 2;
             this.btnDeleteObject.Text = "Delete object";
             this.btnDeleteObject.UseVisualStyleBackColor = true;
-            this.btnDeleteObject.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btnDeleteObject.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // propertyGrid
             // 
@@ -105,7 +105,7 @@
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(320, 301);
             this.propertyGrid.TabIndex = 1;
-            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropertyGrid_PropertyValueChanged);
             // 
             // grbToolBox
             // 
@@ -131,7 +131,7 @@
             this.btnAddPolygon.TabIndex = 2;
             this.btnAddPolygon.Text = "Add Polygon";
             this.btnAddPolygon.UseVisualStyleBackColor = true;
-            this.btnAddPolygon.Click += new System.EventHandler(this.btnAddPolygon_Click);
+            this.btnAddPolygon.Click += new System.EventHandler(this.BtnAddPolygon_Click);
             // 
             // btnAddFirework
             // 
@@ -143,7 +143,7 @@
             this.btnAddFirework.TabIndex = 1;
             this.btnAddFirework.Text = "Add Firework";
             this.btnAddFirework.UseVisualStyleBackColor = true;
-            this.btnAddFirework.Click += new System.EventHandler(this.btnAddFirework_Click);
+            this.btnAddFirework.Click += new System.EventHandler(this.BtnAddFirework_Click);
             // 
             // btnAddParticle
             // 
@@ -155,7 +155,7 @@
             this.btnAddParticle.TabIndex = 0;
             this.btnAddParticle.Text = "Add Particle";
             this.btnAddParticle.UseVisualStyleBackColor = true;
-            this.btnAddParticle.Click += new System.EventHandler(this.btnAddParticle_Click);
+            this.btnAddParticle.Click += new System.EventHandler(this.BtnAddParticle_Click);
             // 
             // nudFPS
             // 
@@ -190,7 +190,7 @@
             this.btnPlayPause.TabIndex = 12;
             this.btnPlayPause.Text = "Play";
             this.btnPlayPause.UseVisualStyleBackColor = true;
-            this.btnPlayPause.Click += new System.EventHandler(this.btnPlayPause_Click);
+            this.btnPlayPause.Click += new System.EventHandler(this.BtnPlayPause_Click);
             // 
             // nudActualFPS
             // 
@@ -296,8 +296,8 @@
             this.pnlScene.Name = "pnlScene";
             this.pnlScene.Size = new System.Drawing.Size(723, 336);
             this.pnlScene.TabIndex = 16;
-            this.pnlScene.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlScene_Paint);
-            this.pnlScene.Resize += new System.EventHandler(this.pnlScene_Resize);
+            this.pnlScene.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlScene_Paint);
+            this.pnlScene.Resize += new System.EventHandler(this.PnlScene_Resize);
             // 
             // grbFPS
             // 

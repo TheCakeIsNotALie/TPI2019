@@ -392,16 +392,18 @@ namespace Timeline
         /// <returns>The rectangle within which all tracks should be drawn.</returns>
         internal Rectangle GetTrackAreaBounds()
         {
-            Rectangle trackArea = new Rectangle();
+            Rectangle trackArea = new Rectangle
+            {
 
-            // Start after the track labels
-            trackArea.X = TrackLabelWidth;
-            // Start at the top (later, we'll deduct the playhead and time label height)
-            trackArea.Y = (int)_playheadExtents.Height;
-            // Deduct scrollbar width.
-            trackArea.Width = Width - ScrollbarV.Width;
-            // Deduct scrollbar height.
-            trackArea.Height = Height - ScrollbarH.Height;
+                // Start after the track labels
+                X = TrackLabelWidth,
+                // Start at the top (later, we'll deduct the playhead and time label height)
+                Y = (int)_playheadExtents.Height,
+                // Deduct scrollbar width.
+                Width = Width - ScrollbarV.Width,
+                // Deduct scrollbar height.
+                Height = Height - ScrollbarH.Height
+            };
 
             return trackArea;
         }
@@ -753,9 +755,11 @@ namespace Timeline
             Pen brightPen = new Pen(Color.FromArgb(minutePenColor, minutePenColor, minutePenColor));
 
             //Format for time labels
-            StringFormat sf = new StringFormat();
-            sf.LineAlignment = StringAlignment.Center;
-            sf.Alignment = StringAlignment.Center;
+            StringFormat sf = new StringFormat
+            {
+                LineAlignment = StringAlignment.Center,
+                Alignment = StringAlignment.Center
+            };
 
             for (int x = tickOffset + tickDistance; x < Width; x += columnWidth)
             {
@@ -979,7 +983,6 @@ namespace Timeline
                     SetTimeFromMousePosition(location);
                     Invalidate();
                 }
-
             }
             else if ((e.Button & MouseButtons.Middle) != 0)
             {
@@ -1098,8 +1101,10 @@ namespace Timeline
                 else if ((trackIndex = TrackIndexAtPoint(location)) != -1)
                 {
                     //Add KeyFrame at position
-                    KeyFrame newKeyFrame = new KeyFrame();
-                    newKeyFrame.T = TimeAtScreenPosition(location.X);
+                    KeyFrame newKeyFrame = new KeyFrame
+                    {
+                        T = TimeAtScreenPosition(location.X)
+                    };
 
                     //search for position in list
                     int i = 0;
@@ -1141,6 +1146,7 @@ namespace Timeline
             // Store the current mouse position.
             PointF location = new PointF(e.X, e.Y);
 
+            // Left button released
             if ((e.Button & MouseButtons.Left) != 0)
             {
                 if (CurrentMode == BehaviorMode.Selecting)
@@ -1304,7 +1310,7 @@ namespace Timeline
         /// <summary>
         /// When tbxChangePosX's text changed
         /// </summary>
-        private void tbxChangePosX_TextChanged(object sender, EventArgs e)
+        private void TbxChangePosX_TextChanged(object sender, EventArgs e)
         {
             //only one keyframe is selected to arrive at this point
             PointF tmpPoint = new PointF(_selectedKeyFrames[0].Point.X, _selectedKeyFrames[0].Point.Y);
@@ -1325,7 +1331,7 @@ namespace Timeline
         /// <summary>
         /// When tbxChangePosY's text changed
         /// </summary>
-        private void tbxChangePosY_TextChanged(object sender, EventArgs e)
+        private void TbxChangePosY_TextChanged(object sender, EventArgs e)
         {
             //only one keyframe is selected to arrive at this point
             PointF tmpPoint = _selectedKeyFrames[0].Point;
@@ -1346,7 +1352,7 @@ namespace Timeline
         /// <summary>
         /// When user pressed on the delete button
         /// </summary>
-        private void btnDeleteKeyFrame_Click(object sender, EventArgs e)
+        private void BtnDeleteKeyFrame_Click(object sender, EventArgs e)
         {
             int trackIndex = TrackIndexForKeyFrame(_selectedKeyFrames[0]);
 

@@ -26,7 +26,6 @@ namespace Timeline.Surrogates
         /// Creates a copy of a keyframe
         /// </summary>
         /// <param name="substituteFor">Substitutes keyframe</param>
-        /// <param name="owner">The track the keyframe belongs to</param>
         public KeyFrameSurrogate(IKeyFrame substituteFor)
         {
             SubstituteFor = substituteFor;
@@ -58,10 +57,12 @@ namespace Timeline.Surrogates
         /// <returns>Copy of surrogate</returns>
         public object Clone()
         {
-            KeyFrameSurrogate tmp =  new KeyFrameSurrogate();
-            tmp.SubstituteFor = SubstituteFor;
-            tmp.T = T;
-            tmp.Point = Point;
+            KeyFrameSurrogate tmp = new KeyFrameSurrogate
+            {
+                SubstituteFor = SubstituteFor,
+                T = T,
+                Point = Point
+            };
 
             return tmp;
         }

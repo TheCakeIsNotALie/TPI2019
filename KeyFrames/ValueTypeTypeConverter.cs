@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace KeyFrames
 {
     /// <summary>
-    /// Special type of converter to allow correct changes of struct-like objects variables in a PropertyGrid
+    /// Special type of converter to allows correct changes of struct-like objects variables in a PropertyGrid
     /// Taken from : https://stackoverflow.com/questions/15746897/modifying-structure-property-in-a-propertygrid
     /// </summary>
-    internal class ValueTypeTypeConverter : System.ComponentModel.ExpandableObjectConverter
+    public class ValueTypeTypeConverter : System.ComponentModel.ExpandableObjectConverter
     {
         public override bool GetCreateInstanceSupported(System.ComponentModel.ITypeDescriptorContext context)
         {

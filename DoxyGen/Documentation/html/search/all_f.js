@@ -20,6 +20,5 @@ var searchData=
   ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../_settings_8_designer_8cs.html',1,'']]],
   ['settracks',['SetTracks',['../class_timeline_1_1_timeline_control.html#a70ec0e0328622f24432d9580c3b06113',1,'Timeline::TimelineControl']]],
   ['size',['Size',['../class_fireworks_1_1_animated_object.html#af4d6c724fe7dd3cc37f8ea59ddb76c71',1,'Fireworks.AnimatedObject.Size()'],['../class_fireworks_1_1_scene.html#a2385eb063041a63a71c72f1f8fff1a8a',1,'Fireworks.Scene.Size()']]],
-  ['substitutefor',['SubstituteFor',['../class_timeline_1_1_surrogates_1_1_key_frame_surrogate.html#a719c185dd6c50bf97966386865d54a82',1,'Timeline::Surrogates::KeyFrameSurrogate']]],
-  ['surrogatehelper_2ecs',['SurrogateHelper.cs',['../_surrogate_helper_8cs.html',1,'']]]
+  ['substitutefor',['SubstituteFor',['../class_timeline_1_1_surrogates_1_1_key_frame_surrogate.html#a719c185dd6c50bf97966386865d54a82',1,'Timeline::Surrogates::KeyFrameSurrogate']]]
 ];

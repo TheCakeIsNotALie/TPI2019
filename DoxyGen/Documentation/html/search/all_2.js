@@ -6,5 +6,6 @@ var searchData=
   ['colorhelper_2ecs',['ColorHelper.cs',['../_color_helper_8cs.html',1,'']]],
   ['copyto',['CopyTo',['../class_timeline_1_1_surrogates_1_1_key_frame_surrogate.html#a6b7e197a8c83cc4f8e4239bda1b18651',1,'Timeline::Surrogates::KeyFrameSurrogate']]],
   ['corners',['Corners',['../class_fireworks_1_1_polygon.html#a266a756d40f011a800f25cf83febea02',1,'Fireworks::Polygon']]],
+  ['createinstance',['CreateInstance',['../class_key_frames_1_1_value_type_type_converter.html#a09ba2af958f95f9c79e14bb3a96f4722',1,'KeyFrames::ValueTypeTypeConverter']]],
   ['currentmode',['CurrentMode',['../class_timeline_1_1_timeline_control.html#ac11358b6ab86f77c46777bc533d424ce',1,'Timeline::TimelineControl']]]
 ];

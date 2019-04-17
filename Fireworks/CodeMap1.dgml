@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DirectedGraph DataVirtualized="True" FilterState="CodeMap_SolutionFolder,CodeSchema_Assembly" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+<DirectedGraph DataVirtualized="True" FilterState="CodeMap_SolutionFolder,CodeSchema_Assembly,CodeSchema_FunctionPointer,CodeSchema_FieldRead,CodeSchema_FieldWrite,CodeMap_TestAsset,UncategorizedCodeElement,CodeSchema_Delegate,CodeSchema_Property,CodeSchema_Field,CodeSchema_Method,CodeSchema_Event,UncategorizedRelationship,CodeSchema_Struct,CodeMap_ExternalReference,CodeSchema_ReturnTypeLink,CodeSchema_AttributeUse,References,CodeMap_ProjectReference" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="@10" Category="CodeSchema_Namespace" Bounds="256.428205308873,147.119654362744,185.113333333333,140.0003" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Timeline" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="Timeline" UseManualLocation="True" />
-    <Node Id="@11" Category="CodeSchema_Class" Bounds="316.666475659039,-7.00455854427818,147.183333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="AnimatedObject" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="AnimatedObject" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/AnimatedObject.cs StartLineNumber=14 StartCharacterOffset=26 EndLineNumber=14 EndCharacterOffset=40)" UseManualLocation="True" />
-    <Node Id="@12" Category="CodeSchema_Class" Bounds="11.8213098392182,-52.8807456368397,172.836666666667,25" CodeSchemaProperty_IsInternal="True" CommonLabel="DoubleBufferedPanel" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="DoubleBufferedPanel" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/DoubleBufferedPanel.cs StartLineNumber=12 StartCharacterOffset=10 EndLineNumber=12 EndCharacterOffset=29)" />
-    <Node Id="@13" Category="CodeSchema_Class" Bounds="162.65887800518,2.11935436316028,106.056666666667,25.0000000000001" CodeSchemaProperty_IsInternal="True" CommonLabel="Firework" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="Firework" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/Firework.cs StartLineNumber=10 StartCharacterOffset=10 EndLineNumber=10 EndCharacterOffset=18)" UseManualLocation="True" />
-    <Node Id="@14" Category="CodeSchema_Class" Bounds="233.424215959823,-121.004740944645,114.98,25" CodeSchemaProperty_IsPublic="True" CommonLabel="FormMain" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="FormMain" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/FormMain.Designer.cs StartLineNumber=2 StartCharacterOffset=18 EndLineNumber=2 EndCharacterOffset=26)" />
-    <Node Id="@15" Category="CodeSchema_Interface" Bounds="56.1680937294016,255.26291188434,115.833333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="IKeyFrame" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Interface" Label="IKeyFrame" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/KeyFrames/IKeyFrame.cs StartLineNumber=9 StartCharacterOffset=21 EndLineNumber=9 EndCharacterOffset=30)" />
-    <Node Id="@16" Category="CodeSchema_Interface" Bounds="281.029871975539,242.119854362744,135.91,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="ITimelineTrack" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Interface" Label="ITimelineTrack" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Timeline/ITimelineTrack.cs StartLineNumber=8 StartCharacterOffset=19 EndLineNumber=8 EndCharacterOffset=33)" UseManualLocation="True" />
-    <Node Id="@17" Category="CodeSchema_Class" Bounds="57.7647603960675,200.262811884339,112.64,25.0000000000002" CodeSchemaProperty_IsPublic="True" CommonLabel="KeyFrame" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="KeyFrame" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/KeyFrames/KeyFrame.cs StartLineNumber=14 StartCharacterOffset=17 EndLineNumber=14 EndCharacterOffset=25)" />
-    <Node Id="@18" Category="CodeSchema_Class" Bounds="149.544615797567,64.1193543650606,99.29,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Particle" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="Particle" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/Particle.cs StartLineNumber=8 StartCharacterOffset=17 EndLineNumber=8 EndCharacterOffset=25)" UseManualLocation="True" />
+    <Node Id="@10" Category="CodeSchema_Namespace" Bounds="122.439125653125,53.2232232963357,185.113333333333,140.0003" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Timeline" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="Timeline" UseManualLocation="True" />
+    <Node Id="@11" Category="CodeSchema_Class" Bounds="-72.123332758626,-33.3432969563916,147.183333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="AnimatedObject" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="AnimatedObject" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/AnimatedObject.cs StartLineNumber=14 StartCharacterOffset=26 EndLineNumber=14 EndCharacterOffset=40)" />
+    <Node Id="@12" Category="CodeSchema_Class" Bounds="-128.684466308118,-154.455377011716,172.836666666667,25" CodeSchemaProperty_IsInternal="True" CommonLabel="DoubleBufferedPanel" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="DoubleBufferedPanel" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/DoubleBufferedPanel.cs StartLineNumber=12 StartCharacterOffset=10 EndLineNumber=12 EndCharacterOffset=29)" />
+    <Node Id="@13" Category="CodeSchema_Class" Bounds="64.8073663780755,-88.3433969563917,106.056666666667,25.0000000000001" CodeSchemaProperty_IsInternal="True" CommonLabel="Firework" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="Firework" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/Firework.cs StartLineNumber=10 StartCharacterOffset=10 EndLineNumber=10 EndCharacterOffset=18)" UseManualLocation="True" />
+    <Node Id="@14" Category="CodeSchema_Class" Bounds="159.349240128027,-251.81242036452,114.98,25" CodeSchemaProperty_IsPublic="True" CommonLabel="FormMain" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="FormMain" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/FormMain.Designer.cs StartLineNumber=2 StartCharacterOffset=18 EndLineNumber=2 EndCharacterOffset=26)" />
+    <Node Id="@15" Category="CodeSchema_Interface" Bounds="-130.358304953327,148.223423296338,115.833333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="IKeyFrame" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Interface" Label="IKeyFrame" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/KeyFrames/IKeyFrame.cs StartLineNumber=9 StartCharacterOffset=21 EndLineNumber=9 EndCharacterOffset=30)" />
+    <Node Id="@16" Category="CodeSchema_Interface" Bounds="147.04079231979,148.223423296336,135.91,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="ITimelineTrack" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Interface" Label="ITimelineTrack" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Timeline/ITimelineTrack.cs StartLineNumber=8 StartCharacterOffset=19 EndLineNumber=8 EndCharacterOffset=33)" UseManualLocation="True" />
+    <Node Id="@17" Category="CodeSchema_Class" Bounds="-128.761638286662,93.2233232963357,112.64,25.0000000000002" CodeSchemaProperty_IsPublic="True" CommonLabel="KeyFrame" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="KeyFrame" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/KeyFrames/KeyFrame.cs StartLineNumber=14 StartCharacterOffset=17 EndLineNumber=14 EndCharacterOffset=25)" />
+    <Node Id="@18" Category="CodeSchema_Class" Bounds="-97.82904448019,-97.7714000292835,99.29,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Particle" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="Particle" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/Particle.cs StartLineNumber=8 StartCharacterOffset=17 EndLineNumber=8 EndCharacterOffset=25)" UseManualLocation="True" />
     <Node Id="@2" Category="CodeSchema_Assembly" AssemblyTimestamp="04/12/2019 08:40:25" Bounds="46.3420190382427,-91.4700679712582,659.13,310" CodeSchemaProperty_StrongName="Fireworks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" CommonLabel="Fireworks" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FilePath="$(774ab0b1-ec0e-4307-ab10-0f8c2d4b19a8.OutputPath)" Group="Expanded" Label="Fireworks.exe" />
-    <Node Id="@20" Category="CodeSchema_Class" Bounds="278.834615797567,72.1194543650605,103.906666666667,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Polygon" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="10" Group="Collapsed" Icon="CodeSchema_Class" Label="Polygon" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/Polygon.cs StartLineNumber=12 StartCharacterOffset=17 EndLineNumber=12 EndCharacterOffset=24)" UseManualLocation="True" />
-    <Node Id="@22" Category="CodeSchema_Class" Bounds="399.703635512916,-62.0046585442782,92.26,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Scene" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="22" Group="Collapsed" Icon="CodeSchema_Class" Label="Scene" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/Scene.cs StartLineNumber=12 StartCharacterOffset=17 EndLineNumber=12 EndCharacterOffset=22)" UseManualLocation="True" />
-    <Node Id="@23" Category="CodeSchema_Class" Bounds="276.428205308873,187.119754362744,145.113333333333,25" CodeSchemaProperty_IsPublic="True" CommonLabel="TimelineControl" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="TimelineControl" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Timeline/TimelineControl.Designer.cs StartLineNumber=8 StartCharacterOffset=18 EndLineNumber=8 EndCharacterOffset=33)" UseManualLocation="True" />
+    <Node Id="@20" Category="CodeSchema_Class" Bounds="200.864033044743,-85.1282433820876,103.906666666667,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Polygon" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="10" Group="Collapsed" Icon="CodeSchema_Class" Label="Polygon" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/Polygon.cs StartLineNumber=12 StartCharacterOffset=17 EndLineNumber=12 EndCharacterOffset=24)" UseManualLocation="True" />
+    <Node Id="@22" Category="CodeSchema_Class" Bounds="334.77069971141,-94.8537492266609,92.26,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Scene" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="22" Group="Collapsed" Icon="CodeSchema_Class" Label="Scene" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/Scene.cs StartLineNumber=12 StartCharacterOffset=17 EndLineNumber=12 EndCharacterOffset=22)" />
+    <Node Id="@23" Category="CodeSchema_Class" Bounds="142.439125653125,93.2233232963357,145.113333333333,25" CodeSchemaProperty_IsPublic="True" CommonLabel="TimelineControl" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="TimelineControl" SourceLocation="(Assembly=file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Timeline/TimelineControl.Designer.cs StartLineNumber=8 StartCharacterOffset=18 EndLineNumber=8 EndCharacterOffset=33)" UseManualLocation="True" />
     <Node Id="@26" Category="CodeSchema_Method" Bounds="408.140548002857,125.204144693182,143.926666666667,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" DelayedCrossGroupLinksState="Fetched" Label="GetSizeFromCorners" UseManualLocation="True" />
     <Node Id="@27" Category="CodeSchema_Method" Bounds="406.259914594093,-89.7097083975896,144.056666666667,25.96" CodeSchemaProperty_IsPublic="True" DelayedCrossGroupLinksState="Fetched" Label="AddAnimatedObject" UseManualLocation="True" />
     <Node Id="@28" Category="CodeSchema_Method" Bounds="202.279914594093,78.1702916024104,189.88,25.96" CodeSchemaProperty_IsPublic="True" DelayedCrossGroupLinksState="Fetched" Label="ForceAnimatedObjectUpdate" UseManualLocation="True" />
@@ -48,8 +48,8 @@
     <Node Id="@57" Category="CodeSchema_Property" Bounds="808.572050533736,-33.2697083975896,79.4323947873813,25" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="Size" UseManualLocation="True" />
     <Node Id="@58" Category="CodeSchema_Property" Bounds="983.160383867069,-89.2297083975897,84.255728120715,25" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="Time" UseManualLocation="True" />
     <Node Id="@6" Category="CodeSchema_Assembly" AssemblyTimestamp="04/11/2019 15:10:54" Bounds="271.30234000909,478.529932028742,195.833333333333,200" CodeSchemaProperty_StrongName="KeyFrames, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" CommonLabel="KeyFrames" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FilePath="$(1a1c4a51-4c20-4940-84c6-c458083b2de6.OutputPath)" Group="Expanded" Label="KeyFrames.dll" UseManualLocation="True" />
-    <Node Id="@8" Category="CodeSchema_Namespace" Bounds="-8.17869016078177,-161.004840944645,520.142325673698,278.124395309706" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Fireworks" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="9" Group="Expanded" Label="Fireworks" />
-    <Node Id="@9" Category="CodeSchema_Namespace" Bounds="36.1680937294016,160.262711884339,155.833333333333,140.0003" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="KeyFrames" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="KeyFrames" UseManualLocation="True" />
+    <Node Id="@8" Category="CodeSchema_Namespace" Bounds="-148.684466308118,-291.81252036452,595.715166019527,303.469323408128" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Fireworks" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="9" Group="Expanded" Label="Fireworks" />
+    <Node Id="@9" Category="CodeSchema_Namespace" Bounds="-150.358304953327,53.2232232963357,155.833333333333,140.000300000002" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="KeyFrames" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="KeyFrames" UseManualLocation="True" />
   </Nodes>
   <Links>
     <Link Source="@10" Target="@16" Category="Contains" FetchingParent="@10" />
@@ -61,24 +61,24 @@
     <Link Source="@11" Target="@17" Category="References" Bounds="221.095435399236,24.6145511356646,164.532117278623,444.144617076857" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="14">
       <Category Ref="CodeSchema_Calls" />
     </Link>
-    <Link Source="@13" Target="@11" Category="InheritsFrom" Bounds="268.715544671847,9.83753314109085,38.4638796042111,2.01030655909585" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="15">
+    <Link Source="@13" Target="@11" Category="InheritsFrom" Bounds="36.5043840416955,-63.3433969563916,54.8842351636397,25.9405925500147" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="15">
       <Category Ref="CodeSchema_Calls" />
     </Link>
-    <Link Source="@13" Target="@15" Category="References" Bounds="213.434916596608,33.7384640431032,2.19620728358802,489.46042249026" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="13">
+    <Link Source="@13" Target="@15" Category="References" Bounds="-60.3498472334233,-170.128443382088,185.715672392115,310.627191776034" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="13">
       <Category Ref="CodeSchema_Calls" />
     </Link>
-    <Link Source="@13" Target="@17" Category="References" Bounds="213.446242655013,33.7384640431032,2.1782962141055,434.460345012115" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="10">
+    <Link Source="@13" Target="@17" Category="References" Bounds="-58.3231373771356,-170.128443382088,182.263486370414,256.019940589444" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="10">
       <Category Ref="CodeSchema_Calls" />
     </Link>
-    <Link Source="@13" Target="@18" Category="References" Bounds="204.830026984615,27.1193543631603,7.53105622074543,28.3026386809905" IsSourceVirtualized="True" Weight="1" />
-    <Link Source="@14" Target="@11" Category="CodeSchema_Calls" Bounds="301.807172913281,-96.0047409446453,71.6451771363892,82.2150237103971" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2" />
-    <Link Source="@14" Target="@12" Category="References" Bounds="142.07853361853,-96.0047409446453,113.482028332029,40.1238682083228" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
+    <Link Source="@13" Target="@18" Category="References" Bounds="101.666113313923,-124.853956405913,20.2640557396877,23.2192727518417" IsSourceVirtualized="True" Weight="1" />
+    <Link Source="@14" Target="@11" Category="CodeSchema_Calls" Bounds="15.1227169036865,-226.812423706055,188.582208633423,186.045227050781" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@14" Target="@12" Category="References" Bounds="-0.573815295100356,-226.81242036452,184.145640429348,69.1914447154142" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
       <Category Ref="CodeSchema_Calls" />
     </Link>
-    <Link Source="@14" Target="@13" Category="CodeSchema_Calls" Bounds="228.016873025541,-96.0047409446453,55.260027464751,90.444128707933" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@14" Target="@13" Category="CodeSchema_Calls" Bounds="130.068564709676,-226.81242036452,79.2001631010546,130.770811441817" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
     <Link Source="@14" Target="@16" Category="References" Bounds="447.329436476639,76.625529828765,210.381879771822,355.419735486102" IsSourceVirtualized="True" Weight="4" />
     <Link Source="@14" Target="@22" Category="References" IsSourceVirtualized="True" Weight="1" />
-    <Link Source="@14" Target="@23" Category="References" Bounds="441.821490998889,76.625529828765,54.1242136987298,357.752586638396" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="21">
+    <Link Source="@14" Target="@23" Category="References" Bounds="215.11066126254,-226.81242036452,1.66179419744518,311.035872111632" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="21">
       <Category Ref="CodeSchema_Calls" />
     </Link>
     <Link Source="@14" Target="@27" Category="CodeSchema_Calls" IsSourceVirtualized="True" Weight="3" />
@@ -96,10 +96,10 @@
     <Link Source="@14" Target="@57" Category="CodeSchema_Calls" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
     <Link Source="@14" Target="@58" Category="CodeSchema_Calls" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="6" />
     <Link Source="@16" Target="@15" Category="References" Bounds="270.504827449085,455.722764199738,331.23494831873,16.7316610812679" IsSourceVirtualized="True" Weight="2" />
-    <Link Source="@17" Target="@15" Category="References" Bounds="114.084760396068,225.262811884339,2.98427949019242E-13,20.5001000000008" IsSourceVirtualized="True" Weight="4">
+    <Link Source="@17" Target="@15" Category="References" Bounds="-72.441638286662,118.223323296336,7.105427357601E-13,20.5001000000018" IsSourceVirtualized="True" Weight="4">
       <Category Ref="Implements" />
     </Link>
-    <Link Source="@18" Target="@11" Category="InheritsFrom" Bounds="232.769834937734,21.3095842184154,115.004917029161,42.8097701466452" Weight="1" />
+    <Link Source="@18" Target="@11" Category="InheritsFrom" Bounds="-38.5507524810341,-72.7714000292835,24.5867720418878,31.9033878087083" Weight="1" />
     <Link Source="@2" Target="@4" Category="CodeMap_ProjectReference" />
     <Link Source="@2" Target="@6" Category="CodeMap_ProjectReference" />
     <Link Source="@2" Target="@8" Category="Contains" FetchingParent="@2" />
@@ -140,7 +140,7 @@
       <Category Ref="CodeSchema_Calls" />
       <Category Ref="CodeSchema_ReturnTypeLink" />
     </Link>
-    <Link Source="@23" Target="@16" Category="References" Bounds="348.984871975539,212.119754362744,1.70530256582424E-13,21.0000999999999" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="95">
+    <Link Source="@23" Target="@16" Category="References" Bounds="214.99579231979,118.223323296336,5.96855898038484E-13,21.0001000000001" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="95">
       <Category Ref="CodeSchema_Calls" />
       <Category Ref="CodeSchema_ReturnTypeLink" />
     </Link>
@@ -371,43 +371,6 @@
     <Alias n="58" Id="(@1 @7 @21 Member=Time)" />
   </IdentifierAliases>
   <Styles>
-    <Style TargetType="Node" GroupLabel="Résultats" ValueLabel="Vrai">
-      <Condition Expression="HasCategory('QueryResult')" />
-      <Setter Property="Background" Value="#FFBCFFBE" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Projet de test" ValueLabel="Projet de test">
-      <Condition Expression="HasCategory('CodeMap_TestProject')" />
-      <Setter Property="Icon" Value="CodeMap_TestProject" />
-      <Setter Property="Background" Value="#FF307A69" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Projet web" ValueLabel="Projet web">
-      <Condition Expression="HasCategory('CodeMap_WebProject')" />
-      <Setter Property="Icon" Value="CodeMap_WebProject" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Projet Windows Store" ValueLabel="Projet Windows Store">
-      <Condition Expression="HasCategory('CodeMap_WindowsStoreProject')" />
-      <Setter Property="Icon" Value="CodeMap_WindowsStoreProject" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Projet Windows Phone" ValueLabel="Projet Windows Phone">
-      <Condition Expression="HasCategory('CodeMap_PhoneProject')" />
-      <Setter Property="Icon" Value="CodeMap_PhoneProject" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Bibliothèque portable" ValueLabel="Bibliothèque portable">
-      <Condition Expression="HasCategory('CodeMap_PortableLibraryProject')" />
-      <Setter Property="Icon" Value="CodeMap_PortableLibraryProject" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Projet WPF" ValueLabel="Projet WPF">
-      <Condition Expression="HasCategory('CodeMap_WpfProject')" />
-      <Setter Property="Icon" Value="CodeMap_WpfProject" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Projet VSIX" ValueLabel="Projet VSIX">
-      <Condition Expression="HasCategory('CodeMap_VsixProject')" />
-      <Setter Property="Icon" Value="CodeMap_VsixProject" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Projet de modélisation" ValueLabel="Projet de modélisation">
-      <Condition Expression="HasCategory('CodeMap_ModelingProject')" />
-      <Setter Property="Icon" Value="CodeMap_ModelingProject" />
-    </Style>
     <Style TargetType="Node" IsEnabled="false" GroupLabel="Assembly" ValueLabel="A la catégorie">
       <Condition Expression="HasCategory('CodeSchema_Assembly')" />
       <Setter Property="Background" Value="#FF094167" />
@@ -426,20 +389,7 @@
       <Setter Property="Stroke" Value="#FF1382CE" />
       <Setter Property="Icon" Value="CodeSchema_Interface" />
     </Style>
-    <Style TargetType="Node" GroupLabel="Structure" ValueLabel="A la catégorie">
-      <Condition Expression="HasCategory('CodeSchema_Struct')" />
-      <Setter Property="Background" Value="#FF1382CE" />
-      <Setter Property="Stroke" Value="#FF1382CE" />
-      <Setter Property="Icon" Value="CodeSchema_Struct" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Énumération" ValueLabel="A la catégorie">
-      <Condition Expression="HasCategory('CodeSchema_Enum')" />
-      <Setter Property="Background" Value="#FF1382CE" />
-      <Setter Property="Stroke" Value="#FF1382CE" />
-      <Setter Property="Icon" Value="CodeSchema_Enum" />
-      <Setter Property="LayoutSettings" Value="List" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Délégué" ValueLabel="A la catégorie">
+    <Style TargetType="Node" IsEnabled="false" GroupLabel="Délégué" ValueLabel="A la catégorie">
       <Condition Expression="HasCategory('CodeSchema_Delegate')" />
       <Setter Property="Background" Value="#FF1382CE" />
       <Setter Property="Stroke" Value="#FF1382CE" />
@@ -451,47 +401,30 @@
       <Setter Property="Stroke" Value="#FF0E70C0" />
       <Setter Property="Icon" Value="CodeSchema_Class" />
     </Style>
-    <Style TargetType="Node" GroupLabel="Propriété" ValueLabel="A la catégorie">
+    <Style TargetType="Node" IsEnabled="false" GroupLabel="Propriété" ValueLabel="A la catégorie">
       <Condition Expression="HasCategory('CodeSchema_Property')" />
       <Setter Property="Background" Value="#FFE0E0E0" />
       <Setter Property="Stroke" Value="#FFE0E0E0" />
       <Setter Property="Icon" Value="CodeSchema_Property" />
     </Style>
-    <Style TargetType="Node" GroupLabel="Méthode" ValueLabel="A la catégorie">
+    <Style TargetType="Node" IsEnabled="false" GroupLabel="Méthode" ValueLabel="A la catégorie">
       <Condition Expression="HasCategory('CodeSchema_Method') Or HasCategory('CodeSchema_CallStackUnresolvedMethod')" />
       <Setter Property="Background" Value="#FFE0E0E0" />
       <Setter Property="Stroke" Value="#FFE0E0E0" />
       <Setter Property="Icon" Value="CodeSchema_Method" />
       <Setter Property="LayoutSettings" Value="List" />
     </Style>
-    <Style TargetType="Node" GroupLabel="Événement" ValueLabel="A la catégorie">
+    <Style TargetType="Node" IsEnabled="false" GroupLabel="Événement" ValueLabel="A la catégorie">
       <Condition Expression="HasCategory('CodeSchema_Event')" />
       <Setter Property="Background" Value="#FFE0E0E0" />
       <Setter Property="Stroke" Value="#FFE0E0E0" />
       <Setter Property="Icon" Value="CodeSchema_Event" />
     </Style>
-    <Style TargetType="Node" GroupLabel="Champ" ValueLabel="A la catégorie">
+    <Style TargetType="Node" IsEnabled="false" GroupLabel="Champ" ValueLabel="A la catégorie">
       <Condition Expression="HasCategory('CodeSchema_Field')" />
       <Setter Property="Background" Value="#FFE0E0E0" />
       <Setter Property="Stroke" Value="#FFE0E0E0" />
       <Setter Property="Icon" Value="CodeSchema_Field" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Paramètre de sortie" ValueLabel="A la catégorie">
-      <Condition Expression="CodeSchemaProperty_IsOut = 'True'" />
-      <Setter Property="Icon" Value="CodeSchema_OutParameter" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Paramètre" ValueLabel="A la catégorie">
-      <Condition Expression="HasCategory('CodeSchema_Parameter')" />
-      <Setter Property="Icon" Value="CodeSchema_Parameter" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Variable locale" ValueLabel="A la catégorie">
-      <Condition Expression="HasCategory('CodeSchema_LocalExpression')" />
-      <Setter Property="Icon" Value="CodeSchema_LocalExpression" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Externes" ValueLabel="A la catégorie">
-      <Condition Expression="HasCategory('Externals')" />
-      <Setter Property="Background" Value="#FF424242" />
-      <Setter Property="Stroke" Value="#FF424242" />
     </Style>
     <Style TargetType="Link" GroupLabel="Hérite de" ValueLabel="True">
       <Condition Expression="HasCategory('InheritsFrom')" />
@@ -511,19 +444,19 @@
       <Setter Property="StrokeDashArray" Value="2 0" />
       <Setter Property="DrawArrow" Value="true" />
     </Style>
-    <Style TargetType="Link" GroupLabel="Pointeur de fonction" ValueLabel="True">
+    <Style TargetType="Link" IsEnabled="false" GroupLabel="Pointeur de fonction" ValueLabel="True">
       <Condition Expression="HasCategory('CodeSchema_FunctionPointer')" />
       <Setter Property="Stroke" Value="#FFFF00FF" />
       <Setter Property="StrokeDashArray" Value="2 2" />
       <Setter Property="DrawArrow" Value="true" />
     </Style>
-    <Style TargetType="Link" GroupLabel="Lecture du champ" ValueLabel="True">
+    <Style TargetType="Link" IsEnabled="false" GroupLabel="Lecture du champ" ValueLabel="True">
       <Condition Expression="HasCategory('CodeSchema_FieldRead')" />
       <Setter Property="Stroke" Value="#FF00AEEF" />
       <Setter Property="StrokeDashArray" Value="2 2" />
       <Setter Property="DrawArrow" Value="true" />
     </Style>
-    <Style TargetType="Link" GroupLabel="Écriture dans le champ" ValueLabel="True">
+    <Style TargetType="Link" IsEnabled="false" GroupLabel="Écriture dans le champ" ValueLabel="True">
       <Condition Expression="HasCategory('CodeSchema_FieldWrite')" />
       <Setter Property="Stroke" Value="#FF00AEEF" />
       <Setter Property="DrawArrow" Value="true" />
@@ -564,23 +497,23 @@
     <Style TargetType="Link" GroupLabel="Retourner" ValueLabel="Vrai" Visibility="Hidden">
       <Condition Expression="HasCategory('CodeSchema_ReturnTypeLink')" />
     </Style>
-    <Style TargetType="Link" GroupLabel="Références" ValueLabel="Vrai" Visibility="Hidden">
+    <Style TargetType="Link" IsEnabled="false" GroupLabel="Références" ValueLabel="Vrai" Visibility="Hidden">
       <Condition Expression="HasCategory('References')" />
     </Style>
-    <Style TargetType="Link" GroupLabel="Utilise un attribut" ValueLabel="Vrai" Visibility="Hidden">
+    <Style TargetType="Link" IsEnabled="false" GroupLabel="Utilise un attribut" ValueLabel="Vrai" Visibility="Hidden">
       <Condition Expression="HasCategory('CodeSchema_AttributeUse')" />
     </Style>
     <Style TargetType="Node" IsEnabled="false" GroupLabel="Dossier Solution" ValueLabel="Vrai" Visibility="Hidden">
       <Condition Expression="HasCategory('CodeMap_SolutionFolder')" />
       <Setter Property="Background" Value="#FFDEBA83" />
     </Style>
-    <Style TargetType="Link" GroupLabel="Référence de projet" ValueLabel="Référence de projet">
+    <Style TargetType="Link" IsEnabled="false" GroupLabel="Référence de projet" ValueLabel="Référence de projet">
       <Condition Expression="HasCategory('CodeMap_ProjectReference')" />
       <Setter Property="Stroke" Value="#9A9A9A" />
       <Setter Property="StrokeDashArray" Value="2 2" />
       <Setter Property="DrawArrow" Value="true" />
     </Style>
-    <Style TargetType="Link" GroupLabel="Référence externe" ValueLabel="Référence externe">
+    <Style TargetType="Link" IsEnabled="false" GroupLabel="Référence externe" ValueLabel="Référence externe">
       <Condition Expression="HasCategory('CodeMap_ExternalReference')" />
       <Setter Property="Stroke" Value="#9A9A9A" />
       <Setter Property="StrokeDashArray" Value="2 2" />
@@ -588,12 +521,13 @@
     </Style>
   </Styles>
   <Paths>
-    <Path Id="1a1c4a51-4c20-4940-84c6-c458083b2de6.OutputPath" Value="C:\Users\Administrateur\Desktop\TPI\TPI2019\KeyFrames\bin\Debug\KeyFrames.dll" />
-    <Path Id="1a1c4a51-4c20-4940-84c6-c458083b2de6.OutputPathUri" Value="file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/KeyFrames/bin/Debug/KeyFrames.dll" />
-    <Path Id="398c82fb-45ae-4ec9-bbbe-897e130b5828.OutputPath" Value="C:\Users\Administrateur\Desktop\TPI\TPI2019\Timeline\bin\Debug\Timeline.dll" />
-    <Path Id="398c82fb-45ae-4ec9-bbbe-897e130b5828.OutputPathUri" Value="file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Timeline/bin/Debug/Timeline.dll" />
-    <Path Id="774ab0b1-ec0e-4307-ab10-0f8c2d4b19a8.OutputPath" Value="C:\Users\Administrateur\Desktop\TPI\TPI2019\Fireworks\bin\Debug\Fireworks.exe" />
-    <Path Id="774ab0b1-ec0e-4307-ab10-0f8c2d4b19a8.OutputPathUri" Value="file:///C:/Users/Administrateur/Desktop/TPI/TPI2019/Fireworks/bin/Debug/Fireworks.exe" />
+    <Path Id="1a1c4a51-4c20-4940-84c6-c458083b2de6.OutputPath" Value="C:\Users\Yannis\Desktop\TPI\TPI2019\KeyFrames\bin\Debug\KeyFrames.dll" />
+    <Path Id="1a1c4a51-4c20-4940-84c6-c458083b2de6.OutputPathUri" Value="file:///C:/Users/Yannis/Desktop/TPI/TPI2019/KeyFrames/bin/Debug/KeyFrames.dll" />
+    <Path Id="398c82fb-45ae-4ec9-bbbe-897e130b5828.OutputPath" Value="C:\Users\Yannis\Desktop\TPI\TPI2019\Timeline\bin\Debug\Timeline.dll" />
+    <Path Id="398c82fb-45ae-4ec9-bbbe-897e130b5828.OutputPathUri" Value="file:///C:/Users/Yannis/Desktop/TPI/TPI2019/Timeline/bin/Debug/Timeline.dll" />
+    <Path Id="774ab0b1-ec0e-4307-ab10-0f8c2d4b19a8.OutputPath" Value="C:\Users\Yannis\Desktop\TPI\TPI2019\Fireworks\bin\Debug\Fireworks.exe" />
+    <Path Id="774ab0b1-ec0e-4307-ab10-0f8c2d4b19a8.OutputPathUri" Value="file:///C:/Users/Yannis/Desktop/TPI/TPI2019/Fireworks/bin/Debug/Fireworks.exe" />
+    <Path Id="FxReferenceAssemblies" Value="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework" />
     <Path Id="FxReferenceAssembliesUri" Value="file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework" />
   </Paths>
 </DirectedGraph>

@@ -63,7 +63,8 @@ namespace Timeline
         /// <summary>
         /// Get the tracks that timeline has
         /// </summary>
-        public List<ITimelineTrack> GetTracks() {
+        public List<ITimelineTrack> GetTracks()
+        {
             return _tracks;
         }
 
@@ -74,6 +75,7 @@ namespace Timeline
         public void SetTracks(List<ITimelineTrack> tracks)
         {
             _tracks = tracks;
+            RecalculateScrollbarBounds();
         }
         #region Events
 
@@ -380,8 +382,19 @@ namespace Timeline
         /// </summary>
         private void RecalculateScrollbarBounds()
         {
+            float maxTime = 0;
+            //catch error if no element is present in the control
+            try
+            {
+                maxTime = _tracks.Max(t => t.KeyFrames.Last().T);
+            }
+            catch (Exception e)
+            {
+                //do nothing
+            }
+
             ScrollbarV.Max = (int)((_tracks.Count * (TrackHeight + TrackSpacing)) * _renderingScale.Y);
-            ScrollbarH.Max = (int)(_tracks.Max(t => t.KeyFrames.Last().T) * _renderingScale.X);
+            ScrollbarH.Max = (int)(maxTime * _renderingScale.X);
             ScrollbarV.Refresh();
             ScrollbarH.Refresh();
         }
@@ -617,7 +630,7 @@ namespace Timeline
                 //Get their references keyframes
                 foreach (KeyFrame kf in track.KeyFrames.Select(x => ((KeyFrameSurrogate)x).SubstituteFor).Intersect(_selectedKeyFrames))
                 {
-                    
+
                     //for the real keyframes
                     int indexKF = track.SubstituteFor.KeyFrames.IndexOf(kf);
                     float tempNegative;
@@ -800,7 +813,7 @@ namespace Timeline
 
             foreach (ITimelineTrack track in tracks)
             {
-                
+
 
                 //lifetime rectangle for coloring the liftime of the object
                 int trackIndex = TrackIndexForTrack(track);
@@ -1084,7 +1097,7 @@ namespace Timeline
                 int trackIndex;
 
                 //if there is a keyframe under the cursor
-                if(focusedKeyFrame != null)
+                if (focusedKeyFrame != null)
                 {
                     //only add the focused keyframe to selected keyframes
                     _selectedKeyFrames.Clear();
@@ -1109,7 +1122,7 @@ namespace Timeline
                     //search for position in list
                     int i = 0;
                     //i < Keyframes.Count to stop searching if at end of list
-                    while(i < _tracks[trackIndex].KeyFrames.Count &&
+                    while (i < _tracks[trackIndex].KeyFrames.Count &&
                         _tracks[trackIndex].KeyFrames[i].T < newKeyFrame.T)
                     {
                         i++;
@@ -1131,7 +1144,7 @@ namespace Timeline
                 _panOrigin = location;
                 _renderingOffsetBeforePan = _renderingOffset;
             }
-            
+
             Invalidate();
         }
 

@@ -295,5 +295,10 @@ namespace Fireworks
         {
             UpdateSceneSize();
         }
+
+        private void btnDemo_Click(object sender, EventArgs e)
+        {
+            _scene.AddDemoObjects();
+        }
     }
 }

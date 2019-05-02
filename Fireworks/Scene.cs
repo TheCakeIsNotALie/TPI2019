@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using KeyFrames;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -169,6 +170,94 @@ namespace Fireworks
         public void ForceAnimatedObjectUpdate(AnimatedObject o)
         {
             o.Update();
+        }
+
+        /// <summary>
+        /// Add a sample demo set of objects to the scene
+        /// </summary>
+        public void AddDemoObjects()
+        {
+            List<AnimatedObject> toAdd = new List<AnimatedObject>();
+
+            //Stars
+            List<IKeyFrame> tmp1 = new List<IKeyFrame>();
+            tmp1.Add(new KeyFrame(new PointF(25, 25), 0));
+            tmp1.Add(new KeyFrame(new PointF(this.Size.Width - 25, 25), 1));
+            tmp1.Add(new KeyFrame(new PointF(this.Size.Width - 25, this.Size.Height - 25), 2));
+            tmp1.Add(new KeyFrame(new PointF(25, this.Size.Height - 25), 3));
+            tmp1.Add(new KeyFrame(new PointF(25, 25), 4));
+            List<List<IKeyFrame>> tmps = new List<List<IKeyFrame>>();
+            PointF[] starCorners = { new PointF(0, -10), new PointF(-5, -5), new PointF(-10, 0), new PointF(-5, 5), new PointF(0, 10), new PointF(5, 5), new PointF(10, 0), new PointF(5, -5) };
+            for (int i = 0; i < 10; i++)
+            {
+                tmps.Add(new List<IKeyFrame>());
+                foreach (IKeyFrame kf in tmp1)
+                {
+                    IKeyFrame ckf = (IKeyFrame)kf.Clone();
+                    ckf.T += i + 1;
+                    tmps[i].Add(ckf);
+                }
+                toAdd.Add(new Polygon("Star" + i.ToString(), tmps[i], (PointF[])starCorners.Clone(), Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256)), 0));
+            }
+            tmps.Clear();
+
+            //Fireworks
+            List<IKeyFrame> tmp2 = new List<IKeyFrame>();
+            tmp2.Add(new KeyFrame(new PointF(this.Size.Width / 2, this.Size.Height / 2), 0));
+            tmp2.Add(new KeyFrame(new PointF(this.Size.Width / 2, this.Size.Height / 2), 1));
+            
+            for (int i = 0; i < 10; i++)
+            {
+                tmps.Add(new List<IKeyFrame>());
+                foreach (IKeyFrame kf in tmp2)
+                {
+                    IKeyFrame ckf = (IKeyFrame)kf.Clone();
+                    ckf.T += i + 0.5f;
+                    tmps[i].Add(ckf);
+                }
+                toAdd.Add(new Firework("Firework" + i.ToString(), Color.FromArgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256)), tmps[i], (i + 1) * 25, (i + 1) * 10, 0));
+            }
+            tmps.Clear();
+
+            //Fireworks Left
+            List<IKeyFrame> tmp3 = new List<IKeyFrame>();
+            tmp3.Add(new KeyFrame(new PointF(this.Size.Width / 3, this.Size.Height / 3), 0.5f));
+            tmp3.Add(new KeyFrame(new PointF(this.Size.Width / 3, this.Size.Height / 3), 1.5f));
+
+            for (int i = 0; i < 5; i++)
+            {
+                tmps.Add(new List<IKeyFrame>());
+                foreach (IKeyFrame kf in tmp3)
+                {
+                    IKeyFrame ckf = (IKeyFrame)kf.Clone();
+                    ckf.T += i + 1.5f;
+                    tmps[i].Add(ckf);
+                }
+                toAdd.Add(new Firework("FireworkLeft" + i.ToString(), Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256)), tmps[i], 100, 100, 0));
+            }
+            tmps.Clear();
+
+            //Fireworks Right
+            List<IKeyFrame> tmp4 = new List<IKeyFrame>();
+            tmp4.Add(new KeyFrame(new PointF(this.Size.Width - this.Size.Width / 3, this.Size.Height - this.Size.Height / 3), 0.5f));
+            tmp4.Add(new KeyFrame(new PointF(this.Size.Width - this.Size.Width / 3, this.Size.Height - this.Size.Height / 3), 1.5f));
+
+            for (int i = 0; i < 5; i++)
+            {
+                tmps.Add(new List<IKeyFrame>());
+                foreach (IKeyFrame kf in tmp4)
+                {
+                    IKeyFrame ckf = (IKeyFrame)kf.Clone();
+                    ckf.T += i + 1.5f;
+                    tmps[i].Add(ckf);
+                }
+                toAdd.Add(new Firework("FireworkRight" + i.ToString(), Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256)), tmps[i], 100, 100, 0));
+            }
+            tmps.Clear();
+
+
+            AnimatedObjects.AddRange(toAdd);
+            AnimatedObjectsChanged(this, new EventArgs());
         }
     }
 }

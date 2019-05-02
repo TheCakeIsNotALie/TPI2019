@@ -47,6 +47,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlScene = new Fireworks.DoubleBufferedPanel();
             this.grbFPS = new System.Windows.Forms.GroupBox();
+            this.btnDemo = new System.Windows.Forms.Button();
             this.grbProperties.SuspendLayout();
             this.grbToolBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFPS)).BeginInit();
@@ -111,6 +112,7 @@
             // 
             this.grbToolBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grbToolBox.Controls.Add(this.btnDemo);
             this.grbToolBox.Controls.Add(this.btnAddPolygon);
             this.grbToolBox.Controls.Add(this.btnAddFirework);
             this.grbToolBox.Controls.Add(this.btnAddParticle);
@@ -127,7 +129,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddPolygon.Location = new System.Drawing.Point(6, 78);
             this.btnAddPolygon.Name = "btnAddPolygon";
-            this.btnAddPolygon.Size = new System.Drawing.Size(314, 23);
+            this.btnAddPolygon.Size = new System.Drawing.Size(254, 23);
             this.btnAddPolygon.TabIndex = 2;
             this.btnAddPolygon.Text = "Add Polygon";
             this.btnAddPolygon.UseVisualStyleBackColor = true;
@@ -139,7 +141,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddFirework.Location = new System.Drawing.Point(6, 49);
             this.btnAddFirework.Name = "btnAddFirework";
-            this.btnAddFirework.Size = new System.Drawing.Size(314, 23);
+            this.btnAddFirework.Size = new System.Drawing.Size(254, 23);
             this.btnAddFirework.TabIndex = 1;
             this.btnAddFirework.Text = "Add Firework";
             this.btnAddFirework.UseVisualStyleBackColor = true;
@@ -151,7 +153,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddParticle.Location = new System.Drawing.Point(6, 20);
             this.btnAddParticle.Name = "btnAddParticle";
-            this.btnAddParticle.Size = new System.Drawing.Size(314, 23);
+            this.btnAddParticle.Size = new System.Drawing.Size(254, 23);
             this.btnAddParticle.TabIndex = 0;
             this.btnAddParticle.Text = "Add Particle";
             this.btnAddParticle.UseVisualStyleBackColor = true;
@@ -315,6 +317,18 @@
             this.grbFPS.TabStop = false;
             this.grbFPS.Text = "Frames per second";
             // 
+            // btnDemo
+            // 
+            this.btnDemo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDemo.Location = new System.Drawing.Point(266, 20);
+            this.btnDemo.Name = "btnDemo";
+            this.btnDemo.Size = new System.Drawing.Size(53, 81);
+            this.btnDemo.TabIndex = 3;
+            this.btnDemo.Text = "Demo";
+            this.btnDemo.UseVisualStyleBackColor = true;
+            this.btnDemo.Click += new System.EventHandler(this.btnDemo_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -359,6 +373,7 @@
         private DoubleBufferedPanel pnlScene;
         private System.Windows.Forms.Button btnDeleteObject;
         private System.Windows.Forms.CheckBox cbxShowSelectedObject;
+        private System.Windows.Forms.Button btnDemo;
     }
 }
 
